@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VariablesViewState
+   version = "1.0">
+   <ContextStates>
+      <ContextState
+         contextName = "-[ESLDevice authPhase1AppResponse:lenght:]:ESLDevice.m">
+         <PersistentStrings>
+            <PersistentString
+               value = "auth2DevMd5Data.length">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "-[ESLDevice authDispatchResponse:lenght:]:ESLDevice.m">
+         <PersistentStrings>
+            <PersistentString
+               value = "byRcvNtfValue[1]">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "-[KBeacon parseAdvertisementData:rssi:]:KBeacon.m">
+         <PersistentStrings>
+            <PersistentString
+               value = "SRV_CFG_UUID_EDDYSTONE">
+            </PersistentString>
+            <PersistentString
+               value = "srvID">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "-[ESLDeviceMgr centralManager:didDiscoverPeripheral:advertisementData:RSSI:]:ESLDeviceMgr.m">
+         <PersistentStrings>
+            <PersistentString
+               value = "peripheral.identifier.UUIDString">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "-[ESLDevice peripheral:didDiscoverCharacteristicsForService:error:]:ESLDevice.m">
+         <PersistentStrings>
+            <PersistentString
+               value = "service.UUID.UUIDString">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "-[ViewController handleDiscoverEslDevEvent:]:ViewController.m">
+      </ContextState>
+      <ContextState
+         contextName = "-[ESLDevice initJsonDataFile:]:ESLDevice.m">
+         <PersistentStrings>
+            <PersistentString
+               value = "pByte[0]">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "+[Utility findCharacteristicFromUUID:service:]:Utility.m">
+         <PersistentStrings>
+            <PersistentString
+               value = "c.UUID">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "-[ESLDevice startDownloadData:]:ESLDevice.m">
+         <PersistentStrings>
+            <PersistentString
+               value = "byDownAsciiData[3]">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "-[DeviceViewController onStartConfig:]:DeviceViewController.m">
+         <PersistentStrings>
+            <PersistentString
+               value = "_beacon.commonConfigPara.minTxPower">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "-[ESLDevice peripheral:didUpdateValueForCharacteristic:error:]:ESLDevice.m">
+         <PersistentStrings>
+            <PersistentString
+               value = "update characteristic">
+            </PersistentString>
+            <PersistentString
+               value = "characteristic.UUID.UUIDString">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "+[Utility CBUUID16ToCBUUID128:]:Utility.m">
+         <PersistentStrings>
+            <PersistentString
+               value = "uuid16[1]">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "-[ViewController tableView:cellForRowAtIndexPath:]:ViewController.m">
+      </ContextState>
+      <ContextState
+         contextName = "-[ESLDeviceMgr startESLScanning]:ESLDeviceMgr.m">
+         <PersistentStrings>
+            <PersistentString
+               value = "self.mCbEslDevMgr.state">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "-[KBAdvPacketIBeacon parseAdvPacket:rssi:]:KBAdvPacketIBeacon.m">
+         <PersistentStrings>
+            <PersistentString
+               value = "pBytes[0]">
+            </PersistentString>
+            <PersistentString
+               value = "data.length">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+   </ContextStates>
+</VariablesViewState>
