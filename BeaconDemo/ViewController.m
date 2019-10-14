@@ -355,16 +355,16 @@
         cell.deviceNameLabel.text = @"N/A";
     }
     
+    //rssi
+    if (pBeacons.rssi != nil)
+    {
+        cell.rssiLabel.text = [NSString stringWithFormat:@"rssi:%@", [pBeacons.rssi stringValue]];
+    }
+    
     KBAdvPacketIBeacon* piBeaconAdvPacket = (KBAdvPacketIBeacon*)[pBeacons getAdvPacketByType:KBAdvTypeIBeacon];
     if (piBeaconAdvPacket != nil)
     {
-        //rssi
-        if (piBeaconAdvPacket.rssi != nil)
-        {
-            cell.rssiLabel.text = [NSString stringWithFormat:@"rssi:%@", [piBeaconAdvPacket.rssi stringValue]];
-        }
-        
-        //because IOS app can not get UUID from advertisement, so we try to get uuid from configruation database
+        //because IOS app can not get UUID from advertisement, so we try to get uuid from configruation database, the UUID only avaiable when device connected
         KBCfgIBeacon* pIBeaconCfg = (KBCfgIBeacon*)[pBeacons getConfigruationByType:KBConfigTypeIBeacon];
         if (pIBeaconCfg != nil)
         {
@@ -387,11 +387,6 @@
         if (piBeaconAdvPacket.minorID != nil)
         {
             cell.minorLabel.text = [NSString stringWithFormat:@"minor:%@",[piBeaconAdvPacket.minorID stringValue]];
-        }
-        
-        if (piBeaconAdvPacket.uuid != nil)
-        {
-            cell.uuidLabel.text = [NSString stringWithFormat:@"uuid:%@", piBeaconAdvPacket.uuid];
         }
     }
     

@@ -19,6 +19,7 @@
 		0C8DD55821BA95DC0073B892 /* ESLConfigUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C8DD55721BA95DC0073B892 /* ESLConfigUITests.m */; };
 		0C8DD56C21BAD8AF0073B892 /* KBeaconViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C8DD56B21BAD8AF0073B892 /* KBeaconViewCell.m */; };
 		0CA63B08235463860046757F /* addlibrary.png in Resources */ = {isa = PBXBuildFile; fileRef = 0CA63B07235463860046757F /* addlibrary.png */; };
+		0CA63B0A2354774D0046757F /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 0CA63B092354774D0046757F /* README.md */; };
 		0CB15024235445C100FF6462 /* kbeaconlib.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0CB15023235445C100FF6462 /* kbeaconlib.framework */; };
 		0CB3F87A21BCC10600A3DA1C /* DeviceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CB3F87921BCC10600A3DA1C /* DeviceViewController.m */; };
 /* End PBXBuildFile section */
@@ -63,6 +64,7 @@
 		0C8DD56A21BAD8AF0073B892 /* KBeaconViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KBeaconViewCell.h; sourceTree = "<group>"; };
 		0C8DD56B21BAD8AF0073B892 /* KBeaconViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KBeaconViewCell.m; sourceTree = "<group>"; };
 		0CA63B07235463860046757F /* addlibrary.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = addlibrary.png; sourceTree = "<group>"; };
+		0CA63B092354774D0046757F /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		0CB15023235445C100FF6462 /* kbeaconlib.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = kbeaconlib.framework; sourceTree = "<group>"; };
 		0CB3F87821BCC10600A3DA1C /* DeviceViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DeviceViewController.h; sourceTree = "<group>"; };
 		0CB3F87921BCC10600A3DA1C /* DeviceViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DeviceViewController.m; sourceTree = "<group>"; };
@@ -97,6 +99,7 @@
 		0C8DD52721BA95D90073B892 = {
 			isa = PBXGroup;
 			children = (
+				0CA63B092354774D0046757F /* README.md */,
 				0CA63B07235463860046757F /* addlibrary.png */,
 				0CB15023235445C100FF6462 /* kbeaconlib.framework */,
 				0C8DD53221BA95D90073B892 /* BeaconDemo */,
@@ -260,6 +263,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0CA63B0A2354774D0046757F /* README.md in Resources */,
 				0CA63B08235463860046757F /* addlibrary.png in Resources */,
 				0C8DD54021BA95DB0073B892 /* LaunchScreen.storyboard in Resources */,
 				0C614A6E21BE990B00E9B002 /* Localizable.strings in Resources */,
