@@ -103,8 +103,8 @@
 				0CA63B07235463860046757F /* addlibrary.png */,
 				0CB15023235445C100FF6462 /* kbeaconlib.framework */,
 				0C8DD53221BA95D90073B892 /* BeaconDemo */,
-				0C8DD54B21BA95DC0073B892 /* ESLDemoTests */,
-				0C8DD55621BA95DC0073B892 /* ESLDemoUITests */,
+				0C8DD54B21BA95DC0073B892 /* BeaconDemoTests */,
+				0C8DD55621BA95DC0073B892 /* BeaconDemoUITests */,
 				0C8DD53121BA95D90073B892 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -142,22 +142,22 @@
 			path = BeaconDemo;
 			sourceTree = "<group>";
 		};
-		0C8DD54B21BA95DC0073B892 /* ESLDemoTests */ = {
+		0C8DD54B21BA95DC0073B892 /* BeaconDemoTests */ = {
 			isa = PBXGroup;
 			children = (
 				0C8DD54C21BA95DC0073B892 /* ESLConfigTests.m */,
 				0C8DD54E21BA95DC0073B892 /* Info.plist */,
 			);
-			path = ESLDemoTests;
+			path = BeaconDemoTests;
 			sourceTree = "<group>";
 		};
-		0C8DD55621BA95DC0073B892 /* ESLDemoUITests */ = {
+		0C8DD55621BA95DC0073B892 /* BeaconDemoUITests */ = {
 			isa = PBXGroup;
 			children = (
 				0C8DD55721BA95DC0073B892 /* ESLConfigUITests.m */,
 				0C8DD55921BA95DC0073B892 /* Info.plist */,
 			);
-			path = ESLDemoUITests;
+			path = BeaconDemoUITests;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
