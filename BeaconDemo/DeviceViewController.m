@@ -260,6 +260,43 @@
 - (IBAction)onStartConfig:(id)sender {
     
     [self updateViewToDevice];
+    
+    //[self ringDevice];
+}
+
+-(void) ringDevice
+{
+    if (self.beacon.state != KBStateConnected){
+        return;
+    }
+
+    NSMutableDictionary* paraDicts = [[NSMutableDictionary alloc]init];
+
+    [paraDicts setValue:@"ring" forKey:@"msg"];
+    
+    //ring times, uint is ms
+    [paraDicts setValue:[NSNumber numberWithInt:20000] forKey:@"ringTime"];
+    
+    //0x0:led flash only; 0x1:beep alert only; 0x2 led flash and beep alert;
+    [paraDicts setValue:[NSNumber numberWithInt:2] forKey:@"ringType"];
+    
+    //led flash on time. valid when ringType set to 0x0 or 0x2
+    [paraDicts setValue:[NSNumber numberWithInt:200] forKey:@"ledOn"];
+
+    //led flash off time. valid when ringType set to 0x0 or 0x2
+    [paraDicts setValue:[NSNumber numberWithInt:1800] forKey:@"ledOff"];
+
+    [self.beacon sendCommand:paraDicts callback:^(BOOL bConfigSuccess, NSError * _Nonnull error)
+    {
+        if (bConfigSuccess)
+        {
+            NSLog(@"send ring command to device success");
+        }
+        else
+        {
+            NSLog(@"send ring command to device failed");
+        }
+    }];
 }
 
 -(void)showDialogMsg:(NSString*)title message:(NSString*)message

@@ -432,6 +432,53 @@ Example2: check if the paramaters was changed, then send new paramaters to devic
 }
 ```
 
+#### 4.3.4 Send command to device
+After app connect to device success, the app can send command to device.
+#### 4.3.4.1 Ring device
+ For some KBeacon device that has buzzer function. The app can ring device. for ring command, it has 5 paramaters:
+ * msg: msg type is 'ring'
+ * ringTime: uint is ms. The KBeacon will start flash/alert for 'ringTime' millisecond  when receive this command.
+ * ringType: 0x0:led flash only; 0x1:beep alert only; 0x2 both led flash and beep;
+ * ledOn: optional paramaters, uint is ms.the LED will flash at interval (ledOn + ledOff).  This paramaters is valid when ringType set to 0x0 or 0x2.
+ * ledOff: optional paramaters, uint is ms. the LED will flash at interval (ledOn + ledOff).  This paramaters is valid when ringType set to 0x0 or 0x2.
+
+```objective-c
+-(void) ringDevice
+{
+    if (self.beacon.state != KBStateConnected){
+        return;
+    }
+
+    NSMutableDictionary* paraDicts = [[NSMutableDictionary alloc]init];
+
+    [paraDicts setValue:@"ring" forKey:@"msg"];
+    
+    //ring times, uint is ms
+    [paraDicts setValue:[NSNumber numberWithInt:20000] forKey:@"ringTime"];
+    
+    //0x0:led flash only; 0x1:beep alert only; 0x2 led flash and beep alert;
+    [paraDicts setValue:[NSNumber numberWithInt:2] forKey:@"ringType"];
+    
+    //led flash on time. valid when ringType set to 0x0 or 0x2
+    [paraDicts setValue:[NSNumber numberWithInt:200] forKey:@"ledOn"];
+
+    //led flash off time. valid when ringType set to 0x0 or 0x2
+    [paraDicts setValue:[NSNumber numberWithInt:1800] forKey:@"ledOff"];
+
+    [self.beacon sendCommand:paraDicts callback:^(BOOL bConfigSuccess, NSError * _Nonnull error)
+    {
+        if (bConfigSuccess)
+        {
+            NSLog(@"send ring command to device success");
+        }
+        else
+        {
+            NSLog(@"send ring command to device failed");
+        }
+    }];
+}
+```
+
 ## 5. Change log
 * 2019.10.11 v1.1 add KSesnor function
 * 2019.4.1 v1.0 first version;
