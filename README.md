@@ -443,24 +443,25 @@ Example2: check if the paramaters was changed, then send new paramaters to devic
 
  *	Trigger advertisement duration: The advertisement duration when trigger event happened.
 
- *	Trigger advertisement interval: The bluetooth advertisement interval for trigger advertisement.  You can set a different value from normal broadcast.
+ *	Trigger advertisement interval: The bluetooth advertisement interval for trigger advertisement.  You can set a different value from alive broadcast.
 
  Example 1:  
-  Trigger adv mode: seting to broadcast only on trigger event happened  
-  Trigger adv type: iBeacon  
-  Trigger adv duration: 30 seconds  
-	Trigger adv interval: 300ms  
+  &nbsp;&nbsp;Trigger adv mode: seting to broadcast only on trigger event happened  
+  &nbsp;&nbsp;Trigger adv type: iBeacon  
+  &nbsp;&nbsp;Trigger adv duration: 30 seconds  
+	&nbsp;&nbsp;Trigger adv interval: 300ms  
 	![avatar](https://github.com/kkmhogen/KBeaconDemo_Android/blob/master/only_adv_when_trigger.png?raw=true)
 
-	Example 2:  
-	 For some senario, we need to continuously monitor the KBeacon to ensure that the device was alive, so we set the trigger advertisement mode to always advertisement. Also we can set an larger advertisement interval during alive advertisement and a short advertisement interval when trigger event happened. We can achieve a balance between power consumption and triggers advertisement be easily detected.      
-   Trigger adv mode: seting to Always advertisment  
-   Trigger adv type: iBeacon  
-   Trigger adv duration: 30 seconds  
- 	 Trigger adv interval: 300ms  
-	 Always adv interval: 2000ms
+ Example 2:  
+	&nbsp;For some senario, we need to continuously monitor the KBeacon to ensure that the device was alive, so we set the trigger advertisement mode to always advertisement.   
+	&nbsp;We set an larger advertisement interval during alive advertisement and a short advertisement interval when trigger event happened, so we can achieve a balance between power consumption and triggers advertisement be easily detected.  
+   &nbsp;&nbsp;Trigger adv mode: seting to Always advertisment  
+   &nbsp;&nbsp;Trigger adv type: iBeacon  
+   &nbsp;&nbsp;Trigger adv duration: 30 seconds  
+ 	 &nbsp;&nbsp;Trigger adv interval: 300ms  
+	 &nbsp;&nbsp;Always adv interval: 2000ms
  	![avatar](https://github.com/kkmhogen/KBeaconDemo_Android/blob/master/always_adv_with_trigger.png?raw=true)
-
+  
 #### 4.3.4.1 Push button trigger
 The push button trigger feature is used in some hospitals, nursing homes and other scenarios. When the user encounters some emergency event, they can click the button and the KBeacon device will start broadcast.
 The app can configure single click, double-click, triple-click, long-press the button trigger, oor a combination.
