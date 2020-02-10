@@ -42,8 +42,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (strong, readonly) NSNumber* trigCapibility;
 
-@property (strong, readonly) NSNumber* actionCapibility;
-
 @property (strong, readonly) NSNumber* maxTxPower;
 
 @property (strong, readonly) NSNumber* minTxPower;

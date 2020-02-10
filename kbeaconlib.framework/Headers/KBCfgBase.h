@@ -28,6 +28,7 @@ typedef NS_ENUM(NSInteger, KBConfigType)
     KBConfigTypeEddyURL = 0x10,
     KBConfigTypeEddyUID = 0x2,
     KBConfigTypeSensor = 0x1,
+    KBConfigTypeTrigger = 0x40,
     KBConfigTypeInvalid = 255,
 }NS_ENUM_AVAILABLE(8_13, 8_0);
 

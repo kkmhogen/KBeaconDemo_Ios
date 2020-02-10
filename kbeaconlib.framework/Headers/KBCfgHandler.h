@@ -13,6 +13,7 @@
 #import "KBCfgEddyURL.h"
 #import "KBCfgEddyUID.h"
 #import "KBCfgSensor.h"
+#import "KBCfgTrigger.h"
 
 
 NS_ASSUME_NONNULL_BEGIN

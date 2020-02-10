@@ -295,7 +295,8 @@ After the app connect to KBeacon success. The KBeacon will automatically read cu
 #### 4.3.3 Update device parameters
 
 After app connect to device success, the app can update update paramaters of physical device.
-Example1: app update tx power, device name
+Example1: app update tx power, device name  
+
 ```objective-c
 -(void)simpleUpdateDeviceTest
 {
@@ -432,7 +433,230 @@ Example2: check if the paramaters was changed, then send new paramaters to devic
 }
 ```
 
-#### 4.3.4 Send command to device
+#### 4.3.4 Modify trigger parameters
+ For some KBeacon device that has motion or push button. The app can set advertisememnt trigger and the device will advertise when the trigger condition is met. the trigger advertisement has follow paramaters:
+ * Trigger advertisement Mode: There are two modes of trigger advertisement. One mode is to broadcast only when the trigger is satisfied. The other mode is always broadcasting, and the content of advertisement packet will change when the trigger conditions are met.
+
+ *	Trigger paramaters: For motion trigger, the paramaters is accleration sensitivity. For button trigger, you can set different trigger event(single click, double click, etc.,).
+
+ *	Trigger advertisement type: The advertisement packet type when trigger event happened. it can be seting to iBeacon, Eddystone or KSensor advertisement.
+
+ *	Trigger advertisement duration: The advertisement duration when trigger event happened.
+
+ *	Trigger advertisement interval: The bluetooth advertisement interval for trigger advertisement.  You can set a different value from normal broadcast.
+
+ Example 1:  
+  Trigger adv mode: seting to broadcast only on trigger event happened  
+  Trigger adv type: iBeacon  
+  Trigger adv duration: 30 seconds  
+	Trigger adv interval: 300ms  
+	![avatar](https://github.com/kkmhogen/KBeaconDemo_Android/blob/master/only_adv_when_trigger.png?raw=true)
+
+	Example 2:  
+	 For some senario, we need to continuously monitor the KBeacon to ensure that the device was alive, so we set the trigger advertisement mode to always advertisement. Also we can set an larger advertisement interval during alive advertisement and a short advertisement interval when trigger event happened. We can achieve a balance between power consumption and triggers advertisement be easily detected.      
+   Trigger adv mode: seting to Always advertisment  
+   Trigger adv type: iBeacon  
+   Trigger adv duration: 30 seconds  
+ 	 Trigger adv interval: 300ms  
+	 Always adv interval: 2000ms
+ 	![avatar](https://github.com/kkmhogen/KBeaconDemo_Android/blob/master/always_adv_with_trigger.png?raw=true)
+
+#### 4.3.4.1 Push button trigger
+The push button trigger feature is used in some hospitals, nursing homes and other scenarios. When the user encounters some emergency event, they can click the button and the KBeacon device will start broadcast.
+The app can configure single click, double-click, triple-click, long-press the button trigger, oor a combination.
+
+**Notify:**  
+By KBeacon's default setting, long press button used to power on and off. Clicking button used to force the KBeacon enter connectable broadcast advertisement. So when you enable the long-press button trigger, the long-press power off function will be disabled. When you turn on the single/dobule/triple click trigger, the function of clicking to enter connectable broadcast state will also be disabled. After you disable button trigger, the default function about long press or click button will take effect again.
+
+1. Enable or button trigger feature.  
+
+```objective-c
+-(void)enableButtonTrigger
+{
+    if (self.beacon.state != KBStateConnected){
+        return;
+    }
+
+    //check if device can support button trigger capibility
+    if (([self.beacon.triggerCapibility intValue] & KBTriggerTypeButton) == 0)
+    {
+        return;
+    }
+
+    KBCfgTrigger* btnTriggerPara = [[KBCfgTrigger alloc]init];
+
+    //set trigger type
+    btnTriggerPara.triggerType = [NSNumber numberWithInt: KBTriggerTypeButton];
+
+    //set trigger advertisement enable
+    btnTriggerPara.triggerAction = [NSNumber numberWithInt: KBTriggerActionAdv];
+
+    //set trigger adv mode to adv only on trigger
+    btnTriggerPara.triggerAdvMode = [NSNumber numberWithInt:KBTriggerAdvOnlyMode];
+
+    //set trigger button para
+    btnTriggerPara.triggerPara = [NSNumber numberWithInt: (KBTriggerBtnSingleClick | KBTriggerBtnDoubleClick)];
+
+    //set trigger adv type
+    btnTriggerPara.triggerAdvType = [NSNumber numberWithInt:KBAdvTypeIBeacon];
+
+    //set trigger adv duration to 20 seconds
+    btnTriggerPara.triggerAdvTime = [NSNumber numberWithInt: 20];
+
+    //set the trigger adv interval to 500ms
+    btnTriggerPara.triggerAdvInterval = [NSNumber numberWithInt: 500];
+
+    [self.beacon modifyTriggerConfig:btnTriggerPara callback:^(BOOL bConfigSuccess, NSError * _Nonnull error) {
+        if (bConfigSuccess)
+        {
+            NSLog(@"modify btn trigger success");
+        }
+        else
+        {
+            NSLog(@"modify btn trigger fail:%ld", (long)error.code);
+        }
+    }];
+}
+```
+
+2. The app can disable the button trigger
+
+```objective-c
+//disable button trigger
+-(void)disableButtonTrigger
+{
+    if (self.beacon.state != KBStateConnected){
+        return;
+    }
+
+    //check if device can support button trigger capibility
+    if (([self.beacon.triggerCapibility intValue] & KBTriggerTypeButton) == 0)
+    {
+        return;
+    }
+
+    KBCfgTrigger* btnTriggerPara = [[KBCfgTrigger alloc]init];
+
+    //set trigger type
+    btnTriggerPara.triggerType = [NSNumber numberWithInt: KBTriggerTypeButton];
+
+    //set trigger advertisement enable
+    btnTriggerPara.triggerAction = [NSNumber numberWithInt: KBTriggerActionOff];
+
+    [self.beacon modifyTriggerConfig:btnTriggerPara callback:^(BOOL bConfigSuccess, NSError * _Nonnull error) {
+        if (bConfigSuccess)
+        {
+            NSLog(@"modify btn trigger success");
+        }
+        else
+        {
+            NSLog(@"modify btn trigger fail:%ld", (long)error.code);
+        }
+    }];
+}
+```
+
+3. The app can read the button current trigger paramaters from KBeacon by follow code  
+
+```objective-c
+ //read button trigger information
+-(void)readButtonTriggerPara
+{
+    if (self.beacon.state != KBStateConnected){
+        return;
+    }
+
+    //check if device can support button trigger capibility
+    if (([self.beacon.triggerCapibility intValue] & KBTriggerTypeButton) == 0)
+    {
+        return;
+    }
+
+    [self.beacon readTriggerConfig:KBTriggerTypeButton callback:^(BOOL bConfigSuccess, NSDictionary * _Nullable readPara, NSError * _Nullable error)
+		{
+        if (bConfigSuccess)
+        {
+            NSArray* btnTriggerCfg = [readPara objectForKey:@"trObj"];
+            if (btnTriggerCfg != nil)
+            {
+                KBCfgTrigger* btnCfg = [btnTriggerCfg objectAtIndex:0];
+                NSLog(@"trigger type:%d", [btnCfg.triggerType intValue]);
+                if ([btnCfg.triggerAction intValue] > 0)
+                {
+                    //button enable mask
+                    int nButtonEnableInfo = [btnCfg.triggerPara intValue];
+                    if ((nButtonEnableInfo & KBTriggerBtnSingleClick) > 0)
+                    {
+                        NSLog(@"Enable single click trigger");
+                    }
+                    if ((nButtonEnableInfo & KBTriggerBtnDoubleClick) > 0)
+                    {
+                        NSLog(@"Enable double click trigger");
+                    }
+                    if ((nButtonEnableInfo & KBTriggerBtnHold) > 0)
+                    {
+                        NSLog(@"Enable hold press trigger");
+                    }
+
+                    //button trigger adv mode
+                    if ([btnCfg.triggerAdvMode intValue] == KBTriggerAdvOnlyMode)
+                    {
+                        NSLog(@"device only advertisement when trigger event happened");
+                    }
+                    else if ([btnCfg.triggerAdvMode intValue] == KBTriggerAdv2AliveMode)
+                    {
+                        NSLog(@"device will always advertisement, but the uuid is difference when trigger event happened");
+                    }
+
+                    //button trigger adv type
+                    NSLog(@"Button trigger adv type:%d", [btnCfg.triggerAdvType intValue]);
+
+                    //button trigger adv duration, uint is sec
+                    NSLog(@"Button trigger adv duration:%dsec", [btnCfg.triggerAdvTime intValue]);
+
+                    //button trigger adv interval, uint is ms
+                    NSLog(@"Button trigger adv interval:%dms", [btnCfg.triggerAdvInterval intValue]);
+                }
+                else
+                {
+                    NSLog(@"Button trigger disable");
+                }
+            }
+        }
+        else
+        {
+            NSLog(@"Button trigger failed, %ld", (long)error.code);
+        }
+    }];
+}
+
+ ```
+
+#### 4.3.4.2 Motion trigger
+Motion Trigger means that when the device detects movement, it will start broadcasting. You can set the sensitivity of motion detection.  
+**Notify:**  
+When the KBeacon enable the motion trigger, the Acc feature(X, Y, and Z axis detected function) in the KSensor broadcast will be disabled.
+
+Enabling motion trigger is similar to push button trigger, which will not be described in detail here.
+
+1. Enable or button trigger feature.  
+
+```objective-c
+-(void)enableMotionTrigger
+{
+    ... same as push button trigger
+
+    //set trigger type
+    btnTriggerPara.triggerType = [NSNumber numberWithInt: KBTriggerTypeMotion];
+
+		//set motion trigger sensitivity, the valid range is 2~31. The uint is 16mg.
+    btnTriggerPara.triggerPara = [NSNumber numberWithInt: 3];
+
+    ... same as push button trigger
+}
+```
+
+#### 4.3.5 Send command to device
 After app connect to device success, the app can send command to device.
 #### 4.3.4.1 Ring device
  For some KBeacon device that has buzzer function. The app can ring device. for ring command, it has 5 paramaters:
@@ -452,13 +676,13 @@ After app connect to device success, the app can send command to device.
     NSMutableDictionary* paraDicts = [[NSMutableDictionary alloc]init];
 
     [paraDicts setValue:@"ring" forKey:@"msg"];
-    
+
     //ring times, uint is ms
     [paraDicts setValue:[NSNumber numberWithInt:20000] forKey:@"ringTime"];
-    
+
     //0x0:led flash only; 0x1:beep alert only; 0x2 led flash and beep alert;
     [paraDicts setValue:[NSNumber numberWithInt:2] forKey:@"ringType"];
-    
+
     //led flash on time. valid when ringType set to 0x0 or 0x2
     [paraDicts setValue:[NSNumber numberWithInt:200] forKey:@"ledOn"];
 
@@ -480,5 +704,6 @@ After app connect to device success, the app can send command to device.
 ```
 
 ## 5. Change log
+* 2020.1.11 v1.2 add trigger function
 * 2019.10.11 v1.1 add KSesnor function
 * 2019.4.1 v1.0 first version;

@@ -232,11 +232,14 @@
     {
         pBeacon = [beacons objectAtIndex:i];
         
-        //filter iBeacon packet
+        [mBeaconsDictory setObject:pBeacon forKey:pBeacon.UUIDString];
+        
+        /*
+         //filter iBeacon packet
         if ([pBeacon getAdvPacketByType:KBAdvTypeIBeacon] > 0)
         {
             [mBeaconsDictory setObject:pBeacon forKey:pBeacon.UUIDString];
-        }
+        }*/
     }
     
     mBeaconsArray = [mBeaconsDictory allValues];

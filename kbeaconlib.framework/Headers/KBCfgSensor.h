@@ -23,18 +23,6 @@ typedef NS_ENUM(NSInteger, KBSensorType)
     KBSensorTypeHumidity = 0x2
 } NS_ENUM_AVAILABLE(8_13, 8_0);
 
-typedef NS_ENUM(NSInteger, KBSensorTriggerEvt)
-{
-    KBTrigEvtMotion = 0,
-}NS_ENUM_AVAILABLE(8_13, 8_0);
-
-typedef NS_ENUM(NSInteger, KBTriggerAction)
-{
-    KBTrigActAdvtisement = 0,
-    KBTrigActAlarm,
-}NS_ENUM_AVAILABLE(8_13, 8_0);
-
-
 @interface KBCfgSensor : KBCfgBase
 
 @property (strong, nonatomic) NSNumber* sensorType;

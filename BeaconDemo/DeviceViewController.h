@@ -37,8 +37,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (weak, nonatomic) IBOutlet UIButton *mDownCfgBtn;
 
-
-
+@property (weak, nonatomic) IBOutlet UIButton *mBtnConfigTest;
 
 @property (weak, nonatomic) KBeacon* beacon;
 

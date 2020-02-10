@@ -38,11 +38,11 @@
 		</data>
 		<key>Headers/KBCfgBase.h</key>
 		<data>
-		0/kfNaxN7QobPrs+YwFMhYs1A7g=
+		aPDii7SassgiAbfvA0jhv3F7F9o=
 		</data>
 		<key>Headers/KBCfgCommon.h</key>
 		<data>
-		fZdUMq55r7Hp7Rr8HL1fC4rJrfk=
+		ZvPJhDtgbbthqlfBviktuUi9l5Q=
 		</data>
 		<key>Headers/KBCfgEddyUID.h</key>
 		<data>
@@ -54,7 +54,7 @@
 		</data>
 		<key>Headers/KBCfgHandler.h</key>
 		<data>
-		CVFLHFeXoZmYCWcaFgTleh4FJQg=
+		LJ6YqfrKUrx+vSNYBK79z0uI2gg=
 		</data>
 		<key>Headers/KBCfgIBeacon.h</key>
 		<data>
@@ -62,11 +62,15 @@
 		</data>
 		<key>Headers/KBCfgSensor.h</key>
 		<data>
-		VQ3dYG1K9JyEshjK3qcXUzvLim8=
+		TyGmjQBU7Dy7cLl0LqjYLS2GtR0=
+		</data>
+		<key>Headers/KBCfgTrigger.h</key>
+		<data>
+		I/TO/tuOc2NLHpcdc7yDG7LR3oE=
 		</data>
 		<key>Headers/KBException.h</key>
 		<data>
-		Nz+ivl1dtEhO6OFMrCmdD/AYiP8=
+		5XPp0HOoO7USQoTruE30Gm71pVE=
 		</data>
 		<key>Headers/KBUtility.h</key>
 		<data>
@@ -74,7 +78,7 @@
 		</data>
 		<key>Headers/KBeacon.h</key>
 		<data>
-		uxexUe/UAdCRO03bJVJ1kh7IUFk=
+		LfBZXG+cmUcA9F8JCqZZY73/hjQ=
 		</data>
 		<key>Headers/KBeaconsMgr.h</key>
 		<data>
@@ -82,7 +86,7 @@
 		</data>
 		<key>Info.plist</key>
 		<data>
-		zVR4FXhDNMTYM2n6x02CPV/4iII=
+		sO5fsE3ya7UZB0cGCoixy7DSJ8Y=
 		</data>
 	</dict>
 	<key>files2</key>
@@ -179,22 +183,22 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			0/kfNaxN7QobPrs+YwFMhYs1A7g=
+			aPDii7SassgiAbfvA0jhv3F7F9o=
 			</data>
 			<key>hash2</key>
 			<data>
-			iH/CdBSr4OFLf/kLDh3yYkf8ruiBPWF7LV00yxArLfk=
+			FMWd4Y+UmWXiuUOUGH93YKAz9pb+rye9WoYxzo6s99A=
 			</data>
 		</dict>
 		<key>Headers/KBCfgCommon.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			fZdUMq55r7Hp7Rr8HL1fC4rJrfk=
+			ZvPJhDtgbbthqlfBviktuUi9l5Q=
 			</data>
 			<key>hash2</key>
 			<data>
-			LE61sARQc9aee5U/H/VSDoXA+2RNGp3LvdWSRJRL+6M=
+			cNONTtNEL52ZHHB6HH3EQHR7B0Hz5hBa2AxNpdwczHk=
 			</data>
 		</dict>
 		<key>Headers/KBCfgEddyUID.h</key>
@@ -223,11 +227,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			CVFLHFeXoZmYCWcaFgTleh4FJQg=
+			LJ6YqfrKUrx+vSNYBK79z0uI2gg=
 			</data>
 			<key>hash2</key>
 			<data>
-			UYdDFhBxOGhaSONUOUtlofNMJUOrad+U6f7s+AoqatY=
+			74A+M3jjIyMunzGSeVH4xcYvl0LzJJCfWy/PK2ycPFo=
 			</data>
 		</dict>
 		<key>Headers/KBCfgIBeacon.h</key>
@@ -245,22 +249,33 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			VQ3dYG1K9JyEshjK3qcXUzvLim8=
+			TyGmjQBU7Dy7cLl0LqjYLS2GtR0=
 			</data>
 			<key>hash2</key>
 			<data>
-			yFtyXQHHKOzPHVXrFDyq1JOkbsUmmk4S2xEGcG0UJ3k=
+			AxZym9xEUHQbZpCNgv0bK1dJauRVtyrMVnZjjxcAlIM=
+			</data>
+		</dict>
+		<key>Headers/KBCfgTrigger.h</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			I/TO/tuOc2NLHpcdc7yDG7LR3oE=
+			</data>
+			<key>hash2</key>
+			<data>
+			3c08iQQnsWAauTVnDbVARfOb4xyduMIAyI1Fo4P8Wlg=
 			</data>
 		</dict>
 		<key>Headers/KBException.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			Nz+ivl1dtEhO6OFMrCmdD/AYiP8=
+			5XPp0HOoO7USQoTruE30Gm71pVE=
 			</data>
 			<key>hash2</key>
 			<data>
-			GabvlrdZ6xWPsLxjsDUNneH1bsbdWoKYrS2bmsk9l8E=
+			7Vj44eVUckqRD8pSd/dWf7PeCt/bHkwXh3baWDO1NRw=
 			</data>
 		</dict>
 		<key>Headers/KBUtility.h</key>
@@ -278,11 +293,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			uxexUe/UAdCRO03bJVJ1kh7IUFk=
+			LfBZXG+cmUcA9F8JCqZZY73/hjQ=
 			</data>
 			<key>hash2</key>
 			<data>
-			0AzGPwxsBM8oU8OYc2wtfb00QkAVCAY4vjTQsBrCMLA=
+			yWanF9RX3QdRdB6p3A+IMcATOflOeMOuYcwiEM8Uhps=
 			</data>
 		</dict>
 		<key>Headers/KBeaconsMgr.h</key>

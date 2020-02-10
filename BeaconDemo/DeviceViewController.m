@@ -11,6 +11,7 @@
 #import "string.h"
 #import "KBPreferance.h"
 #import "kbeaconlib/KBCfgIBeacon.h"
+#import "kbeaconlib/KBCfgTrigger.h"
 
 #define ACTION_CONNECT 0x0
 #define ACTION_DISCONNECT 0x1
@@ -33,6 +34,7 @@
     [self.view addGestureRecognizer:tap];
     
     [self.mDownCfgBtn setEnabled:NO];
+    [self.mBtnConfigTest setEnabled:NO];
     self.txtName.delegate = self;
     self.txtTxPower.delegate = self;
     self.txtAdvPeriod.delegate = self;
@@ -53,12 +55,14 @@
         [_actionConnect setTitle:BEACON_DISCONNECT];
         _actionConnect.tag = ACTION_DISCONNECT;
         [self.mDownCfgBtn setEnabled:YES];
+        [self.mBtnConfigTest setEnabled:YES];
     }
     else
     {
         [_actionConnect setTitle:BEACON_CONNECT];
         _actionConnect.tag = ACTION_CONNECT;
         [self.mDownCfgBtn setEnabled:NO];
+        [self.mBtnConfigTest setEnabled:NO];
     }
 }
 
@@ -174,10 +178,17 @@
     KBCfgCommon* pCommonCfg = [[KBCfgCommon alloc]init];
     
     @try {
+        
+        //set beacon type to iBeacon
+        pCommonCfg.advType = [NSNumber numberWithInt: KBAdvTypeIBeacon];
+        
+        //device name
         if (_txtName.tag == TXT_DATA_MODIFIED)
         {
             pCommonCfg.name = _txtName.text;
         }
+        
+        //tx power
         if (_txtTxPower.tag == TXT_DATA_MODIFIED)
         {
             int nTxPower = [_txtTxPower.text intValue];
@@ -191,6 +202,8 @@
             
             pCommonCfg.txPower = [NSNumber numberWithInt:nTxPower];
         }
+        
+        //set adv period
         if (_txtAdvPeriod.tag == TXT_DATA_MODIFIED)
         {
             if ([_txtAdvPeriod.text intValue] < 100
@@ -203,6 +216,7 @@
             pCommonCfg.advPeriod = [NSNumber numberWithInt:[_txtAdvPeriod.text intValue]];
         }
         
+        //modify ibeacon uuid
         if (_txtBeaconUUID.tag == TXT_DATA_MODIFIED)
         {
             if (![KBUtility isUUIDString:_txtBeaconUUID.text])
@@ -213,6 +227,8 @@
                 
             pIBeaconCfg.uuid = _txtBeaconUUID.text;
         }
+        
+        //modify ibeacon major id
         if (_txtBeaconMajor.tag == TXT_DATA_MODIFIED)
         {
             if ([_txtBeaconMajor.text intValue] > 65535)
@@ -222,6 +238,8 @@
             }
             pIBeaconCfg.majorID = [NSNumber numberWithInt:[_txtBeaconMajor.text intValue]];
         }
+        
+        //modify ibeacon minor
         if (_txtBeaconMinor.tag == TXT_DATA_MODIFIED)
         {
             if ([_txtBeaconMinor.text intValue] > 65535)
@@ -260,8 +278,167 @@
 - (IBAction)onStartConfig:(id)sender {
     
     [self updateViewToDevice];
-    
+}
+
+- (IBAction)onConfigTest:(id)sender {
     //[self ringDevice];
+
+    //test write button trigger
+    [self enableButtonTrigger];
+    
+    //test read button trigger
+    //[self readButtonTriggerPara];
+}
+
+//enable button trigger
+-(void)enableButtonTrigger
+{
+    if (self.beacon.state != KBStateConnected){
+        return;
+    }
+    
+    //check if device can support button trigger capibility
+    if (([self.beacon.triggerCapibility intValue] & KBTriggerTypeButton) == 0)
+    {
+        return;
+    }
+    
+    KBCfgTrigger* btnTriggerPara = [[KBCfgTrigger alloc]init];
+    
+    //set trigger type
+    btnTriggerPara.triggerType = [NSNumber numberWithInt: KBTriggerTypeButton];
+    
+    //set trigger advertisement enable
+    btnTriggerPara.triggerAction = [NSNumber numberWithInt: KBTriggerActionAdv];
+
+    //set trigger adv mode to adv only on trigger
+    btnTriggerPara.triggerAdvMode = [NSNumber numberWithInt:KBTriggerAdvOnlyMode];
+    
+    //set trigger button para
+    btnTriggerPara.triggerPara = [NSNumber numberWithInt: (KBTriggerBtnSingleClick | KBTriggerBtnDoubleClick)];
+    
+    //set trigger adv type
+    btnTriggerPara.triggerAdvType = [NSNumber numberWithInt:KBAdvTypeIBeacon];
+    
+    //set trigger adv duration to 20 seconds
+    btnTriggerPara.triggerAdvTime = [NSNumber numberWithInt: 20];
+
+    //set the trigger adv interval to 500ms
+    btnTriggerPara.triggerAdvInterval = [NSNumber numberWithInt: 500];
+    
+    [self.beacon modifyTriggerConfig:btnTriggerPara callback:^(BOOL bConfigSuccess, NSError * _Nonnull error) {
+        if (bConfigSuccess)
+        {
+            NSLog(@"modify btn trigger success");
+        }
+        else
+        {
+            NSLog(@"modify btn trigger fail:%ld", (long)error.code);
+        }
+    }];
+}
+
+//disable button trigger
+-(void)disableButtonTrigger
+{
+    if (self.beacon.state != KBStateConnected){
+        return;
+    }
+    
+    //check if device can support button trigger capibility
+    if (([self.beacon.triggerCapibility intValue] & KBTriggerTypeButton) == 0)
+    {
+        return;
+    }
+    
+    KBCfgTrigger* btnTriggerPara = [[KBCfgTrigger alloc]init];
+    
+    //set trigger type
+    btnTriggerPara.triggerType = [NSNumber numberWithInt: KBTriggerTypeButton];
+    
+    //set trigger advertisement enable
+    btnTriggerPara.triggerAction = [NSNumber numberWithInt: KBTriggerActionOff];
+    
+    [self.beacon modifyTriggerConfig:btnTriggerPara callback:^(BOOL bConfigSuccess, NSError * _Nonnull error) {
+        if (bConfigSuccess)
+        {
+            NSLog(@"modify btn trigger success");
+        }
+        else
+        {
+            NSLog(@"modify btn trigger fail:%ld", (long)error.code);
+        }
+    }];
+}
+
+//read button trigger information
+-(void)readButtonTriggerPara
+{
+    if (self.beacon.state != KBStateConnected){
+        return;
+    }
+    
+    //check if device can support button trigger capibility
+    if (([self.beacon.triggerCapibility intValue] & KBTriggerTypeButton) == 0)
+    {
+        return;
+    }
+    
+    [self.beacon readTriggerConfig:KBTriggerTypeButton callback:^(BOOL bConfigSuccess, NSDictionary * _Nullable readPara, NSError * _Nullable error) {
+        if (bConfigSuccess)
+        {
+            NSArray* btnTriggerCfg = [readPara objectForKey:@"trObj"];
+            if (btnTriggerCfg != nil)
+            {
+                KBCfgTrigger* btnCfg = [btnTriggerCfg objectAtIndex:0];
+                NSLog(@"trigger type:%d", [btnCfg.triggerType intValue]);
+                if ([btnCfg.triggerAction intValue] > 0)
+                {
+                    //button enable mask
+                    int nButtonEnableInfo = [btnCfg.triggerPara intValue];
+                    if ((nButtonEnableInfo & KBTriggerBtnSingleClick) > 0)
+                    {
+                        NSLog(@"Enable single click trigger");
+                    }
+                    if ((nButtonEnableInfo & KBTriggerBtnDoubleClick) > 0)
+                    {
+                        NSLog(@"Enable double click trigger");
+                    }
+                    if ((nButtonEnableInfo & KBTriggerBtnHold) > 0)
+                    {
+                        NSLog(@"Enable hold press trigger");
+                    }
+                    
+                    //button trigger adv mode
+                    if ([btnCfg.triggerAdvMode intValue] == KBTriggerAdvOnlyMode)
+                    {
+                        NSLog(@"device only advertisement when trigger event happened");
+                    }
+                    else if ([btnCfg.triggerAdvMode intValue] == KBTriggerAdv2AliveMode)
+                    {
+                        NSLog(@"device will always advertisement, but the uuid is difference when trigger event happened");
+                    }
+                                        
+                    //button trigger adv type
+                    NSLog(@"Button trigger adv type:%d", [btnCfg.triggerAdvType intValue]);
+                    
+                    //button trigger adv duration, uint is sec
+                    NSLog(@"Button trigger adv duration:%dsec", [btnCfg.triggerAdvTime intValue]);
+
+                    //button trigger adv interval, uint is ms
+                    NSLog(@"Button trigger adv interval:%dms", [btnCfg.triggerAdvInterval intValue]);
+                }
+                else
+                {
+                    NSLog(@"Button trigger disable");
+                }
+            }
+        }
+        else
+        {
+            NSLog(@"Button trigger failed, %ld", (long)error.code);
+        }
+    }];
 }
 
 -(void) ringDevice

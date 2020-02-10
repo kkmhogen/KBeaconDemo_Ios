@@ -17,6 +17,7 @@
 #import "KBCfgEddyURL.h"
 #import "KBCfgSensor.h"
 #import "KBException.h"
+#import "KBCfgTrigger.h"
 
 
 NS_ASSUME_NONNULL_BEGIN
@@ -91,11 +92,17 @@ typedef void (^onActionComplete)(BOOL bConfigSuccess, NSError* error);
 
 @property(weak, readonly)NSNumber* minTxPower;
 
+//device model
 @property (strong, readonly) NSString* model;
 
+//device version
 @property (strong, readonly) NSString* version;
 
+//basic capibility
 @property (strong, readonly) NSNumber* capibility;
+
+//trigger capibility
+@property (strong, readonly) NSNumber* triggerCapibility;
 
 //all configruation paramaters
 @property (weak, readonly) NSArray* configParamaters;
@@ -106,17 +113,25 @@ typedef void (^onActionComplete)(BOOL bConfigSuccess, NSError* error);
 //////////////////////////////////////////////
 -(id) initWithUUID:(NSString*)uuidString;
 
+//connect to device
 -(BOOL) connect:(NSString*)password timeout:(NSUInteger)timeout;
 
+//close bluetooth connection
 -(void) disconnect;
 
-//config beacon paramaters
+//config beacon paramaters to device
 -(void) modifyConfig:(NSArray<KBCfgBase*>*) cfgPara callback:(onActionComplete)callback;
 
-//read config 
--(void) readConfig:(int) nConfigType callback:(onReadComplete)callback;
+//read trigger configruation from device
+-(void) readTriggerConfig:(KBTriggerType) nTriggerType callback:(onReadComplete)callback;
 
-//send commond
+//config beacon trigger paramaters to device
+-(void) modifyTriggerConfig:(KBCfgTrigger*) cfgTrigger callback:(onActionComplete)callback;
+
+//read config from device
+-(void)readConfigWithPara:(NSDictionary*) readCfgReq callback:(onReadComplete)callback;
+
+//send commond to device
 -(void) sendCommand:(NSDictionary*) cmdPara callback:(onActionComplete)callback;
 
 
