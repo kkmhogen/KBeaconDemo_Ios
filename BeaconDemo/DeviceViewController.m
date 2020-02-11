@@ -34,7 +34,6 @@
     [self.view addGestureRecognizer:tap];
     
     [self.mDownCfgBtn setEnabled:NO];
-    [self.mBtnConfigTest setEnabled:NO];
     self.txtName.delegate = self;
     self.txtTxPower.delegate = self;
     self.txtAdvPeriod.delegate = self;
@@ -55,14 +54,12 @@
         [_actionConnect setTitle:BEACON_DISCONNECT];
         _actionConnect.tag = ACTION_DISCONNECT;
         [self.mDownCfgBtn setEnabled:YES];
-        [self.mBtnConfigTest setEnabled:YES];
     }
     else
     {
         [_actionConnect setTitle:BEACON_CONNECT];
         _actionConnect.tag = ACTION_CONNECT;
         [self.mDownCfgBtn setEnabled:NO];
-        [self.mBtnConfigTest setEnabled:NO];
     }
 }
 
@@ -288,16 +285,6 @@
     [self updateViewToDevice];
 }
 
-- (IBAction)onConfigTest:(id)sender {
-    //[self ringDevice];
-
-    //test write button trigger
-    [self enableButtonTrigger];
-    
-    //test read button trigger
-    //[self readButtonTriggerPara];
-}
-
 //enable button trigger
 -(void)enableButtonTrigger
 {
@@ -356,6 +343,7 @@
     //check if device can support button trigger capibility
     if (([self.beacon.triggerCapibility intValue] & KBTriggerTypeButton) == 0)
     {
+        [self showDialogMsg: @"Fail" message: @"device does not support button trigger"];
         return;
     }
     
@@ -389,6 +377,7 @@
     //check if device can support button trigger capibility
     if (([self.beacon.triggerCapibility intValue] & KBTriggerTypeButton) == 0)
     {
+        [self showDialogMsg: @"Fail" message: @"device does not support button trigger"];
         return;
     }
     
@@ -469,6 +458,7 @@
     KBCfgCommon* cfgCommon = (KBCfgCommon*)[self.beacon getConfigruationByType:KBConfigTypeCommon];
     if (![cfgCommon isSupportBeep])
     {
+        [self showDialogMsg: @"Fail" message: @"device does not support beep"];
         return;
     }
 

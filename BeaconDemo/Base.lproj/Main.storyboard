@@ -532,7 +532,6 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <state key="normal" title="Ring"/>
                                 <connections>
-                                    <action selector="onConfigTest:" destination="eeb-lv-iN1" eventType="touchUpInside" id="oJV-oA-Szg"/>
                                     <action selector="ringDevice:" destination="eeb-lv-iN1" eventType="touchUpInside" id="5C8-x7-5AN"/>
                                 </connections>
                             </button>
