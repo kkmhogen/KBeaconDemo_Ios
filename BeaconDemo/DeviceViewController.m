@@ -270,6 +270,14 @@
          }
          else if (error != nil)
          {
+             if (error.code == KBEvtCfgBusy)
+             {
+                 NSLog(@"Config busy, please make sure other configruation complete");
+             }
+             else if (error.code == KBEvtCfgTimeout)
+             {
+                 NSLog(@"Config timeout");
+             }
              [self showDialogMsg:@"Failed" message:[NSString stringWithFormat:@"config error:%@",error.localizedDescription]];
          }
      }];
@@ -440,10 +448,27 @@
         }
     }];
 }
+- (IBAction)readTrigger:(id)sender {
+    [self resetParametersToDefault];
+}
+
+- (IBAction)enableTrigger:(id)sender {
+    [self enableButtonTrigger];
+}
+
+- (IBAction)ringDevice:(id)sender {
+    [self ringDevice];
+}
 
 -(void) ringDevice
 {
     if (self.beacon.state != KBStateConnected){
+        return;
+    }
+    
+    KBCfgCommon* cfgCommon = (KBCfgCommon*)[self.beacon getConfigruationByType:KBConfigTypeCommon];
+    if (![cfgCommon isSupportBeep])
+    {
         return;
     }
 
@@ -472,6 +497,29 @@
         else
         {
             NSLog(@"send ring command to device failed");
+        }
+    }];
+}
+
+//set parameter to default
+-(void)resetParametersToDefault
+{
+    if (self.beacon.state != KBStateConnected){
+        return;
+    }
+
+    NSMutableDictionary* paraDicts = [[NSMutableDictionary alloc]init];
+    [paraDicts setValue:@"reset" forKey:@"msg"];
+    [self.beacon sendCommand:paraDicts callback:^(BOOL bConfigSuccess, NSError * _Nonnull error)
+    {
+        if (bConfigSuccess)
+        {
+            [self.beacon disconnect];
+            NSLog(@"send reset command to device success");
+        }
+        else
+        {
+            NSLog(@"send reset command to device failed");
         }
     }];
 }

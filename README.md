@@ -186,7 +186,7 @@ If the app want to stop scanning:
 ```
 
 ### 4.2 Connect to device
- 1. If the app want to change the device paramaters, then it need connect to the device.
+ 1. If the app want to change the device parameters, then it need connect to the device.
  ```objective-c
  self.beacon.delegate = self;
 [self.beacon connect:password timeout:20];
@@ -246,7 +246,7 @@ For example: advertisment period was set to 500ms. Advertisment type was set to 
 
 
 #### 4.3.2 Get device parameters
-After the app connect to KBeacon success. The KBeacon will automatically read current paramaters from physical device. so the app can update UI and show the paramaters to user after connection setup.  
+After the app connect to KBeacon success. The KBeacon will automatically read current parameters from physical device. so the app can update UI and show the parameters to user after connection setup.  
  ```objective-c
  -(void)onConnStateChange:(KBeacon*)beacon state:(KBConnState)state evt:(KBConnEvtReason)evt;
  {
@@ -294,7 +294,7 @@ After the app connect to KBeacon success. The KBeacon will automatically read cu
 
 #### 4.3.3 Update device parameters
 
-After app connect to device success, the app can update update paramaters of physical device.
+After app connect to device success, the app can update update parameters of physical device.
 Example1: app update tx power, device name  
 
 ```objective-c
@@ -333,8 +333,8 @@ Example1: app update tx power, device name
 }
 ```
 
-Sometimes the app need to configure multiple parameters at the same time. We recommend that the app should check whether the parameters was changed before update. If the paramaters value is no change, the app do not need to send the configuration.  
-Example2: check if the paramaters was changed, then send new paramaters to device
+Sometimes the app need to configure multiple parameters at the same time. We recommend that the app should check whether the parameters was changed before update. If the parameters value is no change, the app do not need to send the configuration.  
+Example2: check if the parameters was changed, then send new parameters to device
 ```objective-c
 //read user input and download to KBeacon device
 -(void)updateViewToDevice
@@ -409,7 +409,7 @@ Example2: check if the paramaters was changed, then send new paramaters to devic
     }
     @catch (KBException *exception)
     {
-        NSString* errorInfo = [NSString stringWithFormat:@"input paramaters invalid:%ld",
+        NSString* errorInfo = [NSString stringWithFormat:@"input parameters invalid:%ld",
                                (long)exception.errorCode];
         [self showDialogMsg: @"error" message: errorInfo];
         return;
@@ -434,10 +434,10 @@ Example2: check if the paramaters was changed, then send new paramaters to devic
 ```
 
 #### 4.3.4 Modify trigger parameters
- For some KBeacon device that has motion or push button. The app can set advertisememnt trigger and the device will advertise when the trigger condition is met. the trigger advertisement has follow paramaters:
+ For some KBeacon device that has motion or push button. The app can set advertisement trigger and the device will advertise when the trigger condition is met. the trigger advertisement has follow parameters:
  * Trigger advertisement Mode: There are two modes of trigger advertisement. One mode is to broadcast only when the trigger is satisfied. The other mode is always broadcasting, and the content of advertisement packet will change when the trigger conditions are met.
 
- *	Trigger paramaters: For motion trigger, the paramaters is accleration sensitivity. For button trigger, you can set different trigger event(single click, double click, etc.,).
+ *	Trigger parameters: For motion trigger, the parameters is accleration sensitivity. For button trigger, you can set different trigger event(single click, double click, etc.,).
 
  *	Trigger advertisement type: The advertisement packet type when trigger event happened. it can be seting to iBeacon, Eddystone or KSensor advertisement.
 
@@ -461,15 +461,22 @@ Example2: check if the paramaters was changed, then send new paramaters to devic
  	 &nbsp;&nbsp;Trigger adv interval: 300ms  
 	 &nbsp;&nbsp;Always adv interval: 2000ms
  	![avatar](https://github.com/kkmhogen/KBeaconDemo_Android/blob/master/always_adv_with_trigger.png?raw=true)
-  
+
+**Notify:**  
+	  The SDK will not automatically read trigger configuration after connection setup complete. So the app need read the trigger configuration manual if the app needed. Please referance 4.3.4.1 code for read trigger parameters from device.  
+
 #### 4.3.4.1 Push button trigger
 The push button trigger feature is used in some hospitals, nursing homes and other scenarios. When the user encounters some emergency event, they can click the button and the KBeacon device will start broadcast.
 The app can configure single click, double-click, triple-click, long-press the button trigger, oor a combination.
 
 **Notify:**  
-By KBeacon's default setting, long press button used to power on and off. Clicking button used to force the KBeacon enter connectable broadcast advertisement. So when you enable the long-press button trigger, the long-press power off function will be disabled. When you turn on the single/dobule/triple click trigger, the function of clicking to enter connectable broadcast state will also be disabled. After you disable button trigger, the default function about long press or click button will take effect again.
+* By KBeacon's default setting, long press button used to power on and off. Clicking button used to force the KBeacon enter connectable broadcast advertisement. So when you enable the long-press button trigger, the long-press power off function will be disabled. When you turn on the single/dobule/triple click trigger, the function of clicking to enter connectable broadcast state will also be disabled. After you disable button trigger, the default function about long press or click button will take effect again.
+* iBeacon UUID for single click trigger = Always iBeacon UUID + 0x5
+* iBeacon UUID for single double trigger = Always iBeacon UUID + 0x6
+* iBeacon UUID for single triple trigger = Always iBeacon UUID + 0x7
+* iBeacon UUID for single long press trigger = Always iBeacon UUID + 0x8
 
-1. Enable or button trigger feature.  
+1. Enable or button trigger feature.
 
 ```objective-c
 -(void)enableButtonTrigger
@@ -557,7 +564,7 @@ By KBeacon's default setting, long press button used to power on and off. Clicki
 }
 ```
 
-3. The app can read the button current trigger paramaters from KBeacon by follow code  
+3. The app can read the button current trigger parameters from KBeacon by follow code  
 
 ```objective-c
  //read button trigger information
@@ -635,11 +642,12 @@ By KBeacon's default setting, long press button used to power on and off. Clicki
 
 #### 4.3.4.2 Motion trigger
 Motion Trigger means that when the device detects movement, it will start broadcasting. You can set the sensitivity of motion detection.  
+
 **Notify:**  
-When the KBeacon enable the motion trigger, the Acc feature(X, Y, and Z axis detected function) in the KSensor broadcast will be disabled.
+* When the KBeacon enable the motion trigger, the Acc feature(X, Y, and Z axis detected function) in the KSensor broadcast will be disabled.
+* iBeacon UUID for motion trigger = Always iBeacon UUID + 0x1
 
 Enabling motion trigger is similar to push button trigger, which will not be described in detail here.
-
 1. Enable or button trigger feature.  
 
 ```objective-c
@@ -647,10 +655,18 @@ Enabling motion trigger is similar to push button trigger, which will not be des
 {
     ... same as push button trigger
 
+    //check if device can support motion trigger capibility
+    if (([self.beacon.triggerCapibility intValue] & KBTriggerTypeMotion) == 0)
+    {
+        return;
+    }
+
+    ... same as push button trigger
+
     //set trigger type
     btnTriggerPara.triggerType = [NSNumber numberWithInt: KBTriggerTypeMotion];
 
-		//set motion trigger sensitivity, the valid range is 2~31. The uint is 16mg.
+    //set motion trigger sensitivity, the valid range is 2~31. The uint is 16mg.
     btnTriggerPara.triggerPara = [NSNumber numberWithInt: 3];
 
     ... same as push button trigger
@@ -658,14 +674,16 @@ Enabling motion trigger is similar to push button trigger, which will not be des
 ```
 
 #### 4.3.5 Send command to device
-After app connect to device success, the app can send command to device.
-#### 4.3.4.1 Ring device
- For some KBeacon device that has buzzer function. The app can ring device. for ring command, it has 5 paramaters:
+After app connect to device success, the app can send command to device.  
+All command message between app and KBeacon are JSON format. our SDK provide HashMap to encapsulate these JSON message.
+
+#### 4.3.5.1 Ring device
+ For some KBeacon device that has buzzer function. The app can ring device. for ring command, it has 5 parameters:
  * msg: msg type is 'ring'
  * ringTime: uint is ms. The KBeacon will start flash/alert for 'ringTime' millisecond  when receive this command.
  * ringType: 0x0:led flash only; 0x1:beep alert only; 0x2 both led flash and beep;
- * ledOn: optional paramaters, uint is ms.the LED will flash at interval (ledOn + ledOff).  This paramaters is valid when ringType set to 0x0 or 0x2.
- * ledOff: optional paramaters, uint is ms. the LED will flash at interval (ledOn + ledOff).  This paramaters is valid when ringType set to 0x0 or 0x2.
+ * ledOn: optional parameters, uint is ms.the LED will flash at interval (ledOn + ledOff).  This parameters is valid when ringType set to 0x0 or 0x2.
+ * ledOff: optional parameters, uint is ms. the LED will flash at interval (ledOn + ledOff).  This parameters is valid when ringType set to 0x0 or 0x2.
 
 ```objective-c
 -(void) ringDevice
@@ -703,6 +721,70 @@ After app connect to device success, the app can send command to device.
     }];
 }
 ```
+#### 4.3.5.2 Reset configruation to default
+ The app can using follow command to reset all configruation to default.
+ * msg: msg type is 'reset'
+
+```objective-c
+//set parameter to default
+-(void)resetParametersToDefault
+{
+    if (self.beacon.state != KBStateConnected){
+        return;
+    }
+
+    NSMutableDictionary* paraDicts = [[NSMutableDictionary alloc]init];
+    [paraDicts setValue:@"reset" forKey:@"msg"];
+    [self.beacon sendCommand:paraDicts callback:^(BOOL bConfigSuccess, NSError * _Nonnull error)
+    {
+        if (bConfigSuccess)
+        {
+            //disconnect with device to make sure the paramaters to take effect
+            [self.beacon disconnect];
+            NSLog(@"send reset command to device success");
+        }
+        else
+        {
+            NSLog(@"send reset command to device failed");
+        }
+    }];
+}
+```
+#### 4.3.6 Error cause in configruation/command
+ The app can using follow command to reset all configruation to default.
+ * KBException.KBEvtCfgNoParamaters: parameters is null
+ * KBEvtCfgBusy : device is busy, please make sure last configruation complete
+ * KBEvtCfgFailed: device return failed.
+ * KBEvtCfgTimeout: configruation timeout
+ * KBEvtCfgInputInvalid: input paramaters data not in valid range
+ * KBEvtCfgStateError: device is not in connected state
+ * KBEvtCfgNotSupport: device does not support the parameters
+
+ ```objective-c
+{
+    ...another code
+
+		//start configruation
+	[_beacon modifyConfig:configParas callback:^(BOOL bCfgRslt, NSError* error)
+	 {
+			 if (bCfgRslt)
+			 {
+					 [self showDialogMsg: @"Success" message: @"config beacon success"];
+			 }
+			 else if (error != nil)
+			 {
+					 if (error.code == KBEvtCfgBusy)
+					 {
+							 NSLog(@"Config busy, please make sure other configruation complete");
+					 }
+					 else if (error.code == KBEvtCfgTimeout)
+					 {
+							 NSLog(@"Config timeout");
+					 }
+					 ...other code
+			 }
+	 }];
+ ```
 
 ## 5. Change log
 * 2020.1.11 v1.2 add trigger function
