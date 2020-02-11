@@ -449,7 +449,7 @@
     }];
 }
 - (IBAction)readTrigger:(id)sender {
-    [self resetParametersToDefault];
+    [self readButtonTriggerPara];
 }
 
 - (IBAction)enableTrigger:(id)sender {
