@@ -17,7 +17,7 @@ typedef NS_ENUM(NSInteger, KBErrorCode)
     KBEvtCfgInputInvalid = 0x4,
     KBEvtCfgReadNull = 0x5,
     KBEvtCfgStateError = 0x6,
-    KBEvtCfgNoParamaters = 0x7,
+    KBEvtCfgNoParameters = 0x7,
     KBEvtCfgNotSupport = 0x8
 }NS_ENUM_AVAILABLE(8_13, 8_0);
 
