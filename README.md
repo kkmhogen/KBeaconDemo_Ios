@@ -763,27 +763,28 @@ All command message between app and KBeacon are JSON format. our SDK provide Has
  ```objective-c
 {
     ...another code
-
-		//start configruation
-	[_beacon modifyConfig:configParas callback:^(BOOL bCfgRslt, NSError* error)
-	 {
-			 if (bCfgRslt)
-			 {
-					 [self showDialogMsg: @"Success" message: @"config beacon success"];
-			 }
-			 else if (error != nil)
-			 {
-					 if (error.code == KBEvtCfgBusy)
-					 {
-							 NSLog(@"Config busy, please make sure other configruation complete");
-					 }
-					 else if (error.code == KBEvtCfgTimeout)
-					 {
-							 NSLog(@"Config timeout");
-					 }
-					 ...other code
-			 }
-	 }];
+    
+    //start configruation
+    [_beacon modifyConfig:configParas callback:^(BOOL bCfgRslt, NSError* error)
+    {
+       if (bCfgRslt)
+       {
+           [self showDialogMsg: @"Success" message: @"config beacon success"];
+       }
+       else if (error != nil)
+       {
+           if (error.code == KBEvtCfgBusy)
+           {
+               NSLog(@"Config busy, please make sure other configruation complete");
+           }
+           else if (error.code == KBEvtCfgTimeout)
+           {
+               NSLog(@"Config timeout");
+           }
+           ...other code
+       }
+    }];
+}
  ```
 
 ## 5. Change log
