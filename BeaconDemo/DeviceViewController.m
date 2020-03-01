@@ -515,6 +515,7 @@
     //check if device can support button trigger capibility
     if (([self.beacon.triggerCapibility intValue] & KBTriggerTypeButton) == 0)
     {
+        [self showDialogMsg: @"Fail" message: @"device does not support button trigger"];
         return;
     }
     
