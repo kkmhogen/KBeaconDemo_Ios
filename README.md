@@ -2,11 +2,11 @@
 
 ----
 ## 1. Introduction
-We provide AAR format SDK library on Github, you can found it in directory:   
+We provide AAR format SDK library on GitHub, you can found the latest in directory:   
 ./kbeaconlib.framework
 
 With this SDK, you can scan and configure the KBeacon device. The SDK include follow main class:
-* KBeaconsMgr: Global definition, responsible for scanning KBeacon devices advertisment packet, and monitoring the Bluetooth status of the system;
+* KBeaconsMgr: Global definition, responsible for scanning KBeacon devices advertisement packet, and monitoring the Bluetooth status of the system;
 
 * KBeacon: An instance of a KBeacon device, KBeaconsMgr creates an instance of KBeacon while it found a physical device. Each KBeacon instance has three properties: KBAdvPacketHandler, KBAuthHandler, KBCfgHandler.
 
@@ -27,7 +27,7 @@ After a KBeacon connected, developer can make some changes of the device by modi
 
 
 ## 2. IOS demo
-To make your development easier, we have an IOS demos in github. They are:  
+To make your development easier, we have an IOS demos in GitHub. They are:  
 * KBeaconDemo_Ios: The app can scan KBeacon devices and configure iBeacon related parameters.
 
 
@@ -47,15 +47,15 @@ min IOS Version 10.0
 
 ## 4. How to use SDK
 ### 4.1 Scanning device
-1. Init KBeaconMgr instance in Activity, also your application should implementation the KBeaconMgr's KBeaconMgrDelegate.
+1. Initialize KBeaconMgr instance in Activity, also your application should implementation the KBeaconMgr's KBeaconMgrDelegate.
 
 ```objective-c
 - (void)viewDidLoad {
-	//other code...
+    //other code...
   //init kbeacon manager
   mBeaconsMgr = [KBeaconsMgr sharedBeaconManager];
   mBeaconsMgr.delegate = self;
-	//other code...  
+    //other code...  
 }  
 ```
 
@@ -77,7 +77,7 @@ min IOS Version 10.0
 ```
 
 3. Start scanning  
-After app startup, the BLE state is set to unknown, so the app should wait serval millseconds before start scanning.
+After app startup, the BLE state was set to unknown, so the app should wait a few milliseconds before start scanning.
 
 ```objective-c
   int nStartScan = [mBeaconsMgr startScanning];
@@ -228,17 +228,17 @@ If the app want to stop scanning:
  ```
 
 ### 4.3 Configure parameters
-#### 4.3.1 Advertisment type
-KBeacon devices support sending multiple beacon advertisment packet in parallel.  
-For example, advertisment period was set to 500ms. Advertisment type was set to “iBeacon + URL + UID + KSensor”, then the device will send advertisment packet like follow.   
+#### 4.3.1 Advertisement type
+KBeacon devices support sending multiple beacon advertisement packet in parallel.  
+For example, advertisement period was set to 500ms. Advertisement type was set to “iBeacon + URL + UID + KSensor”, then the device will send advertisement packet like follow.   
 
-|Time(ms)|0|500|1000|1500|2000|2500|3000|3500
+|Time(MS)|0|500|1000|1500|2000|2500|3000|3500
 |----|----|----|----|----|----|----|----|----
 |`Adv type`|KSensor|UID|iBeacon|URL|KSensor|UID|iBeacon|URL
 
 
-If the advertisment type contains TLM and other types, the KBeacon will send 1 TLM advertisement every 10 advertisement packets by default configruation.
-For example: advertisment period was set to 500ms. Advertisment type was set to “URL + TLM”, then the advertisment packet is like follow
+If the advertisement type contains TLM and other types, the KBeacon will send 1 TLM advertisement every 10 advertisement packets by default configuration.
+For example: advertisement period was set to 500ms. Advertisement type was set to “URL + TLM”, then the advertisement packet is like follow
 
 |Time|0|500|1000|1500|2000|2500|3000|3500|4000|4500|5000
 |----|----|----|----|----|----|----|----|----|----|----|----
@@ -246,7 +246,7 @@ For example: advertisment period was set to 500ms. Advertisment type was set to 
 
 
 **Notify:**  
-  For the advertisement period, Apple has some suggestions that make the device more easily discovered by IOS phones. (The suggest value was: 152.5 ms; 211.25 ms; 318.75 ms; 417.5 ms; 546.25 ms; 760 ms; 852.5 ms; 1022.5 ms; 1285 ms). For more information, please refer to Section 3.5 in "Bluetooth Accessory Design Guidelines for Apple Products". The doucument link: https://developer.apple.com/accessories/Accessory-Design-Guidelines.pdf.
+  For the advertisement period, Apple has some suggestions that make the device more easily discovered by IOS phones. (The suggest value was: 152.5 ms; 211.25 ms; 318.75 ms; 417.5 ms; 546.25 ms; 760 ms; 852.5 ms; 1022.5 ms; 1285 ms). For more information, please refer to Section 3.5 in "Bluetooth Accessory Design Guidelines for Apple Products". The document link: https://developer.apple.com/accessories/Accessory-Design-Guidelines.pdf.
 
 
 #### 4.3.2 Get device parameters
@@ -297,7 +297,7 @@ After the app connect to KBeacon success. The KBeacon will automatically read cu
  ```
 
 #### 4.3.3 Update device parameters
-After app connect to device success, the app can update update parameters of KBeacon device.
+After app connect to device success, the app can update parameters of KBeacon device.
 
 ##### 4.3.3.1 Update common parameters
 The app can modify the basic parameters of KBeacon through the KBCfgCommon class. The KBCfgCommon has follow parameters:
@@ -346,7 +346,7 @@ Example: Update common parameters
     pCommonPara.advPeriod = [NSNumber numberWithFloat:1000.0];
 
     //set the device to un-connectable.
-    //Warning: if the app set the KBeacon to un-connectable, the app can not connect to it if it does not has button.
+    //Warning: if the app set the KBeacon to un-connectable, the app cannot connect to it if it does not has button.
     //If the device has button, the device can enter connect-able advertisement for 60 seconds when click on the button
     pCommonPara.advConnectable = [NSNumber numberWithBool:NO];
 
@@ -380,7 +380,7 @@ uuid: iBeacon uuid
 majorID: iBeacon major ID
 minorID: iBeacon minor ID
 
-example: config the KBeacon to broadcasting iBeacon
+example: setting the KBeacon to broadcasting iBeacon
 ```objective-c
 //example: update KBeacon to iBeacon
 -(void)updateKBeaconToIBeacon
@@ -536,7 +536,7 @@ The KBCfgEddyUID has follow parameters:
 ```
 
 ##### 4.3.3.4 Check if parameters are changed
-Sometimes the app need to configure multiple advertisment parameters at the same time.  
+Sometimes the app need to configure multiple advertisement parameters at the same time.  
 We recommend that the app should check whether the parameters was changed. The app don't need to send the parameters if it's value was not changed. Reducing the parameters will reduce the modification time.
 
 Example: checking if the parameters was changed, then send new parameters to device.
@@ -663,40 +663,40 @@ Example: checking if the parameters was changed, then send new parameters to dev
  For some KBeacon device that has motion or push button. The app can set advertisement trigger and the device will advertise when the trigger condition is met. the trigger advertisement has follow parameters:
  * Trigger advertisement Mode: There are two modes of trigger advertisement. One mode is to broadcast only when the trigger is satisfied. The other mode is always broadcasting, and the content of advertisement packet will change when the trigger conditions are met.
 
- *	Trigger parameters: For motion trigger, the parameters is accleration sensitivity. For button trigger, you can set different trigger event(single click, double click, etc.,).
+ *    Trigger parameters: For motion trigger, the parameters is acceleration sensitivity. For button trigger, you can set different trigger event(single click, double click, etc.,).
 
- *	Trigger advertisement type: The advertisement packet type when trigger event happened. it can be seting to iBeacon, Eddystone or KSensor advertisement.
+ *    Trigger advertisement type: The advertisement packet type when trigger event happened. it can be set to iBeacon, Eddystone or KSensor advertisement.
 
- *	Trigger advertisement duration: The advertisement duration when trigger event happened.
+ *    Trigger advertisement duration: The advertisement duration when trigger event happened.
 
- *	Trigger advertisement interval: The bluetooth advertisement interval for trigger advertisement.  You can set a different value from alive broadcast.
+ *    Trigger advertisement interval: The Bluetooth advertisement interval for trigger advertisement. 
 
  Example 1:  
   &nbsp;&nbsp;Trigger adv mode: seting to broadcast only on trigger event happened  
   &nbsp;&nbsp;Trigger adv type: iBeacon  
   &nbsp;&nbsp;Trigger adv duration: 30 seconds  
-	&nbsp;&nbsp;Trigger adv interval: 300ms  
-	![avatar](https://github.com/kkmhogen/KBeaconDemo_Android/blob/master/only_adv_when_trigger.png?raw=true)
+    &nbsp;&nbsp;Trigger adv interval: 300ms  
+    ![avatar](https://github.com/kkmhogen/KBeaconDemo_Android/blob/master/only_adv_when_trigger.png?raw=true)
 
  Example 2:  
-	&nbsp;For some senario, we need to continuously monitor the KBeacon to ensure that the device was alive, so we set the trigger advertisement mode to always advertisement.   
-	&nbsp;We set an larger advertisement interval during alive advertisement and a short advertisement interval when trigger event happened, so we can achieve a balance between power consumption and triggers advertisement be easily detected.  
-   &nbsp;&nbsp;Trigger adv mode: seting to Always advertisment  
+    &nbsp;For some scenario, we need to continuously monitor the KBeacon to ensure that the device was alive, so we set the trigger advertisement mode to always advertisement.   
+    &nbsp;We set an larger advertisement interval during alive advertisement and a short advertisement interval when trigger event happened, so we can achieve a balance between power consumption and triggers advertisement be easily detected.  
+   &nbsp;&nbsp;Trigger adv mode: set to Always advertisement  
    &nbsp;&nbsp;Trigger adv type: iBeacon  
    &nbsp;&nbsp;Trigger adv duration: 30 seconds  
- 	 &nbsp;&nbsp;Trigger adv interval: 300ms  
-	 &nbsp;&nbsp;Always adv interval: 2000ms
- 	![avatar](https://github.com/kkmhogen/KBeaconDemo_Android/blob/master/always_adv_with_trigger.png?raw=true)
+      &nbsp;&nbsp;Trigger adv interval: 300ms  
+     &nbsp;&nbsp;Always adv interval: 2000ms
+     ![avatar](https://github.com/kkmhogen/KBeaconDemo_Android/blob/master/always_adv_with_trigger.png?raw=true)
 
 **Notify:**  
-	  The SDK will not automatically read trigger configuration after connection setup complete. So the app need read the trigger configuration manual if the app needed. Please referance 4.3.4.1 code for read trigger parameters from device.  
+      The SDK will not automatically read trigger configuration after connection setup complete. So the app need read the trigger configuration manual if the app needed. Please reference 4.3.4.1 code for read trigger parameters from device.  
 
 #### 4.3.4.1 Push button trigger
 The push button trigger feature is used in some hospitals, nursing homes and other scenarios. When the user encounters some emergency event, they can click the button and the KBeacon device will start broadcast.
-The app can configure single click, double-click, triple-click, long-press the button trigger, oor a combination.
+The app can configure single click, double-click, triple-click, long-press the button trigger, or a combination.
 
 **Notify:**  
-* By KBeacon's default setting, long press button used to power on and off. Clicking button used to force the KBeacon enter connectable broadcast advertisement. So when you enable the long-press button trigger, the long-press power off function will be disabled. When you turn on the single/dobule/triple click trigger, the function of clicking to enter connectable broadcast state will also be disabled. After you disable button trigger, the default function about long press or click button will take effect again.
+* By KBeacon's default setting, long press button used to power on and off. Clicking button used to force the KBeacon enter connectable broadcast advertisement. So when you enable the long-press button trigger, the long-press power off function will be disabled. When you turn on the single/double/triple click trigger, the function of clicking to enter connectable broadcast state will also be disabled. After you disable button trigger, the default function about long press or click button will take effect again.
 * iBeacon UUID for single click trigger = Always iBeacon UUID + 0x5
 * iBeacon UUID for single double trigger = Always iBeacon UUID + 0x6
 * iBeacon UUID for single triple trigger = Always iBeacon UUID + 0x7
@@ -807,7 +807,7 @@ The app can configure single click, double-click, triple-click, long-press the b
     }
 
     [self.beacon readTriggerConfig:KBTriggerTypeButton callback:^(BOOL bConfigSuccess, NSDictionary * _Nullable readPara, NSError * _Nullable error)
-		{
+        {
         if (bConfigSuccess)
         {
             NSArray* btnTriggerCfg = [readPara objectForKey:@"trObj"];
@@ -901,15 +901,15 @@ Enabling motion trigger is similar to push button trigger, which will not be des
 
 #### 4.3.5 Send command to device
 After app connect to device success, the app can send command to device.  
-All command message between app and KBeacon are JSON format. our SDK provide HashMap to encapsulate these JSON message.
+All command message between app and KBeacon are JSON format. our SDK provide Hash Map to encapsulate these JSON message.
 
 #### 4.3.5.1 Ring device
  For some KBeacon device that has buzzer function. The app can ring device. for ring command, it has 5 parameters:
  * msg: msg type is 'ring'
- * ringTime: unit is ms. The KBeacon will start flash/alert for 'ringTime' millisecond  when receive this command.
+ * ringTime: unit is ms. The KBeacon will start flash/alert for 'ringTime' milliseconds  when receive this command.
  * ringType: 0x0:led flash only; 0x1:beep alert only; 0x2 both led flash and beep;
- * ledOn: optional parameters, unit is ms.the LED will flash at interval (ledOn + ledOff).  This parameters is valid when ringType set to 0x0 or 0x2.
- * ledOff: optional parameters, unit is ms. the LED will flash at interval (ledOn + ledOff).  This parameters is valid when ringType set to 0x0 or 0x2.
+ * ledOn: optional parameters, unit is ms. The LED will flash at interval (ledOn + ledOff).  This parameters is valid when ringType setting to 0x0 or 0x2.
+ * ledOff: optional parameters, unit is ms. the LED will flash at interval (ledOn + ledOff).  This parameters is valid when ringType setting to 0x0 or 0x2.
 
 ```objective-c
 -(void) ringDevice
@@ -947,9 +947,9 @@ All command message between app and KBeacon are JSON format. our SDK provide Has
     }];
 }
 ```
-#### 4.3.5.2 Reset configruation to default
- The app can using follow command to reset all configruation to default.
- * msg: msg type is 'reset'
+#### 4.3.5.2 Reset configuration to default
+ The app can using follow command to reset all configuration to default.
+ * msg: message type is 'reset'
 
 ```objective-c
 //set parameter to default
@@ -976,12 +976,12 @@ All command message between app and KBeacon are JSON format. our SDK provide Has
     }];
 }
 ```
-#### 4.3.6 Error cause in configruation/command
- The app can using follow command to reset all configruation to default.
- * KBException.KBEvtCfgNoParameters: parameters is null
- * KBEvtCfgBusy : device is busy, please make sure last configruation complete
+#### 4.3.6 Error cause in configuration/command
+ App may get errors during the configuration. The KBException has follow values.
+ * KBEvtCfgNoParameters: parameters is null
+ * KBEvtCfgBusy : device is busy, please make sure last configuration operation has complete
  * KBEvtCfgFailed: device return failed.
- * KBEvtCfgTimeout: configruation timeout
+ * KBEvtCfgTimeout: configuration timeout
  * KBEvtCfgInputInvalid: input parameters data not in valid range
  * KBEvtCfgStateError: device is not in connected state
  * KBEvtCfgNotSupport: device does not support the parameters
@@ -990,7 +990,7 @@ All command message between app and KBeacon are JSON format. our SDK provide Has
 {
     ...another code
 
-    //start configruation
+    //start configuration
     [_beacon modifyConfig:configParas callback:^(BOOL bCfgRslt, NSError* error)
     {
        if (bCfgRslt)
