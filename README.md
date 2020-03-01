@@ -237,12 +237,16 @@ For example, advertisment period was set to 500ms. Advertisment type was set to 
 |`Adv type`|KSensor|UID|iBeacon|URL|KSensor|UID|iBeacon|URL
 
 
-If the advertisment type include TLM, the TLM advertisment interval is fixed to 10. It means the TLM will advertisement every 10 other advertisement packet.  
+If the advertisment type contains TLM and other types, the KBeacon will send 1 TLM advertisement every 10 advertisement packets by default configruation.
 For example: advertisment period was set to 500ms. Advertisment type was set to “URL + TLM”, then the advertisment packet is like follow
 
 |Time|0|500|1000|1500|2000|2500|3000|3500|4000|4500|5000
 |----|----|----|----|----|----|----|----|----|----|----|----
 |`Adv type`|URL|URL|URL|URL|URL|URL|URL|URL|URL|TLM|URL
+
+
+**Notify:**  
+  For the advertisement period, Apple has some suggestions that make the device more easily discovered by IOS phones. (The suggest value was: 152.5 ms; 211.25 ms; 318.75 ms; 417.5 ms; 546.25 ms; 760 ms; 852.5 ms; 1022.5 ms; 1285 ms). For more information, please refer to Section 3.5 in "Bluetooth Accessory Design Guidelines for Apple Products". The doucument link: https://developer.apple.com/accessories/Accessory-Design-Guidelines.pdf.
 
 
 #### 4.3.2 Get device parameters
@@ -293,12 +297,36 @@ After the app connect to KBeacon success. The KBeacon will automatically read cu
  ```
 
 #### 4.3.3 Update device parameters
+After app connect to device success, the app can update update parameters of KBeacon device.
 
-After app connect to device success, the app can update update parameters of physical device.
-Example1: app update tx power, device name  
+##### 4.3.3.1 Update common parameters
+The app can modify the basic parameters of KBeacon through the KBCfgCommon class. The KBCfgCommon has follow paramaters:
 
+* name: device name, the device name must < 18 character
+
+* advType: beacon type, can be setting to iBeacon, KSesnor, Eddy TLM/UID/ etc.,
+
+* advPeriod: advertisement period, the value can be set to 100~10000ms
+
+* txPower: advertisement TX power, uint is dBm.
+
+* autoAdvAfterPowerOn: if autoAdvAfterPowerOn was setting to true, the beacon always advertisement if it has battery. If this value was setting to false, the beacon will power off if long press button for 5 seconds.
+
+* tlmAdvInterval: eddystone TLM advertisement interval. the default value is 10. The KBeacon will send 1 TLM advertisement every 10 advertisement packets
+
+* refPower1Meters: the rx power at 1 meters
+
+* advConnectable: is beacon advertisement can be connectable.  
+  **Warning:**   
+   if the app set the KBeacon to un-connectable, the app can not connect to it again if it does not has button. If the device has button, the device can enter connect-able advertisement for 60 seconds when click on the button
+
+* password: device password, the password length must >= 8 character and <= 16 character.
+ **Warning:**   
+ Be sure to remember the new password, you won’t be able to connect to the device if you forget the new password.
+
+Example: Update common parameters
 ```objective-c
--(void)simpleUpdateDeviceTest
+-(void)updateKBeaconCommonPara
 {
     if (_beacon.state != KBStateConnected)
     {
@@ -306,19 +334,32 @@ Example1: app update tx power, device name
         return;
     }
 
-    KBCfgCommon* pCommonCfg = [[KBCfgCommon alloc]init];
+    KBCfgCommon* pCommonPara = [[KBCfgCommon alloc]init];
 
-    @try {
-        pCommonCfg.name = @"KBeacon";
-        pCommonCfg.txPower = [NSNumber numberWithInt:-4];
-    }
-    @catch (KBException *exception)
-    {
-        return;
-    }
+    //change the device name
+    pCommonPara.name = @"MyBeacon";
 
-    NSArray* configParas = @[pCommonCfg];
+    //change the tx power
+    pCommonPara.txPower = [NSNumber numberWithInt:-4];
+
+    //change advertisement period
+    pCommonPara.advPeriod = [NSNumber numberWithFloat:1000.0];
+
+    //set the device to un-connectable.
+    //Warning: if the app set the KBeacon to un-connectable, the app can not connect to it if it does not has button.
+    //If the device has button, the device can enter connect-able advertisement for 60 seconds when click on the button
+    pCommonPara.advConnectable = [NSNumber numberWithBool:NO];
+
+    //set device to always power on
+    //the autoAdvAfterPowerOn is enable, the device will not allowed power off by long press button
+    pCommonPara.autoAdvAfterPowerOn = [NSNumber numberWithBool:YES];
+
+    //update password.
+    //Warnning: Be sure to remember the new password, you won’t be able to connect to the device if you forget it.
+    //pCommonPara.password = @"123456789";
+
     //start configruation
+    NSArray* configParas = @[pCommonPara];
     [_beacon modifyConfig:configParas callback:^(BOOL bCfgRslt, NSError* error)
      {
          if (bCfgRslt)
@@ -333,10 +374,173 @@ Example1: app update tx power, device name
 }
 ```
 
-Sometimes the app need to configure multiple parameters at the same time. We recommend that the app should check whether the parameters was changed before update. If the parameters value is no change, the app do not need to send the configuration.  
-Example2: check if the parameters was changed, then send new parameters to device
+##### 4.3.3.2 Update iBeacon parameters
+The app can modify the iBeacon parameters of KBeacon through the KBCfgIBeacon class. The KBCfgIBeacon has follow paramaters:
+uuid: iBeacon uuid
+majorID: iBeacon major ID
+minorID: iBeacon minor ID
+
+example: config the KBeacon to broadcasting iBeacon and TLM packet.
 ```objective-c
-//read user input and download to KBeacon device
+//example: update KBeacon to iBeacon
+-(void)updateKBeaconToIBeacon
+{
+    if (_beacon.state != KBStateConnected)
+    {
+        NSLog(@"beacon not connected");
+        return;
+    }
+
+    KBCfgIBeacon* pIBeaconCfg = [[KBCfgIBeacon alloc]init];
+    KBCfgCommon* pCommonCfg = [[KBCfgCommon alloc]init];
+
+    //update beacon type to hybid iBeacon/TLM
+    pCommonCfg.advType = [NSNumber numberWithInt: KBAdvTypeIBeacon];
+
+    //update iBeacon paramaters
+    pIBeaconCfg.uuid = @"E2C56DB5-DFFB-48D2-B060-D0F5A71096E0";
+    pIBeaconCfg.majorID = [NSNumber numberWithInt: 6454];
+    pIBeaconCfg.minorID = [NSNumber numberWithInt: 1458];
+
+    //start configruation
+    NSArray* configParas = @[pCommonCfg, pIBeaconCfg];
+    [_beacon modifyConfig:configParas callback:^(BOOL bCfgRslt, NSError* error)
+     {
+         if (bCfgRslt)
+         {
+             [self showDialogMsg: @"Success" message: @"config beacon success"];
+         }
+         else if (error != nil)
+         {
+             [self showDialogMsg:@"Failed" message:[NSString stringWithFormat:@"config error:%@",error.localizedDescription]];
+         }
+     }];
+}
+
+//example: update KBeacon to hybid iBeacon/EddyTLM
+//sometimes we need KBeacon broadcasting both iBeacon and TLM packet(battery level, Temperature, power on times, etc., )
+-(void)updateKBeaconToIBeaconAndTLM
+{
+    if (_beacon.state != KBStateConnected)
+    {
+        NSLog(@"beacon not connected");
+        return;
+    }
+
+    KBCfgIBeacon* pIBeaconCfg = [[KBCfgIBeacon alloc]init];
+    KBCfgCommon* pCommonCfg = [[KBCfgCommon alloc]init];
+
+    //update beacon type to hybid iBeacon/TLM
+    pCommonCfg.advType = [NSNumber numberWithInt: KBAdvTypeIBeacon & KBAdvTypeEddyTLM];
+
+    //updatet KBeacon send TLM packet every 8 advertisement packets
+    pCommonCfg.tlmAdvInterval = [NSNumber numberWithInt:8];
+
+    //update iBeacon paramaters
+    pIBeaconCfg.uuid = @"E2C56DB5-DFFB-48D2-B060-D0F5A71096E0";
+    pIBeaconCfg.majorID = [NSNumber numberWithInt: 6454];
+    pIBeaconCfg.minorID = [NSNumber numberWithInt: 1458];
+
+    //start configruation
+    NSArray* configParas = @[pCommonCfg, pIBeaconCfg];
+    [_beacon modifyConfig:configParas callback:^(BOOL bCfgRslt, NSError* error)
+     {
+         if (bCfgRslt)
+         {
+             [self showDialogMsg: @"Success" message: @"config beacon success"];
+         }
+         else if (error != nil)
+         {
+             [self showDialogMsg:@"Failed" message:[NSString stringWithFormat:@"config error:%@",error.localizedDescription]];
+         }
+     }];
+}
+```
+
+##### 4.3.3.3 Update Eddystone parameters
+The app can modify the eddystone parameters of KBeacon through the KBCfgEddyURL and KBCfgEddyUID class.  
+The KBCfgEddyURL has follow paramaters:
+* url: eddystone URL address
+
+The KBCfgEddyUID has follow paramaters:
+* nid: namespace id about UID. It is 10 bytes length hex string value.
+* sid: instance id about UID. It is 6 bytes length hex string value.
+
+```objective-c
+//example: update KBeacon to Eddy URL
+-(void)updateKBeaconToEddyURL
+{
+    if (_beacon.state != KBStateConnected)
+    {
+        NSLog(@"beacon not connected");
+        return;
+    }
+
+    KBCfgCommon* pCommonPara = [[KBCfgCommon alloc]init];
+    KBCfgEddyURL* pEddyUrlPara = [[KBCfgEddyURL alloc]init];
+
+    //set beacon type to URL
+    pCommonPara.advType = [NSNumber numberWithInt: KBAdvTypeEddyURL];
+
+    //set address to google
+    pEddyUrlPara.url = @"https://www.google.com/";
+
+    //start configruation
+    NSArray* configParas = @[pCommonPara, pEddyUrlPara];
+    [_beacon modifyConfig:configParas callback:^(BOOL bCfgRslt, NSError* error)
+     {
+         if (bCfgRslt)
+         {
+             [self showDialogMsg: @"Success" message: @"config beacon success"];
+         }
+         else if (error != nil)
+         {
+             [self showDialogMsg:@"Failed" message:[NSString stringWithFormat:@"config error:%@",error.localizedDescription]];
+         }
+     }];
+}
+
+//example: update KBeacon to UID
+-(void)updateKBeaconToEddyUID
+{
+    if (_beacon.state != KBStateConnected)
+    {
+        NSLog(@"beacon not connected");
+        return;
+    }
+
+    KBCfgCommon* pCommonPara = [[KBCfgCommon alloc]init];
+    KBCfgEddyUID* pEddyUIDPara = [[KBCfgEddyUID alloc]init];
+
+    //set beacon type to UID
+    pCommonPara.advType = [NSNumber numberWithInt:  KBAdvTypeEddyUID];
+
+    //update UID para
+    pEddyUIDPara.nid = @"0x00010203040506070809";
+    pEddyUIDPara.sid = @"0x010203040506";
+
+    //start configruation
+    NSArray* configParas = @[pCommonPara, pEddyUIDPara];
+    [_beacon modifyConfig:configParas callback:^(BOOL bCfgRslt, NSError* error)
+     {
+         if (bCfgRslt)
+         {
+             [self showDialogMsg: @"Success" message: @"config beacon success"];
+         }
+         else if (error != nil)
+         {
+             [self showDialogMsg:@"Failed" message:[NSString stringWithFormat:@"config error:%@",error.localizedDescription]];
+         }
+     }];
+}
+```
+
+##### 4.3.3.4 Check if parameters are changed
+Sometimes the app need to configure multiple advertisment parameters at the same time.  
+We recommend that the app should check whether the parameters was changed. The app don't need to send the parameters if it's value was not changed. Reducing the parameters will reduce the modification time.
+
+Example: checking if the parameters was changed, then send new parameters to device.
+```objective-c
 -(void)updateViewToDevice
 {
     if (_beacon.state != KBStateConnected)
@@ -349,10 +553,17 @@ Example2: check if the parameters was changed, then send new parameters to devic
     KBCfgCommon* pCommonCfg = [[KBCfgCommon alloc]init];
 
     @try {
+
+        //set beacon type to iBeacon
+        pCommonCfg.advType = [NSNumber numberWithInt: KBAdvTypeIBeacon];
+
+        //device name
         if (_txtName.tag == TXT_DATA_MODIFIED)
         {
             pCommonCfg.name = _txtName.text;
         }
+
+        //tx power
         if (_txtTxPower.tag == TXT_DATA_MODIFIED)
         {
             int nTxPower = [_txtTxPower.text intValue];
@@ -366,18 +577,21 @@ Example2: check if the parameters was changed, then send new parameters to devic
 
             pCommonCfg.txPower = [NSNumber numberWithInt:nTxPower];
         }
+
+        //set adv period
         if (_txtAdvPeriod.tag == TXT_DATA_MODIFIED)
         {
-            if ([_txtAdvPeriod.text intValue] < 100
-                || [_txtAdvPeriod.text intValue] > 10000)
+            if ([_txtAdvPeriod.text floatValue] < 100.0
+                || [_txtAdvPeriod.text floatValue] > 10000.0)
             {
                 [self showDialogMsg:@"error" message: @"adv period is invalid"];
                 return;
             }
 
-            pCommonCfg.advPeriod = [NSNumber numberWithInt:[_txtAdvPeriod.text intValue]];
+            pCommonCfg.advPeriod = [NSNumber numberWithFloat:[_txtAdvPeriod.text floatValue]];
         }
 
+        //modify ibeacon uuid
         if (_txtBeaconUUID.tag == TXT_DATA_MODIFIED)
         {
             if (![KBUtility isUUIDString:_txtBeaconUUID.text])
@@ -388,6 +602,8 @@ Example2: check if the parameters was changed, then send new parameters to devic
 
             pIBeaconCfg.uuid = _txtBeaconUUID.text;
         }
+
+        //modify ibeacon major id
         if (_txtBeaconMajor.tag == TXT_DATA_MODIFIED)
         {
             if ([_txtBeaconMajor.text intValue] > 65535)
@@ -397,6 +613,8 @@ Example2: check if the parameters was changed, then send new parameters to devic
             }
             pIBeaconCfg.majorID = [NSNumber numberWithInt:[_txtBeaconMajor.text intValue]];
         }
+
+        //modify ibeacon minor
         if (_txtBeaconMinor.tag == TXT_DATA_MODIFIED)
         {
             if ([_txtBeaconMinor.text intValue] > 65535)
@@ -409,7 +627,7 @@ Example2: check if the parameters was changed, then send new parameters to devic
     }
     @catch (KBException *exception)
     {
-        NSString* errorInfo = [NSString stringWithFormat:@"input parameters invalid:%ld",
+        NSString* errorInfo = [NSString stringWithFormat:@"input paramaters invalid:%ld",
                                (long)exception.errorCode];
         [self showDialogMsg: @"error" message: errorInfo];
         return;
@@ -427,6 +645,14 @@ Example2: check if the parameters was changed, then send new parameters to devic
          }
          else if (error != nil)
          {
+             if (error.code == KBEvtCfgBusy)
+             {
+                 NSLog(@"Config busy, please make sure other configruation complete");
+             }
+             else if (error.code == KBEvtCfgTimeout)
+             {
+                 NSLog(@"Config timeout");
+             }
              [self showDialogMsg:@"Failed" message:[NSString stringWithFormat:@"config error:%@",error.localizedDescription]];
          }
      }];
@@ -512,7 +738,7 @@ The app can configure single click, double-click, triple-click, long-press the b
     btnTriggerPara.triggerAdvTime = [NSNumber numberWithInt: 20];
 
     //set the trigger adv interval to 500ms
-    btnTriggerPara.triggerAdvInterval = [NSNumber numberWithInt: 500];
+    btnTriggerPara.triggerAdvInterval = [NSNumber numberWithFloat: 500];
 
     [self.beacon modifyTriggerConfig:btnTriggerPara callback:^(BOOL bConfigSuccess, NSError * _Nonnull error) {
         if (bConfigSuccess)
@@ -623,7 +849,7 @@ The app can configure single click, double-click, triple-click, long-press the b
                     NSLog(@"Button trigger adv duration:%dsec", [btnCfg.triggerAdvTime intValue]);
 
                     //button trigger adv interval, uint is ms
-                    NSLog(@"Button trigger adv interval:%dms", [btnCfg.triggerAdvInterval intValue]);
+                    NSLog(@"Button trigger adv interval:%gms", [btnCfg.triggerAdvInterval floatValue]);
                 }
                 else
                 {
@@ -763,7 +989,7 @@ All command message between app and KBeacon are JSON format. our SDK provide Has
  ```objective-c
 {
     ...another code
-    
+
     //start configruation
     [_beacon modifyConfig:configParas callback:^(BOOL bCfgRslt, NSError* error)
     {
@@ -788,6 +1014,7 @@ All command message between app and KBeacon are JSON format. our SDK provide Has
  ```
 
 ## 5. Change log
+* 2020.3.1 v1.21 change the advertisement period from integer to float
 * 2020.1.11 v1.2 add trigger function
 * 2019.10.11 v1.1 add KSesnor function
 * 2019.4.1 v1.0 first version;

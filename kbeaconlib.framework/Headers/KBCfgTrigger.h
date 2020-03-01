@@ -55,18 +55,25 @@ typedef NS_ENUM(NSInteger, KBTriggerAdvMode)
 
 @interface KBCfgTrigger : KBCfgBase
 
+//trigger type, defined in KBTriggerType
 @property (strong, nonatomic) NSNumber* triggerType;
 
+//trigger action, defined in KBTriggerAction
 @property (strong, nonatomic) NSNumber* triggerAction;
 
+//trigger parameters
 @property (strong, nonatomic) NSNumber* triggerPara;
 
+//trigger advertisement, defined in KBTriggerAdvMode
 @property (strong, nonatomic) NSNumber* triggerAdvMode;
 
+//advertisement type when trigger event happened
 @property (strong, nonatomic) NSNumber* triggerAdvType;
 
+//advertisement duration when trigger event happened
 @property (strong, nonatomic) NSNumber* triggerAdvTime;
 
+//advertisement interval when trigger event happened
 @property (strong, nonatomic) NSNumber* triggerAdvInterval;
 
 -(int) updateConfig:(NSDictionary*)dicts;

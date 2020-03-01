@@ -163,6 +163,7 @@
     }
 }
 
+//update device para from UI
 -(void)updateViewToDevice
 {
     if (_beacon.state != KBStateConnected)
@@ -203,14 +204,14 @@
         //set adv period
         if (_txtAdvPeriod.tag == TXT_DATA_MODIFIED)
         {
-            if ([_txtAdvPeriod.text intValue] < 100
-                || [_txtAdvPeriod.text intValue] > 10000)
+            if ([_txtAdvPeriod.text floatValue] < 100.0
+                || [_txtAdvPeriod.text floatValue] > 10000.0)
             {
                 [self showDialogMsg:@"error" message: @"adv period is invalid"];
                 return;
             }
             
-            pCommonCfg.advPeriod = [NSNumber numberWithInt:[_txtAdvPeriod.text intValue]];
+            pCommonCfg.advPeriod = [NSNumber numberWithFloat:[_txtAdvPeriod.text floatValue]];
         }
         
         //modify ibeacon uuid
@@ -280,6 +281,225 @@
      }];
 }
 
+//example1: modify KBeacon common para
+-(void)updateKBeaconCommonPara
+{
+    if (_beacon.state != KBStateConnected)
+    {
+        NSLog(@"beacon not connected");
+        return;
+    }
+
+    KBCfgCommon* pCommonPara = [[KBCfgCommon alloc]init];
+
+    //change the device name
+    pCommonPara.name = @"MyBeacon";
+
+    //change the tx power
+    pCommonPara.txPower = [NSNumber numberWithInt:-4];
+    
+    //change advertisement period
+    pCommonPara.advPeriod = [NSNumber numberWithFloat:1000.0];
+
+    //set the device to un-connectable.
+    //Warning: if the app set the KBeacon to un-connectable, the app can not connect to it if it does not has button.
+    //If the device has button, the device can enter connect-able advertisement for 60 seconds when click on the button
+    pCommonPara.advConnectable = [NSNumber numberWithBool:NO];
+
+    //set device to always power on
+    //the autoAdvAfterPowerOn is enable, the device will not allowed power off by long press button
+    pCommonPara.autoAdvAfterPowerOn = [NSNumber numberWithBool:YES];
+
+    //update password.
+    //Warnning: Be sure to remember the new password, you won’t be able to connect to the device if you forget it.
+    //pCommonPara.password = @"123456789";
+
+    //start configruation
+    NSArray* configParas = @[pCommonPara];
+    [_beacon modifyConfig:configParas callback:^(BOOL bCfgRslt, NSError* error)
+     {
+         if (bCfgRslt)
+         {
+             [self showDialogMsg: @"Success" message: @"config beacon success"];
+         }
+         else if (error != nil)
+         {
+             [self showDialogMsg:@"Failed" message:[NSString stringWithFormat:@"config error:%@",error.localizedDescription]];
+         }
+     }];
+}
+
+//example2: update KBeacon to iBeacon
+-(void)updateKBeaconToIBeacon
+{
+    if (_beacon.state != KBStateConnected)
+    {
+        NSLog(@"beacon not connected");
+        return;
+    }
+
+    KBCfgIBeacon* pIBeaconCfg = [[KBCfgIBeacon alloc]init];
+    KBCfgCommon* pCommonCfg = [[KBCfgCommon alloc]init];
+
+    //update beacon type to hybid iBeacon/TLM
+    pCommonCfg.advType = [NSNumber numberWithInt: KBAdvTypeIBeacon];
+
+    //update iBeacon paramaters
+    pIBeaconCfg.uuid = @"E2C56DB5-DFFB-48D2-B060-D0F5A71096E0";
+    pIBeaconCfg.majorID = [NSNumber numberWithInt: 6454];
+    pIBeaconCfg.minorID = [NSNumber numberWithInt: 1458];
+
+    //start configruation
+    NSArray* configParas = @[pCommonCfg, pIBeaconCfg];
+    [_beacon modifyConfig:configParas callback:^(BOOL bCfgRslt, NSError* error)
+     {
+         if (bCfgRslt)
+         {
+             [self showDialogMsg: @"Success" message: @"config beacon success"];
+         }
+         else if (error != nil)
+         {
+             [self showDialogMsg:@"Failed" message:[NSString stringWithFormat:@"config error:%@",error.localizedDescription]];
+         }
+     }];
+}
+
+//example3: update KBeacon to hybid iBeacon/EddyTLM
+-(void)updateKBeaconToIBeaconAndTLM
+{
+    if (_beacon.state != KBStateConnected)
+    {
+        NSLog(@"beacon not connected");
+        return;
+    }
+
+    KBCfgIBeacon* pIBeaconCfg = [[KBCfgIBeacon alloc]init];
+    KBCfgCommon* pCommonCfg = [[KBCfgCommon alloc]init];
+
+    //update beacon type to hybid iBeacon/TLM
+    pCommonCfg.advType = [NSNumber numberWithInt: KBAdvTypeIBeacon & KBAdvTypeEddyTLM];
+
+    //updatet KBeacon send TLM packet every 8 advertisement packets
+    pCommonCfg.tlmAdvInterval = [NSNumber numberWithInt:8];
+
+    //update iBeacon paramaters
+    pIBeaconCfg.uuid = @"E2C56DB5-DFFB-48D2-B060-D0F5A71096E0";
+    pIBeaconCfg.majorID = [NSNumber numberWithInt: 6454];
+    pIBeaconCfg.minorID = [NSNumber numberWithInt: 1458];
+
+    //start configruation
+    NSArray* configParas = @[pCommonCfg, pIBeaconCfg];
+    [_beacon modifyConfig:configParas callback:^(BOOL bCfgRslt, NSError* error)
+     {
+         if (bCfgRslt)
+         {
+             [self showDialogMsg: @"Success" message: @"config beacon success"];
+         }
+         else if (error != nil)
+         {
+             [self showDialogMsg:@"Failed" message:[NSString stringWithFormat:@"config error:%@",error.localizedDescription]];
+         }
+     }];
+}
+
+//example4: update KBeacon to Eddy URL
+-(void)updateKBeaconToEddyURL
+{
+    if (_beacon.state != KBStateConnected)
+    {
+        NSLog(@"beacon not connected");
+        return;
+    }
+    
+    KBCfgCommon* pCommonPara = [[KBCfgCommon alloc]init];
+    KBCfgEddyURL* pEddyUrlPara = [[KBCfgEddyURL alloc]init];
+
+        
+    //set beacon type to URL
+    pCommonPara.advType = [NSNumber numberWithInt: KBAdvTypeEddyURL];
+        
+    //set address to google
+    pEddyUrlPara.url = @"https://www.google.com/";
+    
+    //start configruation
+    NSArray* configParas = @[pCommonPara, pEddyUrlPara];
+    [_beacon modifyConfig:configParas callback:^(BOOL bCfgRslt, NSError* error)
+     {
+         if (bCfgRslt)
+         {
+             [self showDialogMsg: @"Success" message: @"config beacon success"];
+         }
+         else if (error != nil)
+         {
+             [self showDialogMsg:@"Failed" message:[NSString stringWithFormat:@"config error:%@",error.localizedDescription]];
+         }
+     }];
+}
+
+//example5: update KBeacon to UID
+-(void)updateKBeaconToEddyUID
+{
+    if (_beacon.state != KBStateConnected)
+    {
+        NSLog(@"beacon not connected");
+        return;
+    }
+    
+    KBCfgCommon* pCommonPara = [[KBCfgCommon alloc]init];
+    KBCfgEddyUID* pEddyUIDPara = [[KBCfgEddyUID alloc]init];
+    
+    //set beacon type to UID
+    pCommonPara.advType = [NSNumber numberWithInt:  KBAdvTypeEddyUID];
+    
+    //update UID para
+    pEddyUIDPara.nid = @"0x00010203040506070809";
+    pEddyUIDPara.sid = @"0x010203040506";
+    
+    //start configruation
+    NSArray* configParas = @[pCommonPara, pEddyUIDPara];
+    [_beacon modifyConfig:configParas callback:^(BOOL bCfgRslt, NSError* error)
+     {
+         if (bCfgRslt)
+         {
+             [self showDialogMsg: @"Success" message: @"config beacon success"];
+         }
+         else if (error != nil)
+         {
+             [self showDialogMsg:@"Failed" message:[NSString stringWithFormat:@"config error:%@",error.localizedDescription]];
+         }
+     }];
+}
+
+//example6: modify KBeacon password
+-(void)updateBeaconPassword
+{
+    if (_beacon.state != KBStateConnected)
+    {
+        NSLog(@"beacon not connected");
+        return;
+    }
+    
+    KBCfgCommon* pCommonPara = [[KBCfgCommon alloc]init];
+    
+    //the password length must >=8 bytes and <= 16 bytes
+    //Be sure to remember your new password, if you forget it, you won’t be able to connect to it.
+    pCommonPara.password = @"123456789";
+    
+    //start configruation
+    NSArray* configParas = @[pCommonPara];
+    [_beacon modifyConfig:configParas callback:^(BOOL bCfgRslt, NSError* error)
+     {
+         if (bCfgRslt)
+         {
+             [self showDialogMsg: @"Success" message: @"modify password success"];
+         }
+         else if (error != nil)
+         {
+             [self showDialogMsg:@"Failed" message:[NSString stringWithFormat:@"modify passwor failed"]];
+         }
+     }];
+}
+
 - (IBAction)onStartConfig:(id)sender {
     
     [self updateViewToDevice];
@@ -319,7 +539,7 @@
     btnTriggerPara.triggerAdvTime = [NSNumber numberWithInt: 20];
 
     //set the trigger adv interval to 500ms
-    btnTriggerPara.triggerAdvInterval = [NSNumber numberWithInt: 500];
+    btnTriggerPara.triggerAdvInterval = [NSNumber numberWithFloat: 500];
     
     [self.beacon modifyTriggerConfig:btnTriggerPara callback:^(BOOL bConfigSuccess, NSError * _Nonnull error) {
         if (bConfigSuccess)
@@ -423,7 +643,7 @@
                     NSLog(@"Button trigger adv duration:%dsec", [btnCfg.triggerAdvTime intValue]);
 
                     //button trigger adv interval, uint is ms
-                    NSLog(@"Button trigger adv interval:%dms", [btnCfg.triggerAdvInterval intValue]);
+                    NSLog(@"Button trigger adv interval:%gms", [btnCfg.triggerAdvInterval floatValue]);
                 }
                 else
                 {

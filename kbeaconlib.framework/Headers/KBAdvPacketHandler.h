@@ -15,10 +15,10 @@ NS_ASSUME_NONNULL_BEGIN
 //get adv packet by type
 -(KBAdvPacketBase*)getAdvPacket:(KBAdvType) advType;
 
+//battery percent
 @property (strong, readonly) NSNumber* batteryPercent;
 
-
-//beacon all received adv packets
+//All received advertisement packets
 @property (strong, readonly) NSArray* advPackets;
 
 -(BOOL) parseAdvPacket:(NSDictionary*) advData rssi:(NSNumber*)rssi;

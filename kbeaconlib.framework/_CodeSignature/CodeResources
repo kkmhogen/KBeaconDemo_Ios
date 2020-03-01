@@ -14,15 +14,15 @@
 		</data>
 		<key>Headers/KBAdvPacketEddyUID.h</key>
 		<data>
-		Jd963EGneYjKkzp05NdEj17HhlE=
+		OWC8Cq4E/uwgpM4hvrdiSaXV6Xw=
 		</data>
 		<key>Headers/KBAdvPacketEddyURL.h</key>
 		<data>
-		mf64uqcd0ZYBn1XoMMel/4Ae2Rc=
+		aQZDwC7KdWz4+fMq8LtoW2TyBuE=
 		</data>
 		<key>Headers/KBAdvPacketHandler.h</key>
 		<data>
-		qXQwus48WMQIsh1fmMkjkb9f/Mk=
+		uCd1xer/NEzcB3MbuuvlI116MVI=
 		</data>
 		<key>Headers/KBAdvPacketIBeacon.h</key>
 		<data>
@@ -30,7 +30,7 @@
 		</data>
 		<key>Headers/KBAdvPacketSensor.h</key>
 		<data>
-		VK+Ukf9K5S7q9DR6jn//m9/fVR0=
+		bgl2/+WZACQd19pWgLLr+Sa/CIA=
 		</data>
 		<key>Headers/KBAuthHandler.h</key>
 		<data>
@@ -42,7 +42,7 @@
 		</data>
 		<key>Headers/KBCfgCommon.h</key>
 		<data>
-		ZvPJhDtgbbthqlfBviktuUi9l5Q=
+		yyoJySBMmeDTnlwst4fQBOwXGJY=
 		</data>
 		<key>Headers/KBCfgEddyUID.h</key>
 		<data>
@@ -62,11 +62,11 @@
 		</data>
 		<key>Headers/KBCfgSensor.h</key>
 		<data>
-		TyGmjQBU7Dy7cLl0LqjYLS2GtR0=
+		0QBx0O4y7+dTMuWFyYkZ4jlRcUU=
 		</data>
 		<key>Headers/KBCfgTrigger.h</key>
 		<data>
-		I/TO/tuOc2NLHpcdc7yDG7LR3oE=
+		rHXvOx70ynhW+02Av6zGN7R+oEI=
 		</data>
 		<key>Headers/KBException.h</key>
 		<data>
@@ -86,7 +86,7 @@
 		</data>
 		<key>Info.plist</key>
 		<data>
-		sO5fsE3ya7UZB0cGCoixy7DSJ8Y=
+		zyRe7DGaFzGEvCXsJ0+I35kikFM=
 		</data>
 	</dict>
 	<key>files2</key>
@@ -117,33 +117,33 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			Jd963EGneYjKkzp05NdEj17HhlE=
+			OWC8Cq4E/uwgpM4hvrdiSaXV6Xw=
 			</data>
 			<key>hash2</key>
 			<data>
-			XpjrmYJy6Y363cPNgd8YZcXJz7szWkET5Q76tSP5GcE=
+			Ocq9Vsm1yR8iF+VlxYXTI3AMSOizOBij3kilv3TYUeU=
 			</data>
 		</dict>
 		<key>Headers/KBAdvPacketEddyURL.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			mf64uqcd0ZYBn1XoMMel/4Ae2Rc=
+			aQZDwC7KdWz4+fMq8LtoW2TyBuE=
 			</data>
 			<key>hash2</key>
 			<data>
-			QermsQJEvtKlu3Gzu/YU+J/MgvBCrVo9Ww0tkCWaM2s=
+			ml85Z4kbD/BXcEtQgVvM3RDLv6uXTctd64iHwJrTRFA=
 			</data>
 		</dict>
 		<key>Headers/KBAdvPacketHandler.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			qXQwus48WMQIsh1fmMkjkb9f/Mk=
+			uCd1xer/NEzcB3MbuuvlI116MVI=
 			</data>
 			<key>hash2</key>
 			<data>
-			CAwTwy+aqjQ/HcA4GNwS1CkI3lmAPRypkf9fXY4SYig=
+			dLHB3g0ovJuzzo370wMtjsjTQ1cUsYvfIaGEUG80h1o=
 			</data>
 		</dict>
 		<key>Headers/KBAdvPacketIBeacon.h</key>
@@ -161,11 +161,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			VK+Ukf9K5S7q9DR6jn//m9/fVR0=
+			bgl2/+WZACQd19pWgLLr+Sa/CIA=
 			</data>
 			<key>hash2</key>
 			<data>
-			qXXZav4SzTR47+wxNORFD7HtVGb3VSeqURiaN2Df4tk=
+			rcr4H5ILN5SnxmaFYof70kHMKzrQJ/NPmp6AMK6wRio=
 			</data>
 		</dict>
 		<key>Headers/KBAuthHandler.h</key>
@@ -194,11 +194,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			ZvPJhDtgbbthqlfBviktuUi9l5Q=
+			yyoJySBMmeDTnlwst4fQBOwXGJY=
 			</data>
 			<key>hash2</key>
 			<data>
-			cNONTtNEL52ZHHB6HH3EQHR7B0Hz5hBa2AxNpdwczHk=
+			FrXGpXjvmBVtdF1G1sCseqGAeaxSIMbt5eL+GA5qpT0=
 			</data>
 		</dict>
 		<key>Headers/KBCfgEddyUID.h</key>
@@ -249,22 +249,22 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			TyGmjQBU7Dy7cLl0LqjYLS2GtR0=
+			0QBx0O4y7+dTMuWFyYkZ4jlRcUU=
 			</data>
 			<key>hash2</key>
 			<data>
-			AxZym9xEUHQbZpCNgv0bK1dJauRVtyrMVnZjjxcAlIM=
+			l/Ys0wv0kAwgVbqTaP+qLEDKudRz7EoSlRMngEGh6rI=
 			</data>
 		</dict>
 		<key>Headers/KBCfgTrigger.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			I/TO/tuOc2NLHpcdc7yDG7LR3oE=
+			rHXvOx70ynhW+02Av6zGN7R+oEI=
 			</data>
 			<key>hash2</key>
 			<data>
-			3c08iQQnsWAauTVnDbVARfOb4xyduMIAyI1Fo4P8Wlg=
+			oWyN3H109ek2ebtJAXWWsOkZambWbGwwDHM7NUp5SC0=
 			</data>
 		</dict>
 		<key>Headers/KBException.h</key>

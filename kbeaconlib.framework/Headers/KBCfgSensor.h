@@ -25,6 +25,7 @@ typedef NS_ENUM(NSInteger, KBSensorType)
 
 @interface KBCfgSensor : KBCfgBase
 
+//sensor type about KSensor
 @property (strong, nonatomic) NSNumber* sensorType;
 
 -(int) updateConfig:(NSDictionary*)dicts;
