@@ -2,8 +2,10 @@
 
 ----
 ## 1. Introduction
-We provide AAR format SDK library on GitHub, you can found the latest in directory:   
+We provide SDK library on GitHub, you can found the latest in directory:   
 ./kbeaconlib.framework
+And the history version library at:
+./kbeacon_library
 
 With this SDK, you can scan and configure the KBeacon device. The SDK include follow main class:
 * KBeaconsMgr: Global definition, responsible for scanning KBeacon devices advertisement packet, and monitoring the Bluetooth status of the system;
