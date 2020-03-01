@@ -300,21 +300,21 @@ After the app connect to KBeacon success. The KBeacon will automatically read cu
 After app connect to device success, the app can update update parameters of KBeacon device.
 
 ##### 4.3.3.1 Update common parameters
-The app can modify the basic parameters of KBeacon through the KBCfgCommon class. The KBCfgCommon has follow paramaters:
+The app can modify the basic parameters of KBeacon through the KBCfgCommon class. The KBCfgCommon has follow parameters:
 
-* name: device name, the device name must <= 18 character
+* name: device name, the device name must <= 18 character.
 
 * advType: beacon type, can be setting to iBeacon, KSesnor, Eddy TLM/UID/ etc.,
 
-* advPeriod: advertisement period, the value can be set to 100~10000ms
+* advPeriod: advertisement period, the value can be set to 100~10000ms.
 
 * txPower: advertisement TX power, unit is dBm.
 
 * autoAdvAfterPowerOn: if autoAdvAfterPowerOn was setting to true, the beacon always advertisement if it has battery. If this value was setting to false, the beacon will power off if long press button for 5 seconds.
 
-* tlmAdvInterval: eddystone TLM advertisement interval. the default value is 10. The KBeacon will send 1 TLM advertisement every 10 advertisement packets
+* tlmAdvInterval: eddystone TLM advertisement interval. the default value is 10. The KBeacon will send 1 TLM advertisement every 10 advertisement packets.
 
-* refPower1Meters: the rx power at 1 meters
+* refPower1Meters: the rx power at 1 meters.
 
 * advConnectable: is beacon advertisement can be connectable.  
 **Warning:**   
@@ -375,12 +375,12 @@ Example: Update common parameters
 ```
 
 ##### 4.3.3.2 Update iBeacon parameters
-The app can modify the iBeacon parameters of KBeacon through the KBCfgIBeacon class. The KBCfgIBeacon has follow paramaters:
+The app can modify the iBeacon parameters of KBeacon through the KBCfgIBeacon class. The KBCfgIBeacon has follow parameters:
 uuid: iBeacon uuid
 majorID: iBeacon major ID
 minorID: iBeacon minor ID
 
-example: config the KBeacon to broadcasting iBeacon and TLM packet.
+example: config the KBeacon to broadcasting iBeacon
 ```objective-c
 //example: update KBeacon to iBeacon
 -(void)updateKBeaconToIBeacon
@@ -397,7 +397,7 @@ example: config the KBeacon to broadcasting iBeacon and TLM packet.
     //update beacon type to hybid iBeacon/TLM
     pCommonCfg.advType = [NSNumber numberWithInt: KBAdvTypeIBeacon];
 
-    //update iBeacon paramaters
+    //update iBeacon parameters
     pIBeaconCfg.uuid = @"E2C56DB5-DFFB-48D2-B060-D0F5A71096E0";
     pIBeaconCfg.majorID = [NSNumber numberWithInt: 6454];
     pIBeaconCfg.minorID = [NSNumber numberWithInt: 1458];
@@ -417,7 +417,7 @@ example: config the KBeacon to broadcasting iBeacon and TLM packet.
      }];
 }
 
-//example: update KBeacon to hybid iBeacon/EddyTLM
+//example: update KBeacon to hybrid iBeacon/EddyTLM
 //sometimes we need KBeacon broadcasting both iBeacon and TLM packet(battery level, Temperature, power on times, etc., )
 -(void)updateKBeaconToIBeaconAndTLM
 {
@@ -436,7 +436,7 @@ example: config the KBeacon to broadcasting iBeacon and TLM packet.
     //updatet KBeacon send TLM packet every 8 advertisement packets
     pCommonCfg.tlmAdvInterval = [NSNumber numberWithInt:8];
 
-    //update iBeacon paramaters
+    //update iBeacon parameters
     pIBeaconCfg.uuid = @"E2C56DB5-DFFB-48D2-B060-D0F5A71096E0";
     pIBeaconCfg.majorID = [NSNumber numberWithInt: 6454];
     pIBeaconCfg.minorID = [NSNumber numberWithInt: 1458];
@@ -458,11 +458,11 @@ example: config the KBeacon to broadcasting iBeacon and TLM packet.
 ```
 
 ##### 4.3.3.3 Update Eddystone parameters
-The app can modify the eddystone parameters of KBeacon through the KBCfgEddyURL and KBCfgEddyUID class.  
-The KBCfgEddyURL has follow paramaters:
+The app can modify the eddystone parameters of KBeacon by the KBCfgEddyURL and KBCfgEddyUID class.  
+The KBCfgEddyURL has follow parameters:
 * url: eddystone URL address
 
-The KBCfgEddyUID has follow paramaters:
+The KBCfgEddyUID has follow parameters:
 * nid: namespace id about UID. It is 10 bytes length hex string value.
 * sid: instance id about UID. It is 6 bytes length hex string value.
 
@@ -627,7 +627,7 @@ Example: checking if the parameters was changed, then send new parameters to dev
     }
     @catch (KBException *exception)
     {
-        NSString* errorInfo = [NSString stringWithFormat:@"input paramaters invalid:%ld",
+        NSString* errorInfo = [NSString stringWithFormat:@"input parameters invalid:%ld",
                                (long)exception.errorCode];
         [self showDialogMsg: @"error" message: errorInfo];
         return;
@@ -965,7 +965,7 @@ All command message between app and KBeacon are JSON format. our SDK provide Has
     {
         if (bConfigSuccess)
         {
-            //disconnect with device to make sure the paramaters to take effect
+            //disconnect with device to make sure the parameters to take effect
             [self.beacon disconnect];
             NSLog(@"send reset command to device success");
         }
@@ -978,11 +978,11 @@ All command message between app and KBeacon are JSON format. our SDK provide Has
 ```
 #### 4.3.6 Error cause in configruation/command
  The app can using follow command to reset all configruation to default.
- * KBException.KBEvtCfgNoParamaters: parameters is null
+ * KBException.KBEvtCfgNoParameters: parameters is null
  * KBEvtCfgBusy : device is busy, please make sure last configruation complete
  * KBEvtCfgFailed: device return failed.
  * KBEvtCfgTimeout: configruation timeout
- * KBEvtCfgInputInvalid: input paramaters data not in valid range
+ * KBEvtCfgInputInvalid: input parameters data not in valid range
  * KBEvtCfgStateError: device is not in connected state
  * KBEvtCfgNotSupport: device does not support the parameters
 
