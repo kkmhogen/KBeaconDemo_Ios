@@ -320,7 +320,7 @@ The app can modify the basic parameters of KBeacon through the KBCfgCommon class
   **Warning:**   
    if the app set the KBeacon to un-connectable, the app can not connect to it again if it does not has button. If the device has button, the device can enter connect-able advertisement for 60 seconds when click on the button
 
-* password: device password, the password length must >= 8 character and <= 16 character.
+* password: device password, the password length must >= 8 character and <= 16 character.  
  **Warning:**   
  Be sure to remember the new password, you won’t be able to connect to the device if you forget the new password.
 
