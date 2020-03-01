@@ -3,8 +3,8 @@
 ----
 ## 1. Introduction
 We provide SDK library on GitHub, you can found the latest in directory:   
-./kbeaconlib.framework
-And the history version library at:
+./kbeaconlib.framework  
+And the history version library at:  
 ./kbeacon_library
 
 With this SDK, you can scan and configure the KBeacon device. The SDK include follow main class:
