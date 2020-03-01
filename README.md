@@ -12,9 +12,9 @@ With this SDK, you can scan and configure the KBeacon device. The SDK include fo
 
 * KBAdvPacketHandler: parsing advertisement packet. This attribute is valid during the scan phase.
 
-*	KBAuthHandler: responsible for the authentication operation with the KBeacon device after the connection is established.
+* KBAuthHandler: responsible for the authentication operation with the KBeacon device after the connection is established.
 
-*	KBCfgHandler：responsible for configuring parameters related to KBeacon devices
+* KBCfgHandler：responsible for configuring parameters related to KBeacon devices
 ![avatar](https://github.com/kkmhogen/KBeaconDemo_Android/blob/master/kbeacon_class_arc.png?raw=true)
 
 **Scanning Stage**
@@ -192,7 +192,7 @@ If the app want to stop scanning:
 [self.beacon connect:password timeout:20];
  ```
 * Password: device password, the default password is 0000000000000000
-* timeout: max connection timer, uint is ms.
+* timeout: max connection time, unit is second.
 
 2. the app should implementation the KBeacon's delegate for get connection status:
  ```objective-c
@@ -302,13 +302,13 @@ After app connect to device success, the app can update update parameters of KBe
 ##### 4.3.3.1 Update common parameters
 The app can modify the basic parameters of KBeacon through the KBCfgCommon class. The KBCfgCommon has follow paramaters:
 
-* name: device name, the device name must < 18 character
+* name: device name, the device name must <= 18 character
 
 * advType: beacon type, can be setting to iBeacon, KSesnor, Eddy TLM/UID/ etc.,
 
 * advPeriod: advertisement period, the value can be set to 100~10000ms
 
-* txPower: advertisement TX power, uint is dBm.
+* txPower: advertisement TX power, unit is dBm.
 
 * autoAdvAfterPowerOn: if autoAdvAfterPowerOn was setting to true, the beacon always advertisement if it has battery. If this value was setting to false, the beacon will power off if long press button for 5 seconds.
 
@@ -317,8 +317,8 @@ The app can modify the basic parameters of KBeacon through the KBCfgCommon class
 * refPower1Meters: the rx power at 1 meters
 
 * advConnectable: is beacon advertisement can be connectable.  
-  **Warning:**   
-   if the app set the KBeacon to un-connectable, the app can not connect to it again if it does not has button. If the device has button, the device can enter connect-able advertisement for 60 seconds when click on the button
+**Warning:**   
+   If the KBeacon was set to un-connectable, the app can not connect to it again. If the device has button, the device can re-enter connectable advertisement for 60 seconds when single click on the button
 
 * password: device password, the password length must >= 8 character and <= 16 character.  
  **Warning:**   
@@ -845,10 +845,10 @@ The app can configure single click, double-click, triple-click, long-press the b
                     //button trigger adv type
                     NSLog(@"Button trigger adv type:%d", [btnCfg.triggerAdvType intValue]);
 
-                    //button trigger adv duration, uint is sec
+                    //button trigger adv duration, unit is sec
                     NSLog(@"Button trigger adv duration:%dsec", [btnCfg.triggerAdvTime intValue]);
 
-                    //button trigger adv interval, uint is ms
+                    //button trigger adv interval, unit is ms
                     NSLog(@"Button trigger adv interval:%gms", [btnCfg.triggerAdvInterval floatValue]);
                 }
                 else
@@ -892,7 +892,7 @@ Enabling motion trigger is similar to push button trigger, which will not be des
     //set trigger type
     btnTriggerPara.triggerType = [NSNumber numberWithInt: KBTriggerTypeMotion];
 
-    //set motion trigger sensitivity, the valid range is 2~31. The uint is 16mg.
+    //set motion trigger sensitivity, the valid range is 2~31. The unit is 16mg.
     btnTriggerPara.triggerPara = [NSNumber numberWithInt: 3];
 
     ... same as push button trigger
@@ -906,10 +906,10 @@ All command message between app and KBeacon are JSON format. our SDK provide Has
 #### 4.3.5.1 Ring device
  For some KBeacon device that has buzzer function. The app can ring device. for ring command, it has 5 parameters:
  * msg: msg type is 'ring'
- * ringTime: uint is ms. The KBeacon will start flash/alert for 'ringTime' millisecond  when receive this command.
+ * ringTime: unit is ms. The KBeacon will start flash/alert for 'ringTime' millisecond  when receive this command.
  * ringType: 0x0:led flash only; 0x1:beep alert only; 0x2 both led flash and beep;
- * ledOn: optional parameters, uint is ms.the LED will flash at interval (ledOn + ledOff).  This parameters is valid when ringType set to 0x0 or 0x2.
- * ledOff: optional parameters, uint is ms. the LED will flash at interval (ledOn + ledOff).  This parameters is valid when ringType set to 0x0 or 0x2.
+ * ledOn: optional parameters, unit is ms.the LED will flash at interval (ledOn + ledOff).  This parameters is valid when ringType set to 0x0 or 0x2.
+ * ledOff: optional parameters, unit is ms. the LED will flash at interval (ledOn + ledOff).  This parameters is valid when ringType set to 0x0 or 0x2.
 
 ```objective-c
 -(void) ringDevice
@@ -922,7 +922,7 @@ All command message between app and KBeacon are JSON format. our SDK provide Has
 
     [paraDicts setValue:@"ring" forKey:@"msg"];
 
-    //ring times, uint is ms
+    //ring times, unit is ms
     [paraDicts setValue:[NSNumber numberWithInt:20000] forKey:@"ringTime"];
 
     //0x0:led flash only; 0x1:beep alert only; 0x2 led flash and beep alert;
