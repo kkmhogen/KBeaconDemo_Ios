@@ -433,7 +433,7 @@ example: setting the KBeacon to broadcasting iBeacon
     KBCfgCommon* pCommonCfg = [[KBCfgCommon alloc]init];
 
     //update beacon type to hybid iBeacon/TLM
-    pCommonCfg.advType = [NSNumber numberWithInt: KBAdvTypeIBeacon & KBAdvTypeEddyTLM];
+    pCommonCfg.advType = [NSNumber numberWithInt: KBAdvTypeIBeacon | KBAdvTypeEddyTLM];
 
     //updatet KBeacon send TLM packet every 8 advertisement packets
     pCommonCfg.tlmAdvInterval = [NSNumber numberWithInt:8];
