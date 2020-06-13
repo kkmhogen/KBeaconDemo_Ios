@@ -29,7 +29,7 @@
 "DFU_FOUND_NEW_VERSION" =  "A new version(%@) found.";
 
 "DFU_TITLE" = "Update";
-
+"UPDATE_DOWNLOADING" = "Downloading...";
 "UPDATE_STARTED" = "updating...";
 "UPDATE_CONNECTING" = "connecting...";
 "UPDATE_UPLOADING" = "upload firmware...";

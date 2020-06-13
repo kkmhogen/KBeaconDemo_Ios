@@ -86,6 +86,15 @@
         return;
     }
     NSString *writeFilePath = [filePath stringByAppendingPathComponent:url.lastPathComponent];
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    if ([fileManager fileExistsAtPath:writeFilePath])
+    {
+        NSError* error;
+        [fileManager removeItemAtPath:writeFilePath error:&error];
+        if (error != nil){
+            NSLog(@"Remove file failed:%@", writeFilePath);
+        }
+    }
     
     NSURLSessionDownloadTask *downloadTask = [manager downloadTaskWithRequest:request progress:^(NSProgress * _Nonnull downloadProgress)
     {
@@ -97,15 +106,16 @@
         return [NSURL fileURLWithPath:writeFilePath];
     } completionHandler:^(NSURLResponse * _Nonnull response, NSURL * _Nullable filePath, NSError * _Nullable error) {
          NSLog(@"Download complete");
-        if (error != nil)
-        {
-            callback(false, nil, error);
-        }
-        else
-        {
-            callback(true, filePath, nil);
-        }
-        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (error != nil)
+            {
+                callback(false, nil, error);
+            }
+            else
+            {
+                callback(true, filePath, nil);
+            }
+        });
     }];
     [downloadTask resume];
 }

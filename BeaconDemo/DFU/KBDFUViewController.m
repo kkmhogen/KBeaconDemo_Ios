@@ -138,30 +138,29 @@
 
 -(void)updateFirmware
 {
+    [self.mDFUStatusLabel setText:UPDATE_DOWNLOADING];
+    
     [self->firmwareDownload downLoadFirmwreData:self->latestFirmwareFileName callback:^(BOOL bResult, NSURL * _Nullable url, NSError * _Nullable error) {
-        
-         dispatch_async(dispatch_get_main_queue(), ^{
-            if (bResult )
-            {
-                self->mInDfuState = YES;
+        if (bResult )
+        {
+            self->mInDfuState = YES;
 
-                DFUFirmware *selectedFirmware = [[DFUFirmware alloc] initWithUrlToZipFile:url];
+            DFUFirmware *selectedFirmware = [[DFUFirmware alloc] initWithUrlToZipFile:url];
 
-                dispatch_queue_t queue = dispatch_get_main_queue();
-                DFUServiceInitiator *initiator = [[DFUServiceInitiator alloc] initWithQueue:queue delegateQueue:queue progressQueue:queue loggerQueue:queue];
-                [initiator withFirmware:selectedFirmware];
-                initiator.delegate = self; // -to be informed about current state and errors
-                initiator.progressDelegate = self; // - to show progress bar
-                
-                self->controller = [initiator startWithTarget: self.beacon.peripheral];
-             }
-             else
-             {
-                 [self.mDFUStatusLabel setText:UPDATE_NETWORK_FAIL];
-                 
-                 [self dfuComplete:error.localizedDescription];
-             }
-         });
+            dispatch_queue_t queue = dispatch_get_main_queue();
+            DFUServiceInitiator *initiator = [[DFUServiceInitiator alloc] initWithQueue:queue delegateQueue:queue progressQueue:queue loggerQueue:queue];
+            [initiator withFirmware:selectedFirmware];
+            initiator.delegate = self; // -to be informed about current state and errors
+            initiator.progressDelegate = self; // - to show progress bar
+            
+            self->controller = [initiator startWithTarget: self.beacon.peripheral];
+         }
+         else
+         {
+             [self.mDFUStatusLabel setText:UPDATE_NETWORK_FAIL];
+             
+             [self dfuComplete:error.localizedDescription];
+         }
     }];
 }
 - (IBAction)onUpdateClick:(id)sender {

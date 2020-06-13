@@ -30,8 +30,8 @@
             filePath = "BeaconDemo/DFU/KBDFUViewController.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "276"
-            endingLineNumber = "276"
+            startingLineNumber = "273"
+            endingLineNumber = "273"
             landmarkName = "-downloadFirmwareInfo"
             landmarkType = "7">
          </BreakpointContent>
