@@ -1015,7 +1015,58 @@ All command messages between app and KBeacon are JSON format. Our SDK provide Ha
 }
  ```
 
-## 5. Change log
+ ## 5. DFU
+ Through the DFU function, you can upgrade the firmware of the device. Our DFU function is based on Nordic's DFU library. In order to make it easier for you to integrate the DFU function, We add the DFU function into ibeacondemo demo project for your reference. The Demo about DFU includes the following class:
+ * KBDFUViewController: DFU UI activity and procedure about how to download latest firmware.
+ * KBFirmwareDownload: Responsible for download the JSON or firmware from KKM clouds.
+ * DFUService: This DFU service that implementation Nordic's DFU library.
+ ![avatar](https://github.com/kkmhogen/KBeaconDemo_Ios/blob/master/kbeacon_dfu_ios_arc.png?raw=true)
+
+ ### 5.1 Add DFU function to the application.
+ Edit Podfile:
+ The DFU Demo need download the firmware from KKM clouds by AFNNetworking library.  Also the DFU demo using nordic DFU library for update.
+  ```
+  platform :ios, '10.0'
+  use_frameworks!
+  target 'KBeaconDemo_Ios' do
+    pod 'iOSDFULibrary'
+     pod 'AFNetworking/NSURLSession', '3.2.1'
+     pod 'AFNetworking/Reachability', '3.2.1'
+     pod 'AFNetworking/Security', '3.2.1'
+     pod 'AFNetworking/Serialization', '3.2.1'
+  end
+  ```
+
+ 3. Start DFU  
+ ```objective-c
+  - (IBAction)onDFUClick:(id)sender
+  {
+      if (self.beacon.state != KBStateConnected)
+      {
+          [self showDialogMsg:ERR_TITLE message:ERR_BEACON_NOT_CONNECTED];
+          return;
+      }
+      //only NRF52xx series support DFU
+      if ([self.beacon.model containsString:@"NRF52XX"]
+          && self.beacon.hardwareVersion != nil
+          && self.beacon.version != nil)
+      {
+          [self performSegueWithIdentifier:@"seqKBeaconDFU" sender:self];
+      }
+      else
+      {
+          [self showDialogMsg:@"DFU" message:@"Device does not support DFU"];
+      }
+  }
+
+ ```
+ If you want to known more details about getting the Device's latest firmware from KKM cloud, or deploied the latest firmware on you cloud. Please contact KKM sales(sales@kkmcn.com) and she/he will send you a detail document.
+
+  Also for more detail nordic DFU library, please refer to
+https://github.com/NordicSemiconductor/IOS-Pods-DFU-Library
+
+## 6. Change log
+* 2020.6.1 v1.22 Add DFU library
 * 2020.3.1 v1.21 change the advertisement period from integer to float.
 * 2020.1.11 v1.2 add trigger function.
 * 2019.10.11 v1.1 add KSesnor function.

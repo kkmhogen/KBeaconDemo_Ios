@@ -1,0 +1,4 @@
+${PODS_ROOT}/Target Support Files/Pods-KBeaconDemo_Ios/Pods-KBeaconDemo_Ios-frameworks.sh
+${BUILT_PRODUCTS_DIR}/AFNetworking/AFNetworking.framework
+${BUILT_PRODUCTS_DIR}/ZIPFoundation/ZIPFoundation.framework
+${BUILT_PRODUCTS_DIR}/iOSDFULibrary/iOSDFULibrary.framework

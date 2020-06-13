@@ -11,6 +11,7 @@
 
 "SUCC_TITLE"="Success";
 "DLG_OK"="Ok";
+"DLG_CANCEL"="Cancel";
 "ERR_BLE_FUNC_OFF"="Ble function is not enable on your phone.";
 "ERR_JSON_FILE_INVALID"="Json file not suitable for this ESL device.";
 "ERR_JSON_FILE_SUCCESS"="Save Json file success.";
@@ -19,4 +20,28 @@
 
 "BEACON_CONNECT" = "Connect";
 "BEACON_DISCONNECT" = "Disconnect";
+"ERR_BEACON_NOT_CONNECTED" = "The device was disconnected";
 
+"DEVICE_CHECK_UPDATE" = "Check version...";
+"DEVICE_FOUND_VERSION" = "Found new version";
+"DEVICE_LATEST_VERSION" = "Current version is the latest, not need update.";
+"DFU_CONNECT_SERVICE_FAIL" = "Connect to cloud server failed, please check if the network was connected and give the application network permission";
+"DFU_FOUND_NEW_VERSION" =  "A new version(%@) found.";
+
+"DFU_TITLE" = "Update";
+
+"UPDATE_STARTED" = "updating...";
+"UPDATE_CONNECTING" = "connecting...";
+"UPDATE_UPLOADING" = "upload firmware...";
+"UPDATE_ABORTED" = "update aborted!";
+"UPDATE_COMPLETE" = "update success!";
+"UPDATE_NETWORK_FAIL" = "network failure!";
+
+"nb_menu_item_check_ver" = "Firmware update";
+"DFU_CLOUDS_SERVER_ERROR" = "Cloud server error";
+"DFU_CLOUDS_FILE_NOT_EXIST" = "DFU file does not exist";
+"BEACON_FIELD_NAME"="Firmware update";
+
+"UPDATE_NOT_FOUND_NEW_VERSION" = "Failed to obtain the latest version information, please ensure that the Internet connection is successful";
+
+"DFU_VERSION_MAKE_SURE"="To ensure a successful upgrade, it is recommended that the distance between the mobile phone and the KBeacon device be less than 3 meters. Are you sure you want to upgrade?";

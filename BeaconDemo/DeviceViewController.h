@@ -35,9 +35,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (weak, nonatomic) IBOutlet UILabel *labelBeaconType;
 
-@property (weak, nonatomic) IBOutlet UIButton *mDownCfgBtn;
+@property (weak, nonatomic) IBOutlet UILabel *mLabelHardwareVersion;
 
-@property (weak, nonatomic) IBOutlet UIButton *mBtnConfigTest;
 
 @property (weak, nonatomic) KBeacon* beacon;
 

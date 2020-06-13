@@ -3,11 +3,13 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		0C0B18152270435A003E5E0F /* KBPreferance.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C0B18142270435A003E5E0F /* KBPreferance.m */; };
+		0C425EB324939D5900468FEC /* KBFirmwareDownload.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C425EAF24939D5900468FEC /* KBFirmwareDownload.m */; };
+		0C425EB424939D5900468FEC /* KBDFUViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C425EB124939D5900468FEC /* KBDFUViewController.m */; };
 		0C614A6E21BE990B00E9B002 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0C614A7021BE990B00E9B002 /* Localizable.strings */; };
 		0C8DD53521BA95D90073B892 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C8DD53421BA95D90073B892 /* AppDelegate.m */; };
 		0C8DD53821BA95D90073B892 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C8DD53721BA95D90073B892 /* ViewController.m */; };
@@ -22,6 +24,7 @@
 		0CA63B0A2354774D0046757F /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 0CA63B092354774D0046757F /* README.md */; };
 		0CB15024235445C100FF6462 /* kbeaconlib.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0CB15023235445C100FF6462 /* kbeaconlib.framework */; };
 		0CB3F87A21BCC10600A3DA1C /* DeviceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CB3F87921BCC10600A3DA1C /* DeviceViewController.m */; };
+		50019FF8C8EA1EA9354028FC /* Pods_KBeaconDemo_Ios.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6171392AFDC871EEC6CCDA5 /* Pods_KBeaconDemo_Ios.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,6 +47,10 @@
 /* Begin PBXFileReference section */
 		0C0B18132270435A003E5E0F /* KBPreferance.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KBPreferance.h; sourceTree = "<group>"; };
 		0C0B18142270435A003E5E0F /* KBPreferance.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KBPreferance.m; sourceTree = "<group>"; };
+		0C425EAF24939D5900468FEC /* KBFirmwareDownload.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KBFirmwareDownload.m; sourceTree = "<group>"; };
+		0C425EB024939D5900468FEC /* KBDFUViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KBDFUViewController.h; sourceTree = "<group>"; };
+		0C425EB124939D5900468FEC /* KBDFUViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KBDFUViewController.m; sourceTree = "<group>"; };
+		0C425EB224939D5900468FEC /* KBFirmwareDownload.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KBFirmwareDownload.h; sourceTree = "<group>"; };
 		0C614A6F21BE990B00E9B002 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		0C614A7221BE9BBD00E9B002 /* string.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = string.h; sourceTree = "<group>"; };
 		0C8DD53021BA95D90073B892 /* KBeaconDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = KBeaconDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -68,6 +75,9 @@
 		0CB15023235445C100FF6462 /* kbeaconlib.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = kbeaconlib.framework; sourceTree = "<group>"; };
 		0CB3F87821BCC10600A3DA1C /* DeviceViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DeviceViewController.h; sourceTree = "<group>"; };
 		0CB3F87921BCC10600A3DA1C /* DeviceViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DeviceViewController.m; sourceTree = "<group>"; };
+		11DF2D17ECC72511B915CFE7 /* Pods-KBeaconDemo_Ios.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KBeaconDemo_Ios.release.xcconfig"; path = "Target Support Files/Pods-KBeaconDemo_Ios/Pods-KBeaconDemo_Ios.release.xcconfig"; sourceTree = "<group>"; };
+		C6171392AFDC871EEC6CCDA5 /* Pods_KBeaconDemo_Ios.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_KBeaconDemo_Ios.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		CD7C52A5E6C827BF0E6A67D5 /* Pods-KBeaconDemo_Ios.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KBeaconDemo_Ios.debug.xcconfig"; path = "Target Support Files/Pods-KBeaconDemo_Ios/Pods-KBeaconDemo_Ios.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -76,6 +86,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0CB15024235445C100FF6462 /* kbeaconlib.framework in Frameworks */,
+				50019FF8C8EA1EA9354028FC /* Pods_KBeaconDemo_Ios.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -96,6 +107,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0C425EC1249467A500468FEC /* DFU */ = {
+			isa = PBXGroup;
+			children = (
+				0C425EB024939D5900468FEC /* KBDFUViewController.h */,
+				0C425EB124939D5900468FEC /* KBDFUViewController.m */,
+				0C425EB224939D5900468FEC /* KBFirmwareDownload.h */,
+				0C425EAF24939D5900468FEC /* KBFirmwareDownload.m */,
+			);
+			path = DFU;
+			sourceTree = "<group>";
+		};
 		0C8DD52721BA95D90073B892 = {
 			isa = PBXGroup;
 			children = (
@@ -106,6 +128,8 @@
 				0C8DD54B21BA95DC0073B892 /* BeaconDemoTests */,
 				0C8DD55621BA95DC0073B892 /* BeaconDemoUITests */,
 				0C8DD53121BA95D90073B892 /* Products */,
+				10C9FE6621ED36924E42DAC2 /* Pods */,
+				7CB4544F8FC32F7911CCAC2C /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -122,6 +146,7 @@
 		0C8DD53221BA95D90073B892 /* BeaconDemo */ = {
 			isa = PBXGroup;
 			children = (
+				0C425EC1249467A500468FEC /* DFU */,
 				0C8DD53321BA95D90073B892 /* AppDelegate.h */,
 				0C8DD53421BA95D90073B892 /* AppDelegate.m */,
 				0C8DD53621BA95D90073B892 /* ViewController.h */,
@@ -160,6 +185,23 @@
 			path = BeaconDemoUITests;
 			sourceTree = "<group>";
 		};
+		10C9FE6621ED36924E42DAC2 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				CD7C52A5E6C827BF0E6A67D5 /* Pods-KBeaconDemo_Ios.debug.xcconfig */,
+				11DF2D17ECC72511B915CFE7 /* Pods-KBeaconDemo_Ios.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		7CB4544F8FC32F7911CCAC2C /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				C6171392AFDC871EEC6CCDA5 /* Pods_KBeaconDemo_Ios.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -167,9 +209,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 0C8DD55C21BA95DC0073B892 /* Build configuration list for PBXNativeTarget "KBeaconDemo_Ios" */;
 			buildPhases = (
+				D7821335516BAE7EA7632A2A /* [CP] Check Pods Manifest.lock */,
 				0C8DD52C21BA95D90073B892 /* Sources */,
 				0C8DD52D21BA95D90073B892 /* Frameworks */,
 				0C8DD52E21BA95D90073B892 /* Resources */,
+				8F434EC50C2675F922881A68 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -288,13 +332,57 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		8F434EC50C2675F922881A68 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-KBeaconDemo_Ios/Pods-KBeaconDemo_Ios-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-KBeaconDemo_Ios/Pods-KBeaconDemo_Ios-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-KBeaconDemo_Ios/Pods-KBeaconDemo_Ios-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		D7821335516BAE7EA7632A2A /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-KBeaconDemo_Ios-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		0C8DD52C21BA95D90073B892 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0C425EB324939D5900468FEC /* KBFirmwareDownload.m in Sources */,
 				0C8DD53821BA95D90073B892 /* ViewController.m in Sources */,
 				0C8DD54321BA95DC0073B892 /* main.m in Sources */,
+				0C425EB424939D5900468FEC /* KBDFUViewController.m in Sources */,
 				0C0B18152270435A003E5E0F /* KBPreferance.m in Sources */,
 				0C8DD53521BA95D90073B892 /* AppDelegate.m in Sources */,
 				0C8DD56C21BAD8AF0073B892 /* KBeaconViewCell.m in Sources */,
@@ -397,6 +485,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer: SHUHUI HU (UL4MDLSZ6M)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEFINES_MODULE = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -457,6 +546,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Distribution: SHUHUI HU (642FC9RQZ9)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEFINES_MODULE = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -477,11 +567,13 @@
 		};
 		0C8DD55D21BA95DC0073B892 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = CD7C52A5E6C827BF0E6A67D5 /* Pods-KBeaconDemo_Ios.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 11;
+				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = 2VXEGF9FRK;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -502,11 +594,13 @@
 		};
 		0C8DD55E21BA95DC0073B892 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 11DF2D17ECC72511B915CFE7 /* Pods-KBeaconDemo_Ios.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 11;
+				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = 2VXEGF9FRK;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",

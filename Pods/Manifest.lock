@@ -1,0 +1,33 @@
+PODS:
+  - AFNetworking/NSURLSession (3.2.1):
+    - AFNetworking/Reachability
+    - AFNetworking/Security
+    - AFNetworking/Serialization
+  - AFNetworking/Reachability (3.2.1)
+  - AFNetworking/Security (3.2.1)
+  - AFNetworking/Serialization (3.2.1)
+  - iOSDFULibrary (4.7.2):
+    - ZIPFoundation (= 0.9.11)
+  - ZIPFoundation (0.9.11)
+
+DEPENDENCIES:
+  - AFNetworking/NSURLSession (= 3.2.1)
+  - AFNetworking/Reachability (= 3.2.1)
+  - AFNetworking/Security (= 3.2.1)
+  - AFNetworking/Serialization (= 3.2.1)
+  - iOSDFULibrary
+
+SPEC REPOS:
+  trunk:
+    - AFNetworking
+    - iOSDFULibrary
+    - ZIPFoundation
+
+SPEC CHECKSUMS:
+  AFNetworking: b6f891fdfaed196b46c7a83cf209e09697b94057
+  iOSDFULibrary: 213608bf93ace7f9d6582453a9498ec384642f97
+  ZIPFoundation: b1f0de4eed33e74a676f76e12559ab6b75990197
+
+PODFILE CHECKSUM: 1369a6cbdd3a8e411a07382d4ca3ca3f06992e29
+
+COCOAPODS: 1.9.2

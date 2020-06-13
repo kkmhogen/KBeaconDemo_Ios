@@ -12,6 +12,7 @@
 #import "KBPreferance.h"
 #import "kbeaconlib/KBCfgIBeacon.h"
 #import "kbeaconlib/KBCfgTrigger.h"
+#import "KBDFUViewController.h"
 
 #define ACTION_CONNECT 0x0
 #define ACTION_DISCONNECT 0x1
@@ -33,7 +34,6 @@
     UITapGestureRecognizer * tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tap)];
     [self.view addGestureRecognizer:tap];
     
-    [self.mDownCfgBtn setEnabled:NO];
     self.txtName.delegate = self;
     self.txtTxPower.delegate = self;
     self.txtAdvPeriod.delegate = self;
@@ -53,13 +53,11 @@
     {
         [_actionConnect setTitle:BEACON_DISCONNECT];
         _actionConnect.tag = ACTION_DISCONNECT;
-        [self.mDownCfgBtn setEnabled:YES];
     }
     else
     {
         [_actionConnect setTitle:BEACON_CONNECT];
         _actionConnect.tag = ACTION_CONNECT;
-        [self.mDownCfgBtn setEnabled:NO];
     }
 }
 
@@ -131,6 +129,7 @@
         self.labelVersion.text = pCommonCfg.version;
         self.txtTxPower.text = [pCommonCfg.txPower stringValue];
         self.txtAdvPeriod.text = [pCommonCfg.advPeriod stringValue];
+        self.mLabelHardwareVersion.text = pCommonCfg.hversion;
         
         KBCfgIBeacon* pIBeacon = (KBCfgIBeacon*)[self.beacon getConfigruationByType:KBConfigTypeIBeacon];
         if (pIBeacon != nil)
@@ -334,7 +333,7 @@
 {
     if (_beacon.state != KBStateConnected)
     {
-        NSLog(@"beacon not connected");
+        NSLog(@"beacon does not connected");
         return;
     }
 
@@ -501,14 +500,29 @@
 }
 
 - (IBAction)onStartConfig:(id)sender {
+    if (self.beacon.state != KBStateConnected){
+        [self showDialogMsg:ERR_TITLE message:ERR_BEACON_NOT_CONNECTED];
+        return;
+    }
     
     [self updateViewToDevice];
 }
 
-//enable button trigger
+- (IBAction)onEnableTrigger:(id)sender
+{
+    if (self.beacon.state != KBStateConnected){
+        [self showDialogMsg:ERR_TITLE message:ERR_BEACON_NOT_CONNECTED];
+        return;
+    }
+    
+    [self enableButtonTrigger];
+}
+
+//enable motion trigger
 -(void)enableButtonTrigger
 {
     if (self.beacon.state != KBStateConnected){
+        NSLog(@"device does not connected");
         return;
     }
     
@@ -558,6 +572,7 @@
 -(void)disableButtonTrigger
 {
     if (self.beacon.state != KBStateConnected){
+        NSLog(@"device does not connected");
         return;
     }
     
@@ -588,10 +603,19 @@
     }];
 }
 
-//read button trigger information
+- (IBAction)onReadButtonTriggerPara:(id)sender {
+    if (self.beacon.state != KBStateConnected){
+        [self showDialogMsg:ERR_TITLE message:ERR_BEACON_NOT_CONNECTED];
+        return;
+    }
+    
+    [self readButtonTriggerPara];
+}
+
 -(void)readButtonTriggerPara
 {
     if (self.beacon.state != KBStateConnected){
+        NSLog(@"device does not connected");
         return;
     }
     
@@ -658,21 +682,21 @@
         }
     }];
 }
-- (IBAction)readTrigger:(id)sender {
-    [self readButtonTriggerPara];
-}
 
-- (IBAction)enableTrigger:(id)sender {
-    [self enableButtonTrigger];
-}
-
-- (IBAction)ringDevice:(id)sender {
+- (IBAction)onRingDevice:(id)sender
+{
+    if (self.beacon.state != KBStateConnected){
+        [self showDialogMsg:ERR_TITLE message:ERR_BEACON_NOT_CONNECTED];
+        return;
+    }
+    
     [self ringDevice];
 }
 
--(void) ringDevice
+-(void)ringDevice
 {
     if (self.beacon.state != KBStateConnected){
+        NSLog(@"device does not connected");
         return;
     }
     
@@ -716,6 +740,7 @@
 -(void)resetParametersToDefault
 {
     if (self.beacon.state != KBStateConnected){
+        NSLog(@"device does not connected");
         return;
     }
 
@@ -748,14 +773,33 @@
     [self.beacon disconnect];
 }
 
-- (IBAction)onClickDownloadButton:(id)sender {
-    
-    if (_beacon.state != KBStateConnected)
+- (IBAction)onDFUClick:(id)sender
+{
+    if (self.beacon.state != KBStateConnected)
     {
-        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:ERR_TITLE message:ERR_BLE_FUNC_OFF preferredStyle:UIAlertControllerStyleAlert];
-        UIAlertAction *OkAction = [UIAlertAction actionWithTitle:DLG_OK style:UIAlertActionStyleDestructive handler:nil];
-        [alertController addAction:OkAction];
-        [self presentViewController:alertController animated:YES completion:nil];
+        [self showDialogMsg:ERR_TITLE message:ERR_BEACON_NOT_CONNECTED];
+        return;
+    }
+    //only NRF52xx series support DFU
+    if ([self.beacon.model containsString:@"NRF52XX"]
+        && self.beacon.hardwareVersion != nil
+        && self.beacon.version != nil)
+    {
+        [self performSegueWithIdentifier:@"seqKBeaconDFU" sender:self];
+    }
+    else
+    {
+        [self showDialogMsg:@"DFU" message:@"Device does not support DFU"];
+    }
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    UIViewController *deviceController = segue.destinationViewController;
+    if ([deviceController isKindOfClass:KBDFUViewController.class])
+    {
+        KBDFUViewController* cfgCtrl = (KBDFUViewController*)deviceController;
+        cfgCtrl.beacon = self.beacon;
     }
 }
 
