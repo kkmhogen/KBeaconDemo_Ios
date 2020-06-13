@@ -1020,7 +1020,7 @@ All command messages between app and KBeacon are JSON format. Our SDK provide Ha
  * KBDFUViewController: DFU UI activity and procedure about how to download latest firmware.
  * KBFirmwareDownload: Responsible for download the JSON or firmware from KKM clouds.
  * DFUService: This DFU service that implementation Nordic's DFU library.
- ![avatar](https://github.com/kkmhogen/KBeaconDemo_Ios/blob/master/kbeacon_dfu_ios_arc.png?raw=true)
+ ![avatar](https://github.com/kkmhogen/KBeaconDemo_Ios/blob/master/kbeacon_dfu__ios_arc.png)
 
  ### 5.1 Add DFU function to the application.
  Edit Podfile:
