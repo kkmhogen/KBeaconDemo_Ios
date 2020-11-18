@@ -1228,11 +1228,11 @@ After turning on humidity sensor, the kbeacon will start log when it detects the
 }];
 ```
 
-#### 4.3.5 Send command to device
+#### 4.3.6 Send command to device
 After app connects to device success, the app can send command to device.  
 All command messages between app and KBeacon are JSON format. Our SDK provide Hash Map to encapsulate these JSON message.
 
-#### 4.3.5.1 Ring device
+#### 4.3.6.1 Ring device
  For some KBeacon device that has buzzer function. The app can ring device. for ring command, it has 5 parameters:
  * msg: msg type is 'ring'
  * ringTime: unit is ms. The KBeacon will start flash/alert for 'ringTime' milliseconds  when receive this command.
@@ -1276,7 +1276,7 @@ All command messages between app and KBeacon are JSON format. Our SDK provide Ha
     }];
 }
 ```
-#### 4.3.5.2 Reset configuration to default
+#### 4.3.6.2 Reset configuration to default
  The app can use follow command to reset all configurations to default.
  * msg: message type is 'reset'
 
@@ -1305,7 +1305,7 @@ All command messages between app and KBeacon are JSON format. Our SDK provide Ha
     }];
 }
 ```
-#### 4.3.6 Error cause in configuration/command
+#### 4.3.7 Error cause in configuration/command
  App may get errors during the configuration. The KBErrorCode has follow values.
  * KBEvtCfgNoParameters: parameters is null
  * KBEvtCfgBusy : device is busy, please make sure last configuration operation has complete

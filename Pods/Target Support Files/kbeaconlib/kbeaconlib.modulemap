@@ -1,0 +1,6 @@
+framework module kbeaconlib {
+  umbrella header "kbeaconlib-umbrella.h"
+
+  export *
+  module * { export * }
+}
