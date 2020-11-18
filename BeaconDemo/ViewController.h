@@ -7,8 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "KBeaconLib/KBeaconsMgr.h"
-#import "KBeaconLib/KBeacon.h"
+#import <KBeaconsMgr.h>
+#import <KBeacon.h>
 
 @interface ViewController : UIViewController <UISearchBarDelegate, UITableViewDataSource, UITableViewDelegate, KBeaconMgrDelegate, UITextFieldDelegate>
 

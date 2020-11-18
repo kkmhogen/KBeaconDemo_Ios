@@ -1,23 +1,18 @@
 //
 //  main.m
-//  KBeaconDemo
+//  kbeaconlib
 //
-//  Created by kkm on 2018/12/7.
-//  Copyright © 2018 kkm. All rights reserved.
+//  Created by hogen on 11/01/2020.
+//  Copyright (c) 2020 hogen. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+@import UIKit;
 #import "AppDelegate.h"
 
-int main(int argc, char * argv[]) {
-    @try {
-        @autoreleasepool {
-            return UIApplicationMain(argc, argv, nil, NSStringFromClass([AppDelegate class]));
-        }
-    } @catch (NSException *exception) {
-        NSLog(@"Stack trace:%@", [exception callStackSymbols]);
-    } @finally {
-        ;
+int main(int argc, char * argv[])
+{
+    @autoreleasepool {
+        return UIApplicationMain(argc, argv, nil, NSStringFromClass([AppDelegate class]));
     }
     
 }

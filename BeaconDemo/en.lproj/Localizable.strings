@@ -45,3 +45,31 @@
 "UPDATE_NOT_FOUND_NEW_VERSION" = "Failed to obtain the latest version information, please ensure that the Internet connection is successful";
 
 "DFU_VERSION_MAKE_SURE"="To ensure a successful upgrade, it is recommended that the distance between the mobile phone and the KBeacon device be less than 3 meters. Are you sure you want to upgrade?";
+
+"nb_clear_history_warning" = "Warning";
+"nb_clear_history_description" = "Once you clear the record, all distancing records will be lost, are you sure you want to continue?";
+"LOAD_HISTORY_DATA_FAILED" = "Load data failed";
+"LOAD_HISTORY_DATA_TIMEOUT" = "Load history data timeout, please try it again";
+"MJRefreshHeaderIdleText" = "Pull down to refresh";
+"MJRefreshHeaderPullingText" = "Release to refresh";
+"MJRefreshHeaderRefreshingText" = "Reloading data from device...";
+
+"MJRefreshAutoFooterIdleText" = "Tap or pull up to load more";
+"MJRefreshAutoFooterRefreshingText" = "Loading data from device...";
+"MJRefreshAutoFooterNoMoreDataText" = "No more data";
+
+"MJRefreshBackFooterIdleText" = "Pull up to load more";
+"MJRefreshBackFooterPullingText" = "Release to load more.";
+"MJRefreshBackFooterRefreshingText" = "Loading data from device...";
+"MJRefreshBackFooterNoMoreDataText" = "No more data";
+
+"BEACON_FIELD_HISTORY_DATA_TITLE"="History data";
+"EXPORT_SENSOR_HISTORY_DATA_TITLE" = "&subject=Sensor history data(mac:%@)";
+
+"BEACON_TEMP"="Temperature";
+"BEACON_HUM"="Humidity";
+"BEACON_TEMP_UINT"="°C";
+"load_data_complete_no_more_data"="Read %d records, no more data";
+"load_data_complete"="Read data complete, update %d records";
+"upload_data_success"="Uploaded configuration parameters to device successfully!";
+"upload_config_data_failed"="Upload config paramaters failed";

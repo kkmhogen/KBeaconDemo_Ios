@@ -71,4 +71,20 @@
 
 #define DEVICE_FOUND_VERSION STRING(@"DEVICE_FOUND_VERSION")
 
+#define EXPORT_SENSOR_HISTORY_DATA_TITLE STRING(@"EXPORT_SENSOR_HISTORY_DATA_TITLE")
+
+#define BEACON_TEMP STRING(@"BEACON_TEMP")
+#define BEACON_HUM STRING(@"BEACON_HUM")
+#define BEACON_TEMP_UINT STRING(@"BEACON_TEMP_UINT")
+#define load_data_complete_no_more_data   STRING(@"load_data_complete_no_more_data")
+#define load_data_complete   STRING(@"load_data_complete")
+
+#define nb_clear_history_warning   STRING(@"nb_clear_history_warning")
+#define nb_clear_history_description   STRING(@"nb_clear_history_description")
+
+#define LOAD_HISTORY_DATA_FAILED STRING(@"LOAD_HISTORY_DATA_FAILED")
+#define LOAD_HISTORY_DATA_TIMEOUT STRING(@"LOAD_HISTORY_DATA_TIMEOUT")
+#define upload_data_success STRING(@"upload_data_success")
+#define upload_config_data_failed STRING(@"upload_config_data_failed")
+
 #endif /* string_h */

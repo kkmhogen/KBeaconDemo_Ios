@@ -2,11 +2,6 @@
 
 ----
 ## 1. Introduction
-We provide SDK library on GitHub, you can found the latest in directory:   
-./kbeaconlib.framework  
-And the history version library at:  
-./kbeacon_library
-
 With this SDK, you can scan and configure the KBeacon device. The SDK include follow main class:
 * KBeaconsMgr: Global definition, responsible for scanning KBeacon devices advertisement packet, and monitoring the Bluetooth status of the system;
 
@@ -39,8 +34,13 @@ Development environment:
 min IOS Version 10.0
 
 ### 3.2 Import SDK
-1. Add the kbeaconlib.framework into your project. As shown below:  
-![avatar](https://github.com/kkmhogen/KBeaconDemo_Ios/blob/master/addlibrary.png?raw=true)
+kbeaconlib is available through [CocoaPods](https://cocoapods.org). To install
+it, simply add the following line to your Podfile:
+
+```ruby
+pod 'kbeaconlib','1.0.1'
+```
+
 
 2. Add the Bluetooth permissions declare in your project plist file (Target->Info). As follows:  
 * Privacy - Bluetooth Always Usage Description
@@ -308,9 +308,7 @@ The app can modify the basic parameters of KBeacon through the KBCfgCommon class
 
 * advType: beacon type, can be setting to iBeacon, KSesnor, Eddy TLM/UID/ etc.,
 
-* advPeriod: advertisement period, the value can be set to 100~10000ms.
-
-* txPower: advertisement TX power, unit is dBm.
+* advPeriod: advertisement period, the value can be set to 100-10000ms.
 
 * autoAdvAfterPowerOn: if autoAdvAfterPowerOn was setting to true, the beacon always advertisement if it has battery. If this value was setting to false, the beacon will power off if long press button for 5 seconds.
 
@@ -901,6 +899,335 @@ Enabling motion trigger is similar to push button trigger, which will not be des
 }
 ```
 
+#### 4.3.4.3 Temperature&Humidity trigger
+The app can configure KBeacon to start broadcasting after detecting an abnormality. For example, the temperature exceeds a specified threshold, or the temperature is below a certain threshold. Currently KBeacon supports the following 4 conditions, the conndition are OR relerationship.
+* KBTriggerHTParaMaskTemperatureAbove
+* KBTriggerHTParaMaskTemperatureBelow
+* KBTriggerHTParaMaskHumidityAbove
+* KBTriggerHTParaMaskHumidityBelow
+
+The app can also enable the KBeacon to send the trigger event to the app which connected to it.
+
+1. Enable temperature&humidity trigger to advertisement.
+
+```objective-c
+//The device will start broadcasting when temperature&humidity trigger event happened
+//for example, the humidity > 70% or temperature < 10 or temperature > 50
+-(void)enableTHTriggerEvtRpt2Adv
+{
+    KBCfgHumidityTrigger* thTriggerPara = [[KBCfgHumidityTrigger alloc]init];
+
+   @try {
+       //set trigger type
+       thTriggerPara.triggerType = [NSNumber numberWithInt: KBTriggerTypeHumidity];
+
+       //set trigger advertisement enable
+       thTriggerPara.triggerAction = [NSNumber numberWithInt: KBTriggerActionAdv];
+
+       //set trigger adv mode to adv only on trigger
+       thTriggerPara.triggerAdvMode = [NSNumber numberWithInt:KBTriggerAdvOnlyMode];
+
+       //set trigger condition
+       thTriggerPara.triggerHtParaMask = [NSNumber numberWithInt:KBTriggerHTParaMaskTemperatureAbove
+               | KBTriggerHTParaMaskTemperatureBelow
+               | KBTriggerHTParaMaskHumidityAbove];
+       thTriggerPara.triggerTemperatureAbove = [NSNumber numberWithInt: 50];
+       thTriggerPara.triggerTemperatureBelow = [NSNumber numberWithInt:-10];
+       thTriggerPara.triggerHumidityAbove = [NSNumber numberWithInt:70];
+
+       //set trigger adv type
+       thTriggerPara.triggerAdvType = [NSNumber numberWithInt:KBAdvTypeSensor];
+
+       //set trigger adv duration to 20 seconds
+       thTriggerPara.triggerAdvTime = [NSNumber numberWithInt: 20];
+
+       //set the trigger adv interval to 500ms
+       thTriggerPara.triggerAdvInterval = [NSNumber numberWithFloat:500.0f];
+
+       [self.mBeacon modifyTriggerConfig:thTriggerPara callback:^(BOOL bConfigSuccess, NSError * _Nullable error) {
+           if (bConfigSuccess) {
+               NSLog(@"enable temp&humidity trigger event to adv success");
+           } else {
+               NSLog(@"enable temp&humidity trigger error:%ld", (long)error.code);
+           }
+       }];
+   }
+    @catch (KBException *exception)
+    {
+        NSLog(@"enable humidity advertisement failed");
+        return;
+    }
+}
+```
+
+2. Enable temperature&humidity trigger to connected app.  
+
+```objective-c
+//the device will send event to app when temperature&humidity trigger event happened
+//for example, the humidity > 50%
+//the app must subscribe the notification event if it want receive the event
+-(void) enableTHTriggerEvtRpt2App
+{
+   @try
+    {
+       KBCfgHumidityTrigger* thTriggerPara = [[KBCfgHumidityTrigger alloc]init];
+
+       //set trigger type
+       thTriggerPara.triggerType = [NSNumber numberWithInt: KBTriggerTypeHumidity];
+
+       //set trigger event that report to app
+       thTriggerPara.triggerAction = [NSNumber numberWithInt:KBTriggerActionRptApp];
+
+       //set trigger condition
+       thTriggerPara.triggerHtParaMask = [NSNumber numberWithInt: KBTriggerHTParaMaskHumidityAbove];
+       thTriggerPara.triggerHumidityAbove = [NSNumber numberWithInt:70];
+
+       [self.mBeacon modifyTriggerConfig:thTriggerPara callback:^(BOOL bConfigSuccess, NSError * _Nullable error)
+       {
+           if (!bConfigSuccess) {
+               NSLog(@"enable temp&humidity trigger event to app failed");
+               return;
+           }
+
+           //subscribe humidity notify
+           if (![self.mBeacon isSensorDataSubscribe:KBHumidityNotifyData.class])
+           {
+               [self.mBeacon subscribeSensorDataNotify:KBHumidityNotifyData.class delegate:self callback:^(BOOL bConfigSuccess, NSError * _Nullable error) {
+                       if (bConfigSuccess) {
+                           NSLog(@"subscribe temperature and humidity data success");
+                       } else {
+                           NSLog(@"subscribe temperature and humidity data failed");
+                       }
+               }];
+           }
+       }];
+    }
+    @catch (KBException *exception)
+    {
+        NSLog(@"enable humidity advertisement failed");
+        return;
+    }
+}
+
+//after enable trigger to connected app, this function will be called when trigger event happened
+-(void)onNotifyDataReceived:(nonnull KBeacon *)beacon type:(int)dataType data:(nonnull KBNotifyDataBase *)data
+{
+    KBHumidityNotifyData* notifyData = (KBHumidityNotifyData*)data;
+
+    float humidity = [notifyData.humidity floatValue];
+    float temperature = [notifyData.temperature floatValue];
+    long nEventTime = [notifyData.eventUTCTime longValue];
+
+    NSString* strEvtUtcTime = [self localTimeFromUTCSeconds:nEventTime];
+    NSLog(@"utc:%@, temperature:%0.2f, humidity:%0.2f",
+          strEvtUtcTime, temperature, humidity);
+}
+```
+
+#### 4.3.5 Temperature&Humidity sensor logger
+The temperature and humidity sensor will be turn on under the following conditions.
+* The app enable KSensor advertisement and set the kbeacon report humidity data in advertisement.
+* The app enable temperature and humidity trigger.
+After turning on humidity sensor, the kbeacon will start log when it detects the temperature and humidity changed. The app can config the change threshold.
+
+
+#### 4.3.5.1 Config sensor paramaters
+```objective-c
+//modify humidity sensor measure interval and logger threshold
+-(void)configSensorMeasurePara
+{
+    KBCfgSensor* humiditySensor = [[KBCfgSensor alloc]init];
+
+    NSMutableArray* cfgList = [[NSMutableArray alloc]init];
+
+    //the humidity unit is 0.1%
+    humiditySensor.sensorHtHumiditySaveThreshold = [NSNumber numberWithInt:50];
+
+    //the temperature unit is 0.1
+    humiditySensor.sensorHtHumiditySaveThreshold = [NSNumber numberWithInt:5];
+
+    //measure interval, unit is sec
+    humiditySensor.sensorHtMeasureInterval = [NSNumber numberWithInt:3];
+
+    [cfgList addObject:humiditySensor];
+
+    //modify paramaters
+    [self.mBeacon modifyConfig:cfgList callback:^(BOOL bConfigSuccess, NSError * _Nonnull error) {
+        if (bConfigSuccess)
+        {
+            NSLog(@"modify humidity sensor paramaters success");
+        }
+        else
+        {
+            NSLog(@"modify humidity sensor paramaters failed");
+        }
+    }];
+}
+```
+
+#### 4.3.5.2 enable temperature and humidity logger
+```objective-c
+//Please make sure the app does not enable any trigger's advertisement mode to KBTriggerAdvOnlyMode
+//If the app set some trigger advertisement mode to KBTriggerAdvOnlyMode, then the device only start advertisement when trigger event happened.
+//when this function enabled, then the device will include the realtime temperature and humidity data in advertisement
+-(void)enableTHRealtimeDataToAdv
+{
+    KBCfgCommon* oldCommonCfg = (KBCfgCommon*)[self.mBeacon getConfigruationByType:KBConfigTypeCommon];
+    KBCfgSensor* oldSensorCfg = (KBCfgSensor*)[self.mBeacon getConfigruationByType:KBConfigTypeSensor];
+
+
+   @try{
+       //disable temperature trigger, if you enable other trigger, for example, motion trigger, button trigger, please set the trigger adv mode to always adv mode
+       //or disable that trigger
+       KBCfgHumidityTrigger* thTriggerPara = [[KBCfgHumidityTrigger alloc]init];
+       thTriggerPara.triggerType = [NSNumber numberWithInt:KBTriggerTypeHumidity];
+       thTriggerPara.triggerAction = [NSNumber numberWithInt:KBTriggerActionOff];
+       [self.mBeacon modifyTriggerConfig:thTriggerPara callback:^(BOOL bConfigSuccess, NSError * _Nonnull error)
+        {
+           if (!bConfigSuccess)
+           {
+               NSLog(@"disable humidity trigger failed");
+               return;
+           }
+
+           //enable ksensor advertisement
+           NSMutableArray* newCfg = [[NSMutableArray alloc]init];
+           if (([oldCommonCfg.advType intValue] & KBAdvTypeSensor) == 0) {
+               KBCfgCommon* newCommonCfg = [[KBCfgCommon alloc]init];
+               newCommonCfg.advType= [NSNumber numberWithInt: KBAdvTypeSensor];
+               [newCfg addObject:newCommonCfg];
+           }
+
+           //enable temperature and humidity
+           NSNumber* nOldSensorType = oldSensorCfg.sensorType;
+           if (nOldSensorType == nil || ([nOldSensorType intValue] & KBSensorTypeHumidity) == 0)
+           {
+               KBCfgSensor* sensorCfg = [[KBCfgSensor alloc]init];
+               sensorCfg.sensorType = [NSNumber numberWithInt:KBSensorTypeHumidity | [nOldSensorType intValue] ];
+               [newCfg addObject:sensorCfg];
+           }
+
+           [self.mBeacon modifyConfig:newCfg callback:^(BOOL bConfigSuccess, NSError * _Nullable error) {
+               if (bConfigSuccess)
+               {
+                   NSLog(@"enable humidity data report to app and adv success");
+               }
+               else
+               {
+                   NSLog(@"enable humidity data report to adv failed");
+               }
+           }];
+       }];
+   }
+   @catch (KBException *exception)
+   {
+       NSLog(@"enable humidity advertisement failed");
+       return;
+   }
+}
+```
+
+#### 4.3.5.2 Read sensor history records
+1. read history summary information.
+```objective-c
+[mSensorDataMsg readSensorDataInfo:self.beacon callback:^(BOOL bConfigSuccess, NSObject * _Nullable obj, NSError * _Nullable error)
+    {
+        if (!bConfigSuccess)
+        {
+            [self showDialogMsg:@"failed" message:LOAD_HISTORY_DATA_FAILED];
+            return;
+        }
+
+        ReadHTSensorInfoRsp* infRsp = (ReadHTSensorInfoRsp*)obj;
+    }];
+```
+2.  Read history records  
+  The SDK provides the following three ways to read records.
+  * READ_RECORD_NEW_RECORD:  read history records and move next. After app reading records, the KBeacon device will move the pointer to the next unreaded record. If the app send read request again, the KBeacon device sends next unread records and move the pointer to next.
+
+  * READ_RECORD_ORDER: Read records without pointer moving. The app can read records from old to recently. To read records in this way, the app must  specify the record no to be read.
+
+  * READ_RECORD_REVERSE_ORDER: Read records without pointer moving. The app can read records from recently to old. To read records in this way, the app must  specify the record no to be read.
+
+   Example1: The app read the temperature and humidity records. Each time the records was read, the pointer will move to next.
+```objective-c
+[self->mSensorDataMsg readSensorRecord:self.beacon
+                               recordNum:INVALID_DATA_RECORD_POS
+                                   order:READ_RECORD_NEW_RECORD
+                            maxRecordNum:30
+                                callback:^(BOOL bConfigSuccess, NSObject * _Nullable obj, NSError * _Nullable error)
+   {
+      if (!bConfigSuccess)
+      {
+          [self showDialogMsg:@"failed" message:LOAD_HISTORY_DATA_FAILED];
+          return;
+      }
+
+      ReadHTSensorDataRsp* dataRsp = (ReadHTSensorDataRsp*) obj;
+      //the record was save in dataRsp list
+      for (KBHumidityRecord *record in dataRsp.readDataRspList)
+      {
+          //
+      }
+
+      if ([dataRsp.readDataNextPos unsignedIntegerValue] == INVALID_DATA_RECORD_POS)
+      {
+        //read complete
+        NSLog(@"read history complete");
+      }
+    }];
+```  
+
+  Example2: The app read the temperature and humidity records without moving pointer.
+  The device has 100 records sorted by time, the app want to reading 20 records and start from the No 99. The Kbeacon will send records #99 ~ #90 to app by reverse order.     
+  If the app does not known the last record no, then the value can set to INVALID_DATA_RECORD_POS.
+```objective-c
+//the recordNum can be 99 or INVALID_DATA_RECORD_POS
+[self->mSensorDataMsg readSensorRecord:self.beacon
+                               recordNum:INVALID_DATA_RECORD_POS
+                                   order:READ_RECORD_REVERSE_ORDER
+                            maxRecordNum:30
+                                callback:^(BOOL bConfigSuccess, NSObject * _Nullable obj, NSError * _Nullable error)
+{
+     if (!bConfigSuccess)
+     {
+         [self showDialogMsg:@"failed" message:LOAD_HISTORY_DATA_FAILED];
+         return;
+     }
+
+     //the record was save in dataRsp list  99 ~ 80
+     ReadHTSensorDataRsp* dataRsp = (ReadHTSensorDataRsp*) obj;
+     for (KBHumidityRecord *record in dataRsp.readDataRspList)
+     {
+         //
+     }
+}];
+```  
+
+ Example3: The app read the temperature and humidity records without moving pointer.
+ The device has 100 records sorted by time, the app want to reading 20 records and start from No 10. The Kbeacon will send records #10 ~ #29 to app.  
+```Java
+[self->mSensorDataMsg readSensorRecord:self.beacon
+                               recordNum:10
+                                   order:READ_RECORD_ORDER
+                            maxRecordNum:20
+                                callback:^(BOOL bConfigSuccess, NSObject * _Nullable obj, NSError * _Nullable error)
+{
+     if (!bConfigSuccess)
+     {
+         [self showDialogMsg:@"failed" message:LOAD_HISTORY_DATA_FAILED];
+         return;
+     }
+
+     //the record was save in dataRsp list  10 ~ 29
+     ReadHTSensorDataRsp* dataRsp = (ReadHTSensorDataRsp*) obj;
+     for (KBHumidityRecord *record in dataRsp.readDataRspList)
+     {
+         //
+     }
+}];
+```
+
 #### 4.3.5 Send command to device
 After app connects to device success, the app can send command to device.  
 All command messages between app and KBeacon are JSON format. Our SDK provide Hash Map to encapsulate these JSON message.
@@ -1066,6 +1393,7 @@ All command messages between app and KBeacon are JSON format. Our SDK provide Ha
 https://github.com/NordicSemiconductor/IOS-Pods-DFU-Library
 
 ## 6. Change log
+* 2020.11.1 v1.23 Support humidity sensor
 * 2020.6.1 v1.22 Add DFU library
 * 2020.3.1 v1.21 change the advertisement period from integer to float.
 * 2020.1.11 v1.2 add trigger function.

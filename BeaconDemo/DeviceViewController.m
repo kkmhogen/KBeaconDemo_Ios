@@ -7,19 +7,25 @@
 //
 
 #import "DeviceViewController.h"
-#import "kbeaconlib/KBeacon.h"
+#import "KBeacon.h"
 #import "string.h"
 #import "KBPreferance.h"
-#import "kbeaconlib/KBCfgIBeacon.h"
-#import "kbeaconlib/KBCfgTrigger.h"
+#import <KBCfgIBeacon.h>
+#import <KBCfgTrigger.h>
 #import "KBDFUViewController.h"
+#import "KBHTSensorHandler.h"
+#import <UTCTime.h>
+#import "CfgSensorDataHistoryController.h"
 
 #define ACTION_CONNECT 0x0
 #define ACTION_DISCONNECT 0x1
 #define TXT_DATA_MODIFIED 0x1
 
 @interface DeviceViewController ()
-
+{
+//only for beacon that has humidity sensor
+KBHTSensorHandler*  htSensorHandler;
+}
 @end
 
 @implementation DeviceViewController
@@ -40,6 +46,9 @@
     self.txtBeaconUUID.delegate = self;
     self.txtBeaconMajor.delegate = self;
     self.txtBeaconMinor.delegate = self;
+    
+    htSensorHandler = [[KBHTSensorHandler alloc]init];
+    htSensorHandler.mBeacon = self.beacon;
 }
 
 -(void)tap
@@ -100,7 +109,9 @@
         KBPreferance* pref = [KBPreferance sharedManager];
         [pref saveBeaconPassword:self.beacon.UUIDString pwd:field.text];
         
-        [self.beacon connect:field.text timeout:20];
+        KBConnPara* connPara = [[KBConnPara alloc]init];
+        connPara.utcTime = [UTCTime getUTCTimeSecond];
+        [self.beacon connectEnhanced:field.text timeout:20 para:connPara];
      }]];
     
     [self presentViewController:alertDlg animated:YES completion:nil];
@@ -148,7 +159,10 @@
         _beacon.delegate = self;
         KBPreferance* pref = [KBPreferance sharedManager];
         NSString* beaconPwd = [pref getBeaconPassword: _beacon.UUIDString];
-        [_beacon connect:beaconPwd timeout:20];
+        
+        KBConnPara* connPara = [[KBConnPara alloc]init];
+        connPara.utcTime = [UTCTime getUTCTimeSecond];
+        [self.beacon connectEnhanced:beaconPwd timeout:20 para:connPara];
         
         [_actionConnect setTitle:BEACON_DISCONNECT];
         _actionConnect.tag = ACTION_DISCONNECT;
@@ -518,7 +532,7 @@
     [self enableButtonTrigger];
 }
 
-//enable motion trigger
+//enable button trigger
 -(void)enableButtonTrigger
 {
     if (self.beacon.state != KBStateConnected){
@@ -770,7 +784,9 @@
 
 - (void)viewDidDisappear:(BOOL)animated
 {
-    [self.beacon disconnect];
+    [super viewDidDisappear:animated];
+    
+    //[self.beacon disconnect];
 }
 
 - (IBAction)onDFUClick:(id)sender
@@ -801,6 +817,11 @@
         KBDFUViewController* cfgCtrl = (KBDFUViewController*)deviceController;
         cfgCtrl.beacon = self.beacon;
     }
+    else if ([deviceController isKindOfClass:CfgSensorDataHistoryController.class])
+    {
+        CfgSensorDataHistoryController* cfgCtrl = (CfgSensorDataHistoryController*)deviceController;
+        cfgCtrl.beacon = self.beacon;
+    }
 }
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
@@ -812,7 +833,95 @@
 }
 
 
+- (IBAction)onTHLogData2Adv:(id)sender {
+    
+    if (self.beacon.state != KBStateConnected)
+    {
+        NSLog(@"Device is not connected");
+        return;
+    }
 
+    KBCfgCommon* commCfg = (KBCfgCommon*)[self.beacon getConfigruationByType:KBConfigTypeCommon];
+    if (![commCfg isSupportHumiditySensor])
+    {
+        NSLog(@"Device not support humidity sensor");
+        return;
+    }
+    
+    
+    [htSensorHandler enableTHRealtimeDataToAdv];
+}
+
+
+- (IBAction)onThLogData2App:(id)sender {
+    if (self.beacon.state != KBStateConnected)
+    {
+        NSLog(@"Device is not connected");
+        return;
+    }
+
+    KBCfgCommon* commCfg = (KBCfgCommon*)[self.beacon getConfigruationByType:KBConfigTypeCommon];
+    if (![commCfg isSupportHumiditySensor])
+    {
+        NSLog(@"Device not support humidity sensor");
+        return;
+    }
+    
+    
+    [htSensorHandler enableTHRealtimeDataToApp];
+    
+}
+
+- (IBAction)onTHLogViewHistory:(id)sender {
+    if (self.beacon.state != KBStateConnected)
+    {
+        [self showDialogMsg:ERR_TITLE message:ERR_BEACON_NOT_CONNECTED];
+        return;
+    }
+    
+    KBCfgCommon* commCfg = (KBCfgCommon*)[self.beacon getConfigruationByType:KBConfigTypeCommon];
+    if (![commCfg isSupportHumiditySensor])
+    {
+        NSLog(@"Device not support humidity sensor");
+        return;
+    }
+
+    [self performSegueWithIdentifier:@"seqShowHistory" sender:self];
+}
+
+- (IBAction)onTHTrigger2Adv:(id)sender {
+    if (self.beacon.state != KBStateConnected)
+    {
+        NSLog(@"Device is not connected");
+        return;
+    }
+
+    KBCfgCommon* commCfg = (KBCfgCommon*)[self.beacon getConfigruationByType:KBConfigTypeCommon];
+    if (![commCfg isSupportHumiditySensor])
+    {
+        NSLog(@"Device not support humidity sensor");
+        return;
+    }
+    
+    [htSensorHandler enableTHTriggerEvtRpt2Adv];
+}
+
+- (IBAction)onTHTriggerEvt2App:(id)sender {
+    if (self.beacon.state != KBStateConnected)
+    {
+        NSLog(@"Device is not connected");
+        return;
+    }
+
+    KBCfgCommon* commCfg = (KBCfgCommon*)[self.beacon getConfigruationByType:KBConfigTypeCommon];
+    if (![commCfg isSupportHumiditySensor])
+    {
+        NSLog(@"Device not support humidity sensor");
+        return;
+    }
+    
+    [htSensorHandler enableTHTriggerEvtRpt2App];
+}
 
 
 /*

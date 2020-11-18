@@ -22,8 +22,11 @@
 		0C8DD56C21BAD8AF0073B892 /* KBeaconViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C8DD56B21BAD8AF0073B892 /* KBeaconViewCell.m */; };
 		0CA63B08235463860046757F /* addlibrary.png in Resources */ = {isa = PBXBuildFile; fileRef = 0CA63B07235463860046757F /* addlibrary.png */; };
 		0CA63B0A2354774D0046757F /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 0CA63B092354774D0046757F /* README.md */; };
-		0CB15024235445C100FF6462 /* kbeaconlib.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0CB15023235445C100FF6462 /* kbeaconlib.framework */; };
 		0CB3F87A21BCC10600A3DA1C /* DeviceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CB3F87921BCC10600A3DA1C /* DeviceViewController.m */; };
+		0CC89C9C25658AB5008EDEFB /* CfgSensorDataHistoryController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CC89C9925658AB5008EDEFB /* CfgSensorDataHistoryController.m */; };
+		0CC89C9D25658AB5008EDEFB /* HtSensorTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CC89C9A25658AB5008EDEFB /* HtSensorTableViewCell.m */; };
+		0CC89C9E25658AB5008EDEFB /* CfgHTRecordFileMgr.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CC89C9B25658AB5008EDEFB /* CfgHTRecordFileMgr.m */; };
+		0CC89CAD25658BDF008EDEFB /* KBHTSensorHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CC89CAC25658BDF008EDEFB /* KBHTSensorHandler.m */; };
 		50019FF8C8EA1EA9354028FC /* Pods_KBeaconDemo_Ios.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6171392AFDC871EEC6CCDA5 /* Pods_KBeaconDemo_Ios.framework */; };
 /* End PBXBuildFile section */
 
@@ -72,9 +75,16 @@
 		0C8DD56B21BAD8AF0073B892 /* KBeaconViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KBeaconViewCell.m; sourceTree = "<group>"; };
 		0CA63B07235463860046757F /* addlibrary.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = addlibrary.png; sourceTree = "<group>"; };
 		0CA63B092354774D0046757F /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
-		0CB15023235445C100FF6462 /* kbeaconlib.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = kbeaconlib.framework; sourceTree = "<group>"; };
 		0CB3F87821BCC10600A3DA1C /* DeviceViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DeviceViewController.h; sourceTree = "<group>"; };
 		0CB3F87921BCC10600A3DA1C /* DeviceViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DeviceViewController.m; sourceTree = "<group>"; };
+		0CC89C9625658AB5008EDEFB /* HtSensorTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HtSensorTableViewCell.h; sourceTree = "<group>"; };
+		0CC89C9725658AB5008EDEFB /* CfgSensorDataHistoryController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CfgSensorDataHistoryController.h; sourceTree = "<group>"; };
+		0CC89C9825658AB5008EDEFB /* CfgHTRecordFileMgr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CfgHTRecordFileMgr.h; sourceTree = "<group>"; };
+		0CC89C9925658AB5008EDEFB /* CfgSensorDataHistoryController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CfgSensorDataHistoryController.m; sourceTree = "<group>"; };
+		0CC89C9A25658AB5008EDEFB /* HtSensorTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HtSensorTableViewCell.m; sourceTree = "<group>"; };
+		0CC89C9B25658AB5008EDEFB /* CfgHTRecordFileMgr.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CfgHTRecordFileMgr.m; sourceTree = "<group>"; };
+		0CC89CAB25658BCD008EDEFB /* KBHTSensorHandler.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KBHTSensorHandler.h; sourceTree = "<group>"; };
+		0CC89CAC25658BDF008EDEFB /* KBHTSensorHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KBHTSensorHandler.m; sourceTree = "<group>"; };
 		11DF2D17ECC72511B915CFE7 /* Pods-KBeaconDemo_Ios.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KBeaconDemo_Ios.release.xcconfig"; path = "Target Support Files/Pods-KBeaconDemo_Ios/Pods-KBeaconDemo_Ios.release.xcconfig"; sourceTree = "<group>"; };
 		C6171392AFDC871EEC6CCDA5 /* Pods_KBeaconDemo_Ios.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_KBeaconDemo_Ios.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CD7C52A5E6C827BF0E6A67D5 /* Pods-KBeaconDemo_Ios.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KBeaconDemo_Ios.debug.xcconfig"; path = "Target Support Files/Pods-KBeaconDemo_Ios/Pods-KBeaconDemo_Ios.debug.xcconfig"; sourceTree = "<group>"; };
@@ -85,7 +95,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0CB15024235445C100FF6462 /* kbeaconlib.framework in Frameworks */,
 				50019FF8C8EA1EA9354028FC /* Pods_KBeaconDemo_Ios.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -123,7 +132,6 @@
 			children = (
 				0CA63B092354774D0046757F /* README.md */,
 				0CA63B07235463860046757F /* addlibrary.png */,
-				0CB15023235445C100FF6462 /* kbeaconlib.framework */,
 				0C8DD53221BA95D90073B892 /* BeaconDemo */,
 				0C8DD54B21BA95DC0073B892 /* BeaconDemoTests */,
 				0C8DD55621BA95DC0073B892 /* BeaconDemoUITests */,
@@ -146,6 +154,7 @@
 		0C8DD53221BA95D90073B892 /* BeaconDemo */ = {
 			isa = PBXGroup;
 			children = (
+				0CC89C9525658AB5008EDEFB /* HTHistory */,
 				0C425EC1249467A500468FEC /* DFU */,
 				0C8DD53321BA95D90073B892 /* AppDelegate.h */,
 				0C8DD53421BA95D90073B892 /* AppDelegate.m */,
@@ -153,6 +162,8 @@
 				0C8DD53721BA95D90073B892 /* ViewController.m */,
 				0CB3F87821BCC10600A3DA1C /* DeviceViewController.h */,
 				0CB3F87921BCC10600A3DA1C /* DeviceViewController.m */,
+				0CC89CAC25658BDF008EDEFB /* KBHTSensorHandler.m */,
+				0CC89CAB25658BCD008EDEFB /* KBHTSensorHandler.h */,
 				0C8DD54221BA95DC0073B892 /* main.m */,
 				0C8DD56A21BAD8AF0073B892 /* KBeaconViewCell.h */,
 				0C8DD56B21BAD8AF0073B892 /* KBeaconViewCell.m */,
@@ -183,6 +194,19 @@
 				0C8DD55921BA95DC0073B892 /* Info.plist */,
 			);
 			path = BeaconDemoUITests;
+			sourceTree = "<group>";
+		};
+		0CC89C9525658AB5008EDEFB /* HTHistory */ = {
+			isa = PBXGroup;
+			children = (
+				0CC89C9625658AB5008EDEFB /* HtSensorTableViewCell.h */,
+				0CC89C9725658AB5008EDEFB /* CfgSensorDataHistoryController.h */,
+				0CC89C9825658AB5008EDEFB /* CfgHTRecordFileMgr.h */,
+				0CC89C9925658AB5008EDEFB /* CfgSensorDataHistoryController.m */,
+				0CC89C9A25658AB5008EDEFB /* HtSensorTableViewCell.m */,
+				0CC89C9B25658AB5008EDEFB /* CfgHTRecordFileMgr.m */,
+			);
+			path = HTHistory;
 			sourceTree = "<group>";
 		};
 		10C9FE6621ED36924E42DAC2 /* Pods */ = {
@@ -382,9 +406,13 @@
 				0C425EB324939D5900468FEC /* KBFirmwareDownload.m in Sources */,
 				0C8DD53821BA95D90073B892 /* ViewController.m in Sources */,
 				0C8DD54321BA95DC0073B892 /* main.m in Sources */,
+				0CC89C9C25658AB5008EDEFB /* CfgSensorDataHistoryController.m in Sources */,
 				0C425EB424939D5900468FEC /* KBDFUViewController.m in Sources */,
 				0C0B18152270435A003E5E0F /* KBPreferance.m in Sources */,
 				0C8DD53521BA95D90073B892 /* AppDelegate.m in Sources */,
+				0CC89CAD25658BDF008EDEFB /* KBHTSensorHandler.m in Sources */,
+				0CC89C9D25658AB5008EDEFB /* HtSensorTableViewCell.m in Sources */,
+				0CC89C9E25658AB5008EDEFB /* CfgHTRecordFileMgr.m in Sources */,
 				0C8DD56C21BAD8AF0073B892 /* KBeaconViewCell.m in Sources */,
 				0CB3F87A21BCC10600A3DA1C /* DeviceViewController.m in Sources */,
 			);

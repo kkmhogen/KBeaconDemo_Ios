@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "kbeaconlib/KBeacon.h"
+#import <KBeacon.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -36,7 +36,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (weak, nonatomic) IBOutlet UILabel *labelBeaconType;
 
 @property (weak, nonatomic) IBOutlet UILabel *mLabelHardwareVersion;
-
 
 @property (weak, nonatomic) KBeacon* beacon;
 

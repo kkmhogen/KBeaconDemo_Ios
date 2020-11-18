@@ -9,12 +9,13 @@
 #import "ViewController.h"
 #import "string.h"
 #import "KBeaconViewCell.h"
-#import "kbeaconlib/KBeacon.h"
-#import "kbeaconlib/KBeaconsMgr.h"
+#import <KBeacon.h>
+#import <KBeaconsMgr.h>
 #import "DeviceViewController.h"
-#import "kbeaconlib/KBAdvPacketIBeacon.h"
+#import <KBAdvPacketIBeacon.h>
 #import "KBPreferance.h"
-#import "kbeaconlib/KBCfgIBeacon.h"
+#import <KBCfgIBeacon.h>
+#import <KBAdvPacketSensor.h>
 
 @interface ViewController ()
 {
@@ -393,6 +394,36 @@
         }
     }
     
+    KBAdvPacketSensor* pSensorPacket = (KBAdvPacketSensor*)[pBeacons getAdvPacketByType:KBAdvTypeSensor];
+    if (pSensorPacket != nil)
+    {
+        cell.sensorView.hidden = NO;
+        if (pSensorPacket.accSensor != nil)
+        {
+            cell.acc.text = [NSString stringWithFormat:@"Acc: x:%d,y:%d,z:%d",
+                             [pSensorPacket.accSensor.xAis intValue],
+                             [pSensorPacket.accSensor.yAis intValue],
+                             [pSensorPacket.accSensor.zAis intValue]];
+        }
+
+        NSString* strTemperature = @"NA";
+        NSString* strHumidity = @"NA";
+        if (pSensorPacket.humidity != nil)
+        {
+            strHumidity = [NSString stringWithFormat:@"%0.2f", [pSensorPacket.humidity floatValue]];
+        }
+        if (pSensorPacket.temperature != nil)
+        {
+            strTemperature = [NSString stringWithFormat:@"%0.2f", [pSensorPacket.temperature floatValue]];
+        }
+           
+            
+        cell.humidity.text = [NSString stringWithFormat:@"temperature:%@,humidity:%@",strTemperature, strHumidity];
+    }
+    else
+    {
+        cell.sensorView.hidden = YES;
+    }
     cell.beacon = pBeacons;
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     return cell;

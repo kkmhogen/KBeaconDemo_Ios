@@ -28,6 +28,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (weak, nonatomic) IBOutlet UILabel *minorLabel;
 
+@property (weak, nonatomic) IBOutlet UIStackView *sensorView;
+
+@property (weak, nonatomic) IBOutlet UILabel *humidity;
+
+@property (weak, nonatomic) IBOutlet UILabel *acc;
+
 @property (weak, nonatomic) KBeacon *beacon;
 
 @end
