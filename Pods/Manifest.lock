@@ -8,7 +8,7 @@ PODS:
   - AFNetworking/Serialization (3.2.1)
   - iOSDFULibrary (4.9.0):
     - ZIPFoundation (= 0.9.11)
-  - kbeaconlib (1.0.1)
+  - kbeaconlib (1.0.2)
   - MJRefresh (3.5.0)
   - ZIPFoundation (0.9.11)
 
@@ -18,7 +18,7 @@ DEPENDENCIES:
   - AFNetworking/Security (= 3.2.1)
   - AFNetworking/Serialization (= 3.2.1)
   - iOSDFULibrary (= 4.9.0)
-  - kbeaconlib (= 1.0.1)
+  - kbeaconlib (= 1.0.2)
   - MJRefresh
 
 SPEC REPOS:
@@ -32,10 +32,10 @@ SPEC REPOS:
 SPEC CHECKSUMS:
   AFNetworking: b6f891fdfaed196b46c7a83cf209e09697b94057
   iOSDFULibrary: 4dc9e1b6ef296c5fbcdff8abca77b54397f10777
-  kbeaconlib: 4654d599d54ccf4654a8028387b1f459bfd08417
+  kbeaconlib: 57ea8e48e1826d99f5702b4d98df0cd156e81f76
   MJRefresh: 6afc955813966afb08305477dd7a0d9ad5e79a16
   ZIPFoundation: b1f0de4eed33e74a676f76e12559ab6b75990197
 
-PODFILE CHECKSUM: b3b71b3f80e55e7d0010db982bb1a472689e30ce
+PODFILE CHECKSUM: 6dcce1154fe477774302e3e16eeb69dde5f4226f
 
 COCOAPODS: 1.10.0

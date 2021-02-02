@@ -38,7 +38,7 @@ kbeaconlib is available through [CocoaPods](https://cocoapods.org). To install
 it, simply add the following line to your Podfile:
 
 ```ruby
-pod 'kbeaconlib','1.0.1'
+pod 'kbeaconlib','1.0.2'
 ```
 
 
@@ -660,7 +660,10 @@ Example: checking if the parameters was changed, then send new parameters to dev
 ```
 
 #### 4.3.4 Update trigger parameters
- For some KBeacon device that has motion or push button. The app can set advertisement trigger and the device will advertise when the trigger condition is met. The trigger advertisement has follow parameters:
+ For some KBeacon device that has some motion sensor, temperature&humidity sensor, push button, etc., The application can config the KBeacon to monitor some trigger event. For example, button was pressed, the temperature is too high, or device was motion. The KBeacon can do some action when the trigger condition was met.
+
+ The trigger advertisement has follow parameters:
+ * Trigger action: Action when trigger event happened. For example: start broadcast, make a sound, or send a notification to the connected App.
  * Trigger advertisement Mode: There are two modes of trigger advertisement. One mode is to broadcast only when the trigger is satisfied. The other mode is always broadcasting, and the content of advertisement packet will change when the trigger conditions are met.
 
  *    Trigger parameters: For motion trigger, the parameters are acceleration sensitivity. For button trigger, you can set different trigger event (single click, double click, etc.,).
@@ -692,7 +695,7 @@ Example: checking if the parameters was changed, then send new parameters to dev
       The SDK will not automatically read trigger configuration after connection setup complete. So the app need read the trigger configuration manual if the app needed. Please reference 4.3.4.1 code for read trigger parameters from device.  
 
 #### 4.3.4.1 Push button trigger
-The push button trigger feature is used in some hospitals, nursing homes and other scenarios. When the user encounters some emergency event, they can click the button and the KBeacon device will start broadcast.
+The push button trigger feature is used in some hospitals, nursing homes and other scenarios. When the user encounters some emergency event, they can click the button and the KBeacon device will start broadcast, send an notification to connected app or start beep alarm sound.
 The app can configure single click, double-click, triple-click, long-press the button trigger, or a combination.
 
 **Notify:**  
@@ -702,7 +705,7 @@ The app can configure single click, double-click, triple-click, long-press the b
 * iBeacon UUID for single triple trigger = Always iBeacon UUID + 0x7
 * iBeacon UUID for single long press trigger = Always iBeacon UUID + 0x8
 
-1. Enable or button trigger feature.
+1. Enable or button trigger event to advertisement.
 
 ```objective-c
 -(void)enableButtonTrigger
@@ -753,7 +756,117 @@ The app can configure single click, double-click, triple-click, long-press the b
 }
 ```
 
-2. The app can disable the button trigger
+
+2. Enable or button trigger event to connected Android/IOS application
+
+```objective-c
+
+//implementation KBNotifyDataDelegate
+@interface DeviceViewController : UIViewController<KBNotifyDataDelegate>
+	//...
+@end
+
+//enable button press trigger event to app when KBeacon was connected
+//Requre the KBeacon firmware version >= 5.20
+-(void)enableBtnTriggerEvtToApp
+{
+    if (self.beacon.state != KBStateConnected){
+        NSLog(@"device does not connected");
+        return;
+    }
+
+    //check if device can support button trigger capibility
+    if (([self.beacon.triggerCapibility intValue] & KBTriggerTypeButton) == 0)
+    {
+        [self showDialogMsg: @"Fail" message: @"device does not support button trigger"];
+        return;
+    }
+
+    KBCfgTrigger* btnTriggerPara = [[KBCfgTrigger alloc]init];
+
+    //set trigger type
+    btnTriggerPara.triggerType = [NSNumber numberWithInt: KBTriggerTypeButton];
+
+    //set trigger action to app
+    btnTriggerPara.triggerAction = [NSNumber numberWithInt: KBTriggerActionRptApp];
+
+    //set trigger button para
+    btnTriggerPara.triggerPara = [NSNumber numberWithInt: (KBTriggerBtnSingleClick | KBTriggerBtnDoubleClick)];
+
+    [self.beacon modifyTriggerConfig:btnTriggerPara callback:^(BOOL bConfigSuccess, NSError * _Nonnull error) {
+        if (bConfigSuccess)
+        {
+            NSLog(@"modify btn trigger success");
+
+            //subscribe humidity notify
+            if (![self.beacon isSensorDataSubscribe:KBNotifyButtonEvtData.class])
+            {
+                [self.beacon subscribeSensorDataNotify:KBNotifyButtonEvtData.class delegate:self callback:^(BOOL bConfigSuccess, NSError * _Nullable error) {
+                        if (bConfigSuccess) {
+                            NSLog(@"subscribe button trigger event success");
+                        } else {
+                            NSLog(@"subscribe button trigger event failed");
+                        }
+                }];
+            }
+        }
+        else
+        {
+            NSLog(@"modify btn trigger fail:%ld", (long)error.code);
+        }
+    }];
+}
+
+//handle button trigger event
+- (void)onNotifyDataReceived:(nonnull KBeacon *)beacon type:(int)dataType data:(nonnull KBNotifyDataBase *)data
+{
+    if (dataType != KBNotifyDataTypeButton)
+    {
+        return;
+    }
+
+    KBNotifyButtonEvtData* notifyData = (KBNotifyButtonEvtData*)data;
+    NSLog(@"Receive button trigger event:%d", [notifyData.buttonNtfEvent intValue]);
+}
+
+```
+
+3. Start alarm when button trigger event happened  
+
+```objective-c
+//enable button press trigger event for alarm
+//Requre the KBeacon firmware version >= 5.20
+-(void)enableBtnTriggerEvtToAlarm
+{
+    if (self.beacon.state != KBStateConnected){
+        NSLog(@"device does not connected");
+        return;
+    }
+
+    //check if device can support button trigger capibility
+    if (([self.beacon.triggerCapibility intValue] & KBTriggerTypeButton) == 0)
+    {
+        [self showDialogMsg: @"Fail" message: @"device does not support button trigger"];
+        return;
+    }
+
+    KBCfgTrigger* btnTriggerPara = [[KBCfgTrigger alloc]init];
+
+    //set trigger type
+    btnTriggerPara.triggerType = [NSNumber numberWithInt: KBTriggerTypeButton];
+
+    //set trigger action to app
+    btnTriggerPara.triggerAction = [NSNumber numberWithInt: KBTriggerActionAlert];
+
+    //set trigger condition
+    btnTriggerPara.triggerPara = [NSNumber numberWithInt: (KBTriggerBtnSingleClick | KBTriggerBtnDoubleClick)];
+
+    //...
+}
+
+```
+
+4. The app can disable the button trigger
 
 ```objective-c
 //disable button trigger
@@ -790,7 +903,7 @@ The app can configure single click, double-click, triple-click, long-press the b
 }
 ```
 
-3. The app can read the button current trigger parameters from KBeacon by follow code  
+5. The app can read the button current trigger parameters from KBeacon by follow code  
 
 ```objective-c
  //read button trigger information
@@ -1393,6 +1506,7 @@ All command messages between app and KBeacon are JSON format. Our SDK provide Ha
 https://github.com/NordicSemiconductor/IOS-Pods-DFU-Library
 
 ## 6. Change log
+* 2021.1.30 v1.24 Support alarm trigger action
 * 2020.11.1 v1.23 Support humidity sensor
 * 2020.6.1 v1.22 Add DFU library
 * 2020.3.1 v1.21 change the advertisement period from integer to float.

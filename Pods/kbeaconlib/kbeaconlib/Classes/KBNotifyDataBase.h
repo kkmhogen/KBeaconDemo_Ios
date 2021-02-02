@@ -14,7 +14,9 @@ typedef NS_ENUM(NSInteger, KBNotifyDataType)
 {
     KBNotifyDataTypeInvalid = 0x0,
     KBNotifyDataTypeProxmity = 0x1,
-    KBNotifyDataTypeHumidity = 0x2
+    KBNotifyDataTypeHumidity = 0x2,
+    KBNotifyDataTypeButton = 0x3,
+    KBNotifyDataTypeMotion = 0x4,
 } ;
 
 @class KBeacon;

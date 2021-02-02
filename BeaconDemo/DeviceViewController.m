@@ -16,6 +16,7 @@
 #import "KBHTSensorHandler.h"
 #import <UTCTime.h>
 #import "CfgSensorDataHistoryController.h"
+#import "KBNotifyButtonEvtData.h"
 
 #define ACTION_CONNECT 0x0
 #define ACTION_DISCONNECT 0x1
@@ -49,6 +50,13 @@ KBHTSensorHandler*  htSensorHandler;
     
     htSensorHandler = [[KBHTSensorHandler alloc]init];
     htSensorHandler.mBeacon = self.beacon;
+}
+
+-(IBAction)backToParentView:(id)sender
+{
+    [self.navigationController popViewControllerAnimated:YES];
+    self.beacon.delegate = nil;
+    [self.beacon disconnect];
 }
 
 -(void)tap
@@ -522,17 +530,18 @@ KBHTSensorHandler*  htSensorHandler;
     [self updateViewToDevice];
 }
 
-- (IBAction)onEnableTrigger:(id)sender
+- (IBAction)onEnableButtonTrigger:(id)sender
 {
     if (self.beacon.state != KBStateConnected){
         [self showDialogMsg:ERR_TITLE message:ERR_BEACON_NOT_CONNECTED];
         return;
     }
     
-    [self enableButtonTrigger];
+    //[self enableButtonTrigger];
+    [self enableBtnTriggerEvtToApp];
 }
 
-//enable button trigger
+//enable button trigger event to advertisement
 -(void)enableButtonTrigger
 {
     if (self.beacon.state != KBStateConnected){
@@ -582,9 +591,125 @@ KBHTSensorHandler*  htSensorHandler;
     }];
 }
 
-//disable button trigger
--(void)disableButtonTrigger
+
+//enable button press trigger event to app when KBeacon was connected
+//Requre the KBeacon firmware version >= 5.20
+-(void)enableBtnTriggerEvtToApp
 {
+    if (self.beacon.state != KBStateConnected){
+        NSLog(@"device does not connected");
+        return;
+    }
+    
+    //check if device can support button trigger capibility
+    if (([self.beacon.triggerCapibility intValue] & KBTriggerTypeButton) == 0)
+    {
+        [self showDialogMsg: @"Fail" message: @"device does not support button trigger"];
+        return;
+    }
+    
+    KBCfgTrigger* btnTriggerPara = [[KBCfgTrigger alloc]init];
+    
+    //set trigger type
+    btnTriggerPara.triggerType = [NSNumber numberWithInt: KBTriggerTypeButton];
+    
+    //set trigger action to app
+    //you can also set the trigger event to both app and advertisement.  (KBCfgTrigger.KBTriggerActionRptApp | KBCfgTrigger.KBTriggerActionAdv)
+    btnTriggerPara.triggerAction = [NSNumber numberWithInt: KBTriggerActionRptApp];
+    
+    //set trigger button para
+    btnTriggerPara.triggerPara = [NSNumber numberWithInt: (KBTriggerBtnSingleClick | KBTriggerBtnDoubleClick)];
+    
+    [self.beacon modifyTriggerConfig:btnTriggerPara callback:^(BOOL bConfigSuccess, NSError * _Nonnull error) {
+        if (bConfigSuccess)
+        {
+            NSLog(@"modify btn trigger success");
+            
+            //subscribe humidity notify
+            if (![self.beacon isSensorDataSubscribe:KBNotifyButtonEvtData.class])
+            {
+                [self.beacon subscribeSensorDataNotify:KBNotifyButtonEvtData.class delegate:self callback:^(BOOL bConfigSuccess, NSError * _Nullable error) {
+                        if (bConfigSuccess) {
+                            NSLog(@"subscribe button trigger event success");
+                        } else {
+                            NSLog(@"subscribe button trigger event failed");
+                        }
+                }];
+            }
+        }
+        else
+        {
+            NSLog(@"modify btn trigger fail:%ld", (long)error.code);
+        }
+    }];
+}
+
+//enable button press trigger event for alarm
+//Requre the KBeacon firmware version >= 5.20
+-(void)enableBtnTriggerEvtToAlarm
+{
+    if (self.beacon.state != KBStateConnected){
+        NSLog(@"device does not connected");
+        return;
+    }
+    
+    //check if device can support button trigger capibility
+    if (([self.beacon.triggerCapibility intValue] & KBTriggerTypeButton) == 0)
+    {
+        [self showDialogMsg: @"Fail" message: @"device does not support button trigger"];
+        return;
+    }
+    
+    KBCfgTrigger* btnTriggerPara = [[KBCfgTrigger alloc]init];
+    
+    //set trigger type
+    btnTriggerPara.triggerType = [NSNumber numberWithInt: KBTriggerTypeButton];
+    
+    //set trigger action to app
+    //you can also set the trigger event to multiple action  (KBTriggerActionRptApp | KBTriggerActionAdv | KBTriggerActionAlert)
+    btnTriggerPara.triggerAction = [NSNumber numberWithInt: KBTriggerActionAlert];
+    
+    //set trigger button para
+    btnTriggerPara.triggerPara = [NSNumber numberWithInt: (KBTriggerBtnSingleClick | KBTriggerBtnDoubleClick)];
+    
+    [self.beacon modifyTriggerConfig:btnTriggerPara callback:^(BOOL bConfigSuccess, NSError * _Nonnull error) {
+        if (bConfigSuccess)
+        {
+            NSLog(@"modify btn trigger success");
+            
+            //subscribe humidity notify
+            if (![self.beacon isSensorDataSubscribe:KBNotifyButtonEvtData.class])
+            {
+                [self.beacon subscribeSensorDataNotify:KBNotifyButtonEvtData.class delegate:self callback:^(BOOL bConfigSuccess, NSError * _Nullable error) {
+                        if (bConfigSuccess) {
+                            NSLog(@"subscribe button trigger event success");
+                        } else {
+                            NSLog(@"subscribe button trigger event failed");
+                        }
+                }];
+            }
+        }
+        else
+        {
+            NSLog(@"modify btn trigger fail:%ld", (long)error.code);
+        }
+    }];
+}
+
+//handle button trigger event
+- (void)onNotifyDataReceived:(nonnull KBeacon *)beacon type:(int)dataType data:(nonnull KBNotifyDataBase *)data
+{
+    if (dataType != KBNotifyDataTypeButton)
+    {
+        return;
+    }
+    
+    KBNotifyButtonEvtData* notifyData = (KBNotifyButtonEvtData*)data;
+    NSLog(@"Receive button trigger event:%d", [notifyData.buttonNtfEvent intValue]);
+}
+
+//disable button trigger
+- (IBAction)onDisableButtonTrigger:(id)sender {
     if (self.beacon.state != KBStateConnected){
         NSLog(@"device does not connected");
         return;
@@ -617,6 +742,7 @@ KBHTSensorHandler*  htSensorHandler;
     }];
 }
 
+
 - (IBAction)onReadButtonTriggerPara:(id)sender {
     if (self.beacon.state != KBStateConnected){
         [self showDialogMsg:ERR_TITLE message:ERR_BEACON_NOT_CONNECTED];
@@ -626,6 +752,7 @@ KBHTSensorHandler*  htSensorHandler;
     [self readButtonTriggerPara];
 }
 
+//read button trigger paramaters
 -(void)readButtonTriggerPara
 {
     if (self.beacon.state != KBStateConnected){
@@ -697,82 +824,134 @@ KBHTSensorHandler*  htSensorHandler;
     }];
 }
 
-- (IBAction)onRingDevice:(id)sender
-{
-    if (self.beacon.state != KBStateConnected){
-        [self showDialogMsg:ERR_TITLE message:ERR_BEACON_NOT_CONNECTED];
-        return;
-    }
-    
-    [self ringDevice];
-}
-
--(void)ringDevice
-{
+- (IBAction)onEnableMotionTrigger:(id)sender {
     if (self.beacon.state != KBStateConnected){
         NSLog(@"device does not connected");
         return;
     }
     
-    KBCfgCommon* cfgCommon = (KBCfgCommon*)[self.beacon getConfigruationByType:KBConfigTypeCommon];
-    if (![cfgCommon isSupportBeep])
+    //check if device can support motion trigger capibility
+    if (([self.beacon.triggerCapibility intValue] & KBTriggerTypeMotion) == 0)
     {
-        [self showDialogMsg: @"Fail" message: @"device does not support beep"];
+        [self showDialogMsg: @"Fail" message: @"device does not support motion trigger"];
         return;
     }
-
-    NSMutableDictionary* paraDicts = [[NSMutableDictionary alloc]init];
-
-    [paraDicts setValue:@"ring" forKey:@"msg"];
     
-    //ring times, uint is ms
-    [paraDicts setValue:[NSNumber numberWithInt:20000] forKey:@"ringTime"];
+    KBCfgTrigger* motionTriggerPara = [[KBCfgTrigger alloc]init];
     
-    //0x0:led flash only; 0x1:beep alert only; 0x2 led flash and beep alert;
-    [paraDicts setValue:[NSNumber numberWithInt:2] forKey:@"ringType"];
+    //set trigger type
+    motionTriggerPara.triggerType = [NSNumber numberWithInt: KBTriggerTypeMotion];
     
-    //led flash on time. valid when ringType set to 0x0 or 0x2
-    [paraDicts setValue:[NSNumber numberWithInt:200] forKey:@"ledOn"];
+    //set trigger advertisement enable
+    motionTriggerPara.triggerAction = [NSNumber numberWithInt: KBTriggerActionAdv];
 
-    //led flash off time. valid when ringType set to 0x0 or 0x2
-    [paraDicts setValue:[NSNumber numberWithInt:1800] forKey:@"ledOff"];
+    //set trigger adv mode to adv only on trigger
+    motionTriggerPara.triggerAdvMode = [NSNumber numberWithInt:KBTriggerAdvOnlyMode];
+    
+    //set motion sensitivity (2~31)
+    motionTriggerPara.triggerPara = [NSNumber numberWithInt: 5];
+    
+    //set trigger adv type
+    motionTriggerPara.triggerAdvType = [NSNumber numberWithInt:KBAdvTypeIBeacon];
+    
+    //set trigger adv duration to 20 seconds
+    motionTriggerPara.triggerAdvTime = [NSNumber numberWithInt: 20];
 
-    [self.beacon sendCommand:paraDicts callback:^(BOOL bConfigSuccess, NSError * _Nonnull error)
-    {
+    //set the trigger adv interval to 500ms
+    motionTriggerPara.triggerAdvInterval = [NSNumber numberWithFloat: 500];
+    
+    [self.beacon modifyTriggerConfig:motionTriggerPara callback:^(BOOL bConfigSuccess, NSError * _Nonnull error) {
         if (bConfigSuccess)
         {
-            NSLog(@"send ring command to device success");
+            NSLog(@"modify motion trigger success");
         }
         else
         {
-            NSLog(@"send ring command to device failed");
+            NSLog(@"modify motion trigger fail:%ld", (long)error.code);
         }
     }];
 }
 
-//set parameter to default
--(void)resetParametersToDefault
-{
+
+- (IBAction)onDisableMotionTrigger:(id)sender {
     if (self.beacon.state != KBStateConnected){
         NSLog(@"device does not connected");
         return;
     }
-
-    NSMutableDictionary* paraDicts = [[NSMutableDictionary alloc]init];
-    [paraDicts setValue:@"reset" forKey:@"msg"];
-    [self.beacon sendCommand:paraDicts callback:^(BOOL bConfigSuccess, NSError * _Nonnull error)
+    
+    //check if device can support motion trigger capibility
+    if (([self.beacon.triggerCapibility intValue] & KBTriggerTypeMotion) == 0)
     {
+        [self showDialogMsg: @"Fail" message: @"device does not support motion trigger"];
+        return;
+    }
+    
+    KBCfgTrigger* motionTriggerPara = [[KBCfgTrigger alloc]init];
+    
+    //set trigger type
+    motionTriggerPara.triggerType = [NSNumber numberWithInt: KBTriggerTypeMotion];
+    
+    //set trigger action off
+    motionTriggerPara.triggerAction = [NSNumber numberWithInt: KBTriggerActionOff];
+    
+    [self.beacon modifyTriggerConfig:motionTriggerPara callback:^(BOOL bConfigSuccess, NSError * _Nonnull error) {
         if (bConfigSuccess)
         {
-            [self.beacon disconnect];
-            NSLog(@"send reset command to device success");
+            NSLog(@"Disable motion trigger success");
         }
         else
         {
-            NSLog(@"send reset command to device failed");
+            NSLog(@"Disable motion trigger fail:%ld", (long)error.code);
         }
     }];
 }
+
+//The accelerometer can only be in one operating mode at the same time,
+// detected X/Y/Z axis or detect motion, so please disable motion trigger before enable X/Y/Z axis detection
+- (IBAction)onEnableAxisAdv:(id)sender {
+    KBCfgCommon* oldCommCfg = (KBCfgCommon*)[self.beacon getConfigruationByType:KBConfigTypeCommon];
+    KBCfgSensor* oldSensorCfg = (KBCfgSensor*)[self.beacon getConfigruationByType:KBConfigTypeSensor];
+    if (![self.beacon isConnectable])
+    {
+        [self showDialogMsg:@"error" message:@"device does not connected"];
+        return;
+    }
+
+    if (![oldCommCfg isSupportAccSensor])
+    {
+        [self showDialogMsg:@"error" message:@"Device does not supported acc sensor"];
+        return;
+    }
+    
+    NSMutableArray* cfgArray = [[NSMutableArray alloc]init];
+    
+    KBCfgCommon* pNewCommCfg = [[KBCfgCommon alloc]init];
+    if (([oldCommCfg.advType intValue] & KBAdvTypeSensor) == 0)
+    {
+        [pNewCommCfg setAdvType:[NSNumber numberWithInt:KBAdvTypeSensor]];
+        [cfgArray addObject:pNewCommCfg];
+    }
+    
+    KBCfgSensor* newSensorCfg = [[KBCfgSensor alloc]init];
+    if (([oldSensorCfg.sensorType intValue] & KBSensorTypeAcc) == 0)
+    {
+        [newSensorCfg setSensorType:[NSNumber numberWithInt:KBSensorTypeAcc]];
+        [cfgArray addObject:newSensorCfg];
+    }
+    
+    if (cfgArray.count > 0)
+    {
+        [self.beacon modifyConfig:cfgArray callback:^(BOOL bConfigSuccess, NSError * _Nullable error)
+        {
+            if (bConfigSuccess){
+                NSLog(@"enable axis advertisement success");
+            }else{
+                NSLog(@"enable axis advertisement failed");
+            }
+        }];
+    }
+}
+
 
 -(void)showDialogMsg:(NSString*)title message:(NSString*)message
 {
@@ -786,28 +965,9 @@ KBHTSensorHandler*  htSensorHandler;
 {
     [super viewDidDisappear:animated];
     
-    //[self.beacon disconnect];
 }
 
-- (IBAction)onDFUClick:(id)sender
-{
-    if (self.beacon.state != KBStateConnected)
-    {
-        [self showDialogMsg:ERR_TITLE message:ERR_BEACON_NOT_CONNECTED];
-        return;
-    }
-    //only NRF52xx series support DFU
-    if ([self.beacon.model containsString:@"NRF52XX"]
-        && self.beacon.hardwareVersion != nil
-        && self.beacon.version != nil)
-    {
-        [self performSegueWithIdentifier:@"seqKBeaconDFU" sender:self];
-    }
-    else
-    {
-        [self showDialogMsg:@"DFU" message:@"Device does not support DFU"];
-    }
-}
+
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
@@ -923,6 +1083,93 @@ KBHTSensorHandler*  htSensorHandler;
     [htSensorHandler enableTHTriggerEvtRpt2App];
 }
 
+
+
+- (IBAction)onRingDevice:(id)sender
+{
+    if (self.beacon.state != KBStateConnected){
+        [self showDialogMsg:ERR_TITLE message:ERR_BEACON_NOT_CONNECTED];
+        return;
+    }
+    
+    KBCfgCommon* cfgCommon = (KBCfgCommon*)[self.beacon getConfigruationByType:KBConfigTypeCommon];
+    if (![cfgCommon isSupportBeep])
+    {
+        [self showDialogMsg: @"Fail" message: @"device does not support beep"];
+        return;
+    }
+
+    NSMutableDictionary* paraDicts = [[NSMutableDictionary alloc]init];
+
+    [paraDicts setValue:@"ring" forKey:@"msg"];
+    
+    //ring times, uint is ms
+    [paraDicts setValue:[NSNumber numberWithInt:10000] forKey:@"ringTime"];
+    
+    //0x0:led flash only; 0x1:beep alert only; 0x2 led flash and beep alert;
+    [paraDicts setValue:[NSNumber numberWithInt:2] forKey:@"ringType"];
+    
+    //led flash on time. valid when ringType set to 0x0 or 0x2
+    [paraDicts setValue:[NSNumber numberWithInt:200] forKey:@"ledOn"];
+
+    //led flash off time. valid when ringType set to 0x0 or 0x2
+    [paraDicts setValue:[NSNumber numberWithInt:1800] forKey:@"ledOff"];
+
+    [self.beacon sendCommand:paraDicts callback:^(BOOL bConfigSuccess, NSError * _Nonnull error)
+    {
+        if (bConfigSuccess)
+        {
+            NSLog(@"send ring command to device success");
+        }
+        else
+        {
+            NSLog(@"send ring command to device failed");
+        }
+    }];
+}
+
+- (IBAction)onDFUClick:(id)sender
+{
+    if (self.beacon.state != KBStateConnected)
+    {
+        [self showDialogMsg:ERR_TITLE message:ERR_BEACON_NOT_CONNECTED];
+        return;
+    }
+    //only NRF52xx series support DFU
+    if ([self.beacon.model containsString:@"NRF52XX"]
+        && self.beacon.hardwareVersion != nil
+        && self.beacon.version != nil)
+    {
+        [self performSegueWithIdentifier:@"seqKBeaconDFU" sender:self];
+    }
+    else
+    {
+        [self showDialogMsg:@"DFU" message:@"Device does not support DFU"];
+    }
+}
+
+//set parameter to default
+- (IBAction)onResetParametersToDefault:(id)sender {
+    if (self.beacon.state != KBStateConnected){
+        NSLog(@"device does not connected");
+        return;
+    }
+
+    NSMutableDictionary* paraDicts = [[NSMutableDictionary alloc]init];
+    [paraDicts setValue:@"reset" forKey:@"msg"];
+    [self.beacon sendCommand:paraDicts callback:^(BOOL bConfigSuccess, NSError * _Nonnull error)
+    {
+        if (bConfigSuccess)
+        {
+            [self.beacon disconnect];
+            NSLog(@"send reset command to device success");
+        }
+        else
+        {
+            NSLog(@"send reset command to device failed");
+        }
+    }];
+}
 
 /*
 #pragma mark - Navigation

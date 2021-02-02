@@ -11,7 +11,6 @@
 		0C425EB324939D5900468FEC /* KBFirmwareDownload.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C425EAF24939D5900468FEC /* KBFirmwareDownload.m */; };
 		0C425EB424939D5900468FEC /* KBDFUViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C425EB124939D5900468FEC /* KBDFUViewController.m */; };
 		0C614A6E21BE990B00E9B002 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0C614A7021BE990B00E9B002 /* Localizable.strings */; };
-		0C8DD53521BA95D90073B892 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C8DD53421BA95D90073B892 /* AppDelegate.m */; };
 		0C8DD53821BA95D90073B892 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C8DD53721BA95D90073B892 /* ViewController.m */; };
 		0C8DD53B21BA95D90073B892 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0C8DD53921BA95D90073B892 /* Main.storyboard */; };
 		0C8DD53D21BA95DB0073B892 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0C8DD53C21BA95DB0073B892 /* Assets.xcassets */; };
@@ -27,6 +26,7 @@
 		0CC89C9D25658AB5008EDEFB /* HtSensorTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CC89C9A25658AB5008EDEFB /* HtSensorTableViewCell.m */; };
 		0CC89C9E25658AB5008EDEFB /* CfgHTRecordFileMgr.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CC89C9B25658AB5008EDEFB /* CfgHTRecordFileMgr.m */; };
 		0CC89CAD25658BDF008EDEFB /* KBHTSensorHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CC89CAC25658BDF008EDEFB /* KBHTSensorHandler.m */; };
+		0CD03C5925C843A300FFCCB6 /* KBAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CD03C5725C843A300FFCCB6 /* KBAppDelegate.m */; };
 		50019FF8C8EA1EA9354028FC /* Pods_KBeaconDemo_Ios.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6171392AFDC871EEC6CCDA5 /* Pods_KBeaconDemo_Ios.framework */; };
 /* End PBXBuildFile section */
 
@@ -57,8 +57,6 @@
 		0C614A6F21BE990B00E9B002 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		0C614A7221BE9BBD00E9B002 /* string.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = string.h; sourceTree = "<group>"; };
 		0C8DD53021BA95D90073B892 /* KBeaconDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = KBeaconDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		0C8DD53321BA95D90073B892 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
-		0C8DD53421BA95D90073B892 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		0C8DD53621BA95D90073B892 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		0C8DD53721BA95D90073B892 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		0C8DD53A21BA95D90073B892 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -85,6 +83,8 @@
 		0CC89C9B25658AB5008EDEFB /* CfgHTRecordFileMgr.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CfgHTRecordFileMgr.m; sourceTree = "<group>"; };
 		0CC89CAB25658BCD008EDEFB /* KBHTSensorHandler.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KBHTSensorHandler.h; sourceTree = "<group>"; };
 		0CC89CAC25658BDF008EDEFB /* KBHTSensorHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KBHTSensorHandler.m; sourceTree = "<group>"; };
+		0CD03C5725C843A300FFCCB6 /* KBAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KBAppDelegate.m; sourceTree = "<group>"; };
+		0CD03C5825C843A300FFCCB6 /* KBAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KBAppDelegate.h; sourceTree = "<group>"; };
 		11DF2D17ECC72511B915CFE7 /* Pods-KBeaconDemo_Ios.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KBeaconDemo_Ios.release.xcconfig"; path = "Target Support Files/Pods-KBeaconDemo_Ios/Pods-KBeaconDemo_Ios.release.xcconfig"; sourceTree = "<group>"; };
 		C6171392AFDC871EEC6CCDA5 /* Pods_KBeaconDemo_Ios.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_KBeaconDemo_Ios.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CD7C52A5E6C827BF0E6A67D5 /* Pods-KBeaconDemo_Ios.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KBeaconDemo_Ios.debug.xcconfig"; path = "Target Support Files/Pods-KBeaconDemo_Ios/Pods-KBeaconDemo_Ios.debug.xcconfig"; sourceTree = "<group>"; };
@@ -156,20 +156,20 @@
 			children = (
 				0CC89C9525658AB5008EDEFB /* HTHistory */,
 				0C425EC1249467A500468FEC /* DFU */,
-				0C8DD53321BA95D90073B892 /* AppDelegate.h */,
-				0C8DD53421BA95D90073B892 /* AppDelegate.m */,
-				0C8DD53621BA95D90073B892 /* ViewController.h */,
-				0C8DD53721BA95D90073B892 /* ViewController.m */,
-				0CB3F87821BCC10600A3DA1C /* DeviceViewController.h */,
-				0CB3F87921BCC10600A3DA1C /* DeviceViewController.m */,
-				0CC89CAC25658BDF008EDEFB /* KBHTSensorHandler.m */,
-				0CC89CAB25658BCD008EDEFB /* KBHTSensorHandler.h */,
-				0C8DD54221BA95DC0073B892 /* main.m */,
-				0C8DD56A21BAD8AF0073B892 /* KBeaconViewCell.h */,
-				0C8DD56B21BAD8AF0073B892 /* KBeaconViewCell.m */,
-				0C614A7221BE9BBD00E9B002 /* string.h */,
 				0C0B18132270435A003E5E0F /* KBPreferance.h */,
 				0C0B18142270435A003E5E0F /* KBPreferance.m */,
+				0C8DD56A21BAD8AF0073B892 /* KBeaconViewCell.h */,
+				0C8DD56B21BAD8AF0073B892 /* KBeaconViewCell.m */,
+				0C8DD53621BA95D90073B892 /* ViewController.h */,
+				0C8DD53721BA95D90073B892 /* ViewController.m */,
+				0C8DD54221BA95DC0073B892 /* main.m */,
+				0C614A7221BE9BBD00E9B002 /* string.h */,
+				0CB3F87821BCC10600A3DA1C /* DeviceViewController.h */,
+				0CB3F87921BCC10600A3DA1C /* DeviceViewController.m */,
+				0CD03C5825C843A300FFCCB6 /* KBAppDelegate.h */,
+				0CD03C5725C843A300FFCCB6 /* KBAppDelegate.m */,
+				0CC89CAC25658BDF008EDEFB /* KBHTSensorHandler.m */,
+				0CC89CAB25658BCD008EDEFB /* KBHTSensorHandler.h */,
 				0C8DD53921BA95D90073B892 /* Main.storyboard */,
 				0C8DD53C21BA95DB0073B892 /* Assets.xcassets */,
 				0C8DD53E21BA95DB0073B892 /* LaunchScreen.storyboard */,
@@ -409,9 +409,9 @@
 				0CC89C9C25658AB5008EDEFB /* CfgSensorDataHistoryController.m in Sources */,
 				0C425EB424939D5900468FEC /* KBDFUViewController.m in Sources */,
 				0C0B18152270435A003E5E0F /* KBPreferance.m in Sources */,
-				0C8DD53521BA95D90073B892 /* AppDelegate.m in Sources */,
 				0CC89CAD25658BDF008EDEFB /* KBHTSensorHandler.m in Sources */,
 				0CC89C9D25658AB5008EDEFB /* HtSensorTableViewCell.m in Sources */,
+				0CD03C5925C843A300FFCCB6 /* KBAppDelegate.m in Sources */,
 				0CC89C9E25658AB5008EDEFB /* CfgHTRecordFileMgr.m in Sources */,
 				0C8DD56C21BAD8AF0073B892 /* KBeaconViewCell.m in Sources */,
 				0CB3F87A21BCC10600A3DA1C /* DeviceViewController.m in Sources */,

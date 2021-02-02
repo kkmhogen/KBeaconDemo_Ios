@@ -11,7 +11,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface DeviceViewController : UIViewController<ConnStateDelegate, UITextFieldDelegate>
+@interface DeviceViewController : UIViewController<ConnStateDelegate, UITextFieldDelegate, KBNotifyDataDelegate>
 
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *actionConnect;
 
